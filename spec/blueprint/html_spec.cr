@@ -7,6 +7,11 @@ private class ExamplePage
     html do
       head do
         title { "Test page" }
+
+        meta charset: "utf-8"
+
+        link href: "app.css", rel: "stylesheet"
+        script type: "text/javascript", src: "app.js"
       end
 
       body do
@@ -15,13 +20,17 @@ private class ExamplePage
           h4 { "Page description" }
         end
 
-        div do
+        div class: "bg-gray-200" do
           p { "Page text" }
 
           plain "Plain text"
+
+          iframe src: "example.com"
         end
 
         footer do
+          label(for: "email") { "Email" }
+          input type: "text", id: "email"
           span { "Footer" }
         end
       end
@@ -37,6 +46,11 @@ describe Blueprint::HTML do
         <html>
           <head>
             <title>Test page</title>
+
+            <meta charset="utf-8">
+
+            <link href="app.css" rel="stylesheet">
+            <script type="text/javascript" src="app.js"></script>
           </head>
 
           <body>
@@ -45,13 +59,17 @@ describe Blueprint::HTML do
               <h4>Page description</h4>
             </header>
 
-            <div>
+            <div class="bg-gray-200">
               <p>Page text</p>
 
               Plain text
+
+              <iframe src="example.com"></iframe>
             </div>
 
             <footer>
+              <label for="email">Email</label>
+              <input type="text" id="email">
               <span>Footer</span>
             </footer>
           </body>

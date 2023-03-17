@@ -1,7 +1,8 @@
 require "./html/*"
 
 module Blueprint::HTML
-  include Blueprint::HTML::BaseTags
+  include Blueprint::HTML::BaseElements
+  include Blueprint::HTML::AttributesParser
   include Blueprint::HTML::Utils
 
   @buffer = IO::Memory.new
