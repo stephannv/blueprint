@@ -1,0 +1,9 @@
+name: blueprint
+version: 0.1.0
+
+authors:
+  - Stephann V. <3025661+stephannv@users.noreply.github.com>
+
+crystal: 1.7.3
+
+license: MIT
