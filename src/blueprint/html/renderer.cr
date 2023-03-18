@@ -5,7 +5,7 @@ module Blueprint::HTML::Renderer
 
   def render(other : Blueprint::HTML, &block)
     other.to_html(@buffer) do
-      yield
+      with self yield other
     end
   end
 end

@@ -17,13 +17,23 @@ private class ExamplePage
 
         iframe src: "example.com"
 
-        render CardComponent.new do
-          "Card content"
+        render CardComponent.new do |c|
+          c.body { "Card body" }
+          c.footer do
+            a(href: "/about") { "About" }
+          end
+          footer do
+            card_footer_text
+          end
         end
       end
 
       render FooterComponent.new
     end
+  end
+
+  private def card_footer_text
+    "Card footer text"
   end
 end
 
@@ -66,7 +76,19 @@ private class CardComponent
   include Blueprint::HTML
 
   def blueprint(&)
-    div class: "bg-white border shadow" do
+    div class: "flex flex-col gap-2 bg-white border shadow" do
+      yield
+    end
+  end
+
+  def body(&)
+    div class: "p-4" do
+      yield
+    end
+  end
+
+  def footer(&)
+    div class: "px-4 py-2" do
       yield
     end
   end
@@ -101,8 +123,19 @@ describe Blueprint::HTML do
 
               <iframe src="example.com"></iframe>
 
-              <div class="bg-white border shadow">
-                Card content
+              <div class="flex flex-col gap-2 bg-white border shadow">
+
+                <div class="p-4">
+                  Card body
+                </div>
+
+                <div class="px-4 py-2">
+                  <a href="/about">About</a>
+                </div>
+
+                <footer>
+                  Card footer text
+                </footer>
               </div>
             </div>
 
