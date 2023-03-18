@@ -21,7 +21,7 @@ private class ExamplePage
         end
 
         div class: "bg-gray-200" do
-          p { "Page text" }
+          p(data: {id: 54, highlight: true}) { "Page text" }
 
           plain "Plain text"
 
@@ -60,7 +60,7 @@ describe Blueprint::HTML do
             </header>
 
             <div class="bg-gray-200">
-              <p>Page text</p>
+              <p data-id="54" data-highlight="true">Page text</p>
 
               Plain text
 
