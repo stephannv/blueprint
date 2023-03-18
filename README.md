@@ -23,6 +23,8 @@ class MyPage
   include Blueprint::HTML
 
   def blueprint
+    doctype
+
     html do
       head do
         title { "My website" }
@@ -42,8 +44,10 @@ class MyPage
 end
 
 page = MyPage.new
-html = page.call
+html = page.to_html
 puts html
+# <!DOCTYPE html>
+#
 # <html>
 #   <head>
 #     <title>My website</title>

@@ -1,5 +1,5 @@
 module Blueprint::HTML::Renderer
   def render(other : Blueprint::HTML)
-    other.call(@buffer)
+    other.to_html(@buffer)
   end
 end

@@ -8,13 +8,13 @@ module Blueprint::HTML
 
   @buffer = IO::Memory.new
 
-  def call : String
+  def to_html : String
     blueprint
     @buffer.to_s
   end
 
-  def call(buffer : IO::Memory) : String
+  def to_html(buffer : IO::Memory) : String
     @buffer = buffer
-    call
+    to_html
   end
 end

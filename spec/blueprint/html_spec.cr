@@ -5,6 +5,7 @@ private class ExamplePage
 
   private def blueprint
     doctype
+
     html do
       head do
         title { "Test page" }
@@ -52,9 +53,9 @@ private class CardComponent
 end
 
 describe Blueprint::HTML do
-  describe "#call" do
-    it "renders page" do
-      page = render ExamplePage.new
+  describe "#to_html" do
+    it "renders html" do
+      page = ExamplePage.new
       expected_html = <<-HTML.strip.gsub(/\n\s+/, "")
         <!DOCTYPE html>
         <html>
@@ -94,7 +95,9 @@ describe Blueprint::HTML do
         </html>
       HTML
 
-      page.should eq expected_html
+      html = page.to_html
+
+      html.should eq expected_html
     end
   end
 end
