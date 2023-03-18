@@ -4,6 +4,7 @@ private class ExamplePage
   include Blueprint::HTML
 
   private def blueprint
+    doctype
     html do
       head do
         title { "Test page" }
@@ -55,6 +56,7 @@ describe Blueprint::HTML do
     it "renders page" do
       page = render ExamplePage.new
       expected_html = <<-HTML.strip.gsub(/\n\s+/, "")
+        <!DOCTYPE html>
         <html>
           <head>
             <title>Test page</title>
