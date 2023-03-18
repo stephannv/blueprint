@@ -13,8 +13,22 @@ module Blueprint::HTML
     @buffer.to_s
   end
 
+  def to_html(&block) : String
+    blueprint do
+      yield
+    end
+    @buffer.to_s
+  end
+
   def to_html(buffer : IO::Memory) : String
     @buffer = buffer
     to_html
+  end
+
+  def to_html(buffer : IO::Memory, &block) : String
+    @buffer = buffer
+    to_html do
+      yield
+    end
   end
 end

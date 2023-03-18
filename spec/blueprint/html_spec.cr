@@ -4,6 +4,33 @@ private class ExamplePage
   include Blueprint::HTML
 
   private def blueprint
+    render BaseLayout.new do
+      header do
+        h1 { "Test page" }
+        h4 { "Page description" }
+      end
+
+      div class: "bg-gray-200" do
+        p(data: {id: 54, highlight: true}) { "Page text" }
+
+        plain "Plain text"
+
+        iframe src: "example.com"
+
+        render CardComponent.new do
+          "Card content"
+        end
+      end
+
+      render FooterComponent.new
+    end
+  end
+end
+
+private class BaseLayout
+  include Blueprint::HTML
+
+  def blueprint(&)
     doctype
 
     html do
@@ -17,27 +44,20 @@ private class ExamplePage
       end
 
       body do
-        header do
-          h1 { "Test page" }
-          h4 { "Page description" }
-        end
-
-        div class: "bg-gray-200" do
-          p(data: {id: 54, highlight: true}) { "Page text" }
-
-          plain "Plain text"
-
-          iframe src: "example.com"
-
-          render CardComponent.new
-        end
-
-        footer do
-          label(for: "email") { "Email" }
-          input type: "text", id: "email"
-          span { "Footer" }
-        end
+        yield
       end
+    end
+  end
+end
+
+private class FooterComponent
+  include Blueprint::HTML
+
+  def blueprint
+    footer do
+      label(for: "email") { "Email" }
+      input type: "text", id: "email"
+      span { "Footer" }
     end
   end
 end
@@ -45,9 +65,9 @@ end
 private class CardComponent
   include Blueprint::HTML
 
-  def blueprint
+  def blueprint(&)
     div class: "bg-white border shadow" do
-      p { "Card body" }
+      yield
     end
   end
 end
@@ -82,7 +102,7 @@ describe Blueprint::HTML do
               <iframe src="example.com"></iframe>
 
               <div class="bg-white border shadow">
-                <p>Card body</p>
+                Card content
               </div>
             </div>
 
