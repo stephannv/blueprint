@@ -20,7 +20,7 @@ private class ExamplePage
         render CardComponent.new do |c|
           c.body { "Card body" }
           c.footer do
-            a(href: "/about") { "About" }
+            a(href: "/about", aria: { selected: false, posinset: 3 }) { "About" }
           end
           footer do
             card_footer_text
@@ -130,7 +130,7 @@ describe Blueprint::HTML do
                 </div>
 
                 <div class="px-4 py-2">
-                  <a href="/about">About</a>
+                  <a href="/about" aria-selected="false" aria-posinset="3">About</a>
                 </div>
 
                 <footer>
