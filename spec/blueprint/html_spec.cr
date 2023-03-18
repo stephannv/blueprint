@@ -42,7 +42,7 @@ describe Blueprint::HTML do
   describe "#call" do
     it "renders page" do
       page = render ExamplePage.new
-      expected_html = %(
+      expected_html = <<-HTML.strip.gsub(/\n\s+/, "")
         <html>
           <head>
             <title>Test page</title>
@@ -74,7 +74,7 @@ describe Blueprint::HTML do
             </footer>
           </body>
         </html>
-      ).gsub(/\n\s+/, "")
+      HTML
 
       page.should eq expected_html
     end
