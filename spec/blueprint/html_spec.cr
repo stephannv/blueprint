@@ -26,6 +26,8 @@ private class ExamplePage
           plain "Plain text"
 
           iframe src: "example.com"
+
+          render CardComponent.new
         end
 
         footer do
@@ -34,6 +36,16 @@ private class ExamplePage
           span { "Footer" }
         end
       end
+    end
+  end
+end
+
+private class CardComponent
+  include Blueprint::HTML
+
+  def blueprint
+    div class: "bg-white border shadow" do
+      p { "Card body" }
     end
   end
 end
@@ -65,6 +77,10 @@ describe Blueprint::HTML do
               Plain text
 
               <iframe src="example.com"></iframe>
+
+              <div class="bg-white border shadow">
+                <p>Card body</p>
+              </div>
             </div>
 
             <footer>
