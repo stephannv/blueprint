@@ -5,7 +5,7 @@ module Blueprint::HTML::AttributesParser
         if value.is_a?(NamedTuple) && (name == :data || name == :aria)
           parse_special_attribute(io, name, value)
         else
-          io << " " << name << "=\"" << value << "\""
+          io << " " << parse_attribute_name(name) << "=\"" << value << "\""
         end
       end
     end
@@ -13,7 +13,11 @@ module Blueprint::HTML::AttributesParser
 
   private def parse_special_attribute(io, base_name, attributes : NamedTuple)
     attributes.each do |name, value|
-      io << " " << base_name << "-" << name << "=\"" << value << "\""
+      io << " " << base_name << "-" << parse_attribute_name(name) << "=\"" << value << "\""
     end
+  end
+
+  private def parse_attribute_name(name)
+    name.to_s.gsub("_", "-")
   end
 end

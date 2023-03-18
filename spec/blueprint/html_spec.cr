@@ -65,7 +65,7 @@ private class FooterComponent
 
   def blueprint
     footer do
-      label(for: "email") { "Email" }
+      label(for: "email", v_model: "user.email", "@input": "doSomething" ) { "Email" }
       input type: "text", id: "email"
       span { "Footer" }
     end
@@ -140,7 +140,7 @@ describe Blueprint::HTML do
             </div>
 
             <footer>
-              <label for="email">Email</label>
+              <label for="email" v-model="user.email" @input="doSomething">Email</label>
               <input type="text" id="email">
               <span>Footer</span>
             </footer>
