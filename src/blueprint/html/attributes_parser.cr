@@ -2,22 +2,39 @@ module Blueprint::HTML::AttributesParser
   private def parse_attributes(attributes : NamedTuple) : String
     String.build do |io|
       attributes.each do |name, value|
-        if value.is_a?(NamedTuple) && (name == :data || name == :aria)
-          parse_special_attribute(io, name, value)
-        else
-          io << " " << parse_attribute_name(name) << "=\"" << value << "\""
-        end
+        process_attribute(io, name, value)
       end
     end
   end
 
-  private def parse_special_attribute(io, base_name, attributes : NamedTuple)
-    attributes.each do |name, value|
-      io << " " << base_name << "-" << parse_attribute_name(name) << "=\"" << value << "\""
+  private def process_attribute(io : String::Builder, attribute_name, attribute_value)
+    case attribute_value
+    when true
+      append_boolean_attribute(io, attribute_name)
+    when NamedTuple
+      process_named_tuple_attribute(io, attribute_name, attribute_value)
+    when Nil, false
+      # does nothing
+    else
+      append_normal_attribute(io, attribute_name, attribute_value)
     end
   end
 
-  private def parse_attribute_name(name)
-    name.to_s.gsub("_", "-")
+  private def append_normal_attribute(io : String::Builder, attribute_name, attribute_value)
+    io << " " << parse_attribute_name(attribute_name) << "=\"" << attribute_value << "\""
+  end
+
+  private def append_boolean_attribute(io : String::Builder, attribute_name)
+    io << " " << parse_attribute_name(attribute_name)
+  end
+
+  private def process_named_tuple_attribute(io : String::Builder, attribute_name, attribute_value : NamedTuple)
+    attribute_value.each do |name, value|
+      process_attribute(io, "#{parse_attribute_name(attribute_name)}-#{parse_attribute_name(name)}", value)
+    end
+  end
+
+  private def parse_attribute_name(attribute_name)
+    attribute_name.to_s.gsub("_", "-")
   end
 end
