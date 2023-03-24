@@ -1,44 +1,5 @@
 require "../spec_helper"
 
-private class ExamplePage
-  include Blueprint::HTML
-
-  private def blueprint
-    render BaseLayout.new do
-      header do
-        h1 { "Test page" }
-        h4 { "Page description" }
-        button(disabled: true) { "Disabled button" }
-        button(disabled: false) { "Enabled button" }
-      end
-
-      div class: "bg-gray-200" do
-        p(data: {id: 54, highlight: "true"}) { "Page text" }
-
-        plain "Plain text"
-
-        iframe src: "example.com"
-
-        render CardComponent.new do |c|
-          c.body { "Card body" }
-          c.footer do
-            a(href: "/about", aria: {selected: "false", posinset: 3}) { "About" }
-          end
-          footer do
-            card_footer_text
-          end
-        end
-      end
-
-      render FooterComponent.new
-    end
-  end
-
-  private def card_footer_text
-    "Card footer text"
-  end
-end
-
 private class BaseLayout
   include Blueprint::HTML
 
@@ -63,24 +24,35 @@ private class BaseLayout
   end
 end
 
-private class FooterComponent
+private class NavbarComponent
   include Blueprint::HTML
 
   def blueprint
-    footer do
-      label(for: "email", v_model: "user.email", "@input": "doSomething") { "Email" }
-      input type: "text", id: "email"
-      span { "Footer" }
+    nav do
+      ul do
+        li { a(href: "/home") { "Home" } }
+        li { a(href: "/about") { "About" } }
+        li { a(href: "/contact") { "Contact" } }
+      end
     end
   end
 end
 
-private class CardComponent
+private class ArticleComponent
   include Blueprint::HTML
+
+  def initialize(@title : String); end
 
   def blueprint(&)
     div class: "flex flex-col gap-2 bg-white border shadow" do
+      title
       yield
+    end
+  end
+
+  def title
+    div class: "p-2 text-lg font-bold" do
+      @title
     end
   end
 
@@ -89,10 +61,25 @@ private class CardComponent
       yield
     end
   end
+end
 
-  def footer(&)
-    div class: "px-4 py-2" do
-      yield
+private class ExamplePage
+  include Blueprint::HTML
+
+  private def blueprint
+    render BaseLayout.new do
+      render NavbarComponent.new
+
+      div do
+        article("Hello World", "Welcome to blueprint")
+        article("Blueprint", "Blueprint is an Html builder")
+      end
+    end
+  end
+
+  private def article(title : String, content : String)
+    render ArticleComponent.new(title) do |c|
+      c.body { content }
     end
   end
 end
@@ -115,41 +102,25 @@ describe Blueprint::HTML do
           </head>
 
           <body>
-            <header>
-              <h1>Test page</h1>
-              <h4>Page description</h4>
-              <button disabled>Disabled button</button>
-              <button>Enabled button</button>
-            </header>
+            <nav>
+              <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/contact">Contact</a></li>
+              </ul>
+            </nav>
 
-            <div class="bg-gray-200">
-              <p data-id="54" data-highlight="true">Page text</p>
-
-              Plain text
-
-              <iframe src="example.com"></iframe>
+            <div>
+              <div class="flex flex-col gap-2 bg-white border shadow">
+                <div class="p-2 text-lg font-bold">Hello World</div>
+                <div class="p-4">Welcome to blueprint</div>
+              </div>
 
               <div class="flex flex-col gap-2 bg-white border shadow">
-
-                <div class="p-4">
-                  Card body
-                </div>
-
-                <div class="px-4 py-2">
-                  <a href="/about" aria-selected="false" aria-posinset="3">About</a>
-                </div>
-
-                <footer>
-                  Card footer text
-                </footer>
+                <div class="p-2 text-lg font-bold">Blueprint</div>
+                <div class="p-4">Blueprint is an Html builder</div>
               </div>
             </div>
-
-            <footer>
-              <label for="email" v-model="user.email" @input="doSomething">Email</label>
-              <input type="text" id="email">
-              <span>Footer</span>
-            </footer>
           </body>
         </html>
       HTML
