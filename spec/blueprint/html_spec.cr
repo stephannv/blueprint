@@ -8,10 +8,12 @@ private class ExamplePage
       header do
         h1 { "Test page" }
         h4 { "Page description" }
+        button(disabled: true) { "Disabled button" }
+        button(disabled: false) { "Enabled button" }
       end
 
       div class: "bg-gray-200" do
-        p(data: {id: 54, highlight: true}) { "Page text" }
+        p(data: {id: 54, highlight: "true"}) { "Page text" }
 
         plain "Plain text"
 
@@ -20,7 +22,7 @@ private class ExamplePage
         render CardComponent.new do |c|
           c.body { "Card body" }
           c.footer do
-            a(href: "/about", aria: { selected: false, posinset: 3 }) { "About" }
+            a(href: "/about", aria: {selected: "false", posinset: 3}) { "About" }
           end
           footer do
             card_footer_text
@@ -65,7 +67,7 @@ private class FooterComponent
 
   def blueprint
     footer do
-      label(for: "email", v_model: "user.email", "@input": "doSomething" ) { "Email" }
+      label(for: "email", v_model: "user.email", "@input": "doSomething") { "Email" }
       input type: "text", id: "email"
       span { "Footer" }
     end
@@ -114,6 +116,8 @@ describe Blueprint::HTML do
             <header>
               <h1>Test page</h1>
               <h4>Page description</h4>
+              <button disabled>Disabled button</button>
+              <button>Enabled button</button>
             </header>
 
             <div class="bg-gray-200">
