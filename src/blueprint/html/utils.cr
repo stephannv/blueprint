@@ -1,6 +1,6 @@
 module Blueprint::HTML::Utils
   def plain(content : String) : Nil
-    @buffer << content
+    ::HTML.escape(content, @buffer)
   end
 
   def doctype
