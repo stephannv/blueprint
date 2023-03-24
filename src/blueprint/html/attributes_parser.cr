@@ -21,7 +21,9 @@ module Blueprint::HTML::AttributesParser
   end
 
   private def append_normal_attribute(io : String::Builder, attribute_name, attribute_value)
-    io << " " << parse_attribute_name(attribute_name) << "=\"" << attribute_value << "\""
+    io << " " << parse_attribute_name(attribute_name) << "=\""
+    ::HTML.escape(attribute_value.to_s, io)
+    io << "\""
   end
 
   private def append_boolean_attribute(io : String::Builder, attribute_name)

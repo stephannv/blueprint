@@ -3,6 +3,7 @@ require "./html/*"
 module Blueprint::HTML
   include Blueprint::HTML::BaseElements
   include Blueprint::HTML::AttributesParser
+  include Blueprint::HTML::ContentCapture
   include Blueprint::HTML::Renderer
   include Blueprint::HTML::Utils
 
@@ -15,7 +16,7 @@ module Blueprint::HTML
 
   def to_html(&block) : String
     blueprint do
-      yield
+      capture_content { yield }
     end
     @buffer.to_s
   end

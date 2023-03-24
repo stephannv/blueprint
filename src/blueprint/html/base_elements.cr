@@ -9,12 +9,6 @@ module Blueprint::HTML::BaseElements
     @buffer << "<" << _name << parse_attributes(attributes) << ">"
   end
 
-  private def capture_content(&block)
-    length_before = @buffer.size
-    content = with self yield
-    @buffer << content if length_before == @buffer.size
-  end
-
   macro define_normal_elements(names)
     {% for name, index in names %}
       def {{name.id}}(**attributes, &block)
