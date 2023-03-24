@@ -45,11 +45,12 @@ private class BaseLayout
   def blueprint(&)
     doctype
 
-    html do
+    html lang: "en" do
       head do
         title { "Test page" }
 
         meta charset: "utf-8"
+        meta name: "viewport", content: "width=device-width,initial-scale=1"
 
         link href: "app.css", rel: "stylesheet"
         script type: "text/javascript", src: "app.js"
@@ -102,11 +103,12 @@ describe Blueprint::HTML do
       page = ExamplePage.new
       expected_html = <<-HTML.strip.gsub(/\n\s+/, "")
         <!DOCTYPE html>
-        <html>
+        <html lang="en">
           <head>
             <title>Test page</title>
 
             <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width,initial-scale=1">
 
             <link href="app.css" rel="stylesheet">
             <script type="text/javascript" src="app.js"></script>

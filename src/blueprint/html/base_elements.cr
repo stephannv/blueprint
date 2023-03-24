@@ -1,12 +1,12 @@
 module Blueprint::HTML::BaseElements
-  private def element(name : Symbol, **attributes, &block)
-    @buffer << "<" << name << parse_attributes(attributes) << ">"
+  private def element(_name : Symbol, **attributes, &block)
+    @buffer << "<" << _name << parse_attributes(attributes) << ">"
     capture_content { with self yield }
-    @buffer << "</" << name << ">"
+    @buffer << "</" << _name << ">"
   end
 
-  private def void_element(name : Symbol, **attributes)
-    @buffer << "<" << name << parse_attributes(attributes) << ">"
+  private def void_element(_name : Symbol, **attributes)
+    @buffer << "<" << _name << parse_attributes(attributes) << ">"
   end
 
   private def capture_content(&block)
