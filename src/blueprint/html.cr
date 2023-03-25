@@ -1,3 +1,4 @@
+require "html"
 require "./html/*"
 
 module Blueprint::HTML
