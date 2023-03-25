@@ -8,6 +8,7 @@ private class DummyPage
     plain "<script>alert('Plain Text')</script>"
     render(DummyComponent.new) { "<script>alert('DummyComponent')</script>" }
     div(class: "some-class\" onblur=\"alert('Attribute')")
+    comment { "--><script>alert('Plain Text')</script><!--" }
   end
 end
 
@@ -51,6 +52,15 @@ describe "Blueprint::HTML safety" do
     page = DummyPage.new
     expected_html = <<-HTML.strip
       <div class="some-class&quot; onblur=&quot;alert(&#39;Attribute&#39;)"></div>
+    HTML
+
+    page.to_html.should contain(expected_html)
+  end
+
+  it "escapes comment contents" do
+    page = DummyPage.new
+    expected_html = <<-HTML.strip
+      <!----&gt;&lt;script&gt;alert(&#39;Plain Text&#39;)&lt;/script&gt;&lt;!---->
     HTML
 
     page.to_html.should contain(expected_html)
