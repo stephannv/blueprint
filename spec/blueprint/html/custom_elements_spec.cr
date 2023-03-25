@@ -3,12 +3,13 @@ require "../../spec_helper"
 private class DummyPage
   include Blueprint::HTML
 
-  register_custom_elements :v_btn, :v_card
+  register_element :v_btn
+  register_element :card, "v-card"
 
   def blueprint
     div do
       v_btn(href: "#home", data: {id: 12, visible: true, disabled: false}) { "Home" }
-      v_card
+      card
     end
   end
 end
