@@ -1,8 +1,8 @@
 require "./html/*"
 
 module Blueprint::HTML
-  include Blueprint::HTML::BaseElements
-  include Blueprint::HTML::CustomElements
+  include Blueprint::HTML::ElementRegistrar
+  include Blueprint::HTML::StandardElements
   include Blueprint::HTML::AttributesParser
   include Blueprint::HTML::ContentCapture
   include Blueprint::HTML::Renderer

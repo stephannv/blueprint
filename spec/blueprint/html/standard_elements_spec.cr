@@ -31,13 +31,18 @@ private macro define_dummy_class
         {{element.id}}
         {{element.id}}(attribute: "test")
       {% end %}
+
+      select_tag
+      select_tag(attribute: "test")
+      select_tag { "content" }
+      select_tag(attribute: "test") { "content" }
     end
   end
 end
 
 define_dummy_class
 
-describe "Blueprint::HTML base elements" do
+describe "Blueprint::HTML standard HTML elements" do
   it "defines all base HTML elements helper methods" do
     page = DummyPage.new
     expected_html = String.build do |io|
@@ -57,6 +62,11 @@ describe "Blueprint::HTML base elements" do
         io << "<" << tag << ">" << "</" << tag << ">"
         io << "<" << tag << " attribute=\"test\">" << "</" << tag << ">"
       end
+
+      io << "<select></select>"
+      io << "<select attribute=\"test\"></select>"
+      io << "<select>content</select>"
+      io << "<select attribute=\"test\">content</select>"
     end
 
     page.to_html.should eq expected_html
