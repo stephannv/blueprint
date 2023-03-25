@@ -9,6 +9,11 @@ private class DummyPage
       plain "Hello"
       b { "World" }
     end
+
+    i { "Hi" }
+    whitespace
+    plain "User"
+
     comment { "This is an html comment" }
   end
 end
@@ -35,6 +40,14 @@ describe "Blueprint::HTML utils" do
       page = DummyPage.new
 
       page.to_html.should contain("<!--This is an html comment-->")
+    end
+  end
+
+  describe "#whitespace" do
+    it "renders an whitespace" do
+      page = DummyPage.new
+
+      page.to_html.should contain("<i>Hi</i> User")
     end
   end
 end

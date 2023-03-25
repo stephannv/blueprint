@@ -12,4 +12,8 @@ module Blueprint::HTML::Utils
     ::HTML.escape(yield, @buffer)
     @buffer << "-->"
   end
+
+  def whitespace
+    @buffer << " "
+  end
 end
