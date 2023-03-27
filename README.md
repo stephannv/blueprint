@@ -1,6 +1,44 @@
 # Blueprint
 
-Bluprint is a lib for writing HTML templates in plain Crystal, allowing an OOP (Oriented Object Programming) when building HTML.
+Bluprint is a lib for writing fast, reusable and testable HTML templates in plain Crystal, allowing an OOP (Oriented Object Programming) approach when building your views.
+
+```crystal
+class MyForm
+  include Blueprint::HTML
+
+  def blueprint
+    div class: "mb-3" do
+      label(for: "password") { "Password" }
+      input type: "password", id: "password"
+    end
+  end
+end
+```
+
+Output:
+
+```html
+<div class="mb-3">
+  <label for="password">Password</label>
+  <input type="password" id="password">
+</div>
+```
+
+* [Instalation](#installation)
+* [Usage](#usage)
+  * [Basic](#basic)
+  * [Blueprints are just POCOs](#blueprints-are-just-pocos)
+  * [Creating components](#creating-components)
+  * [Passing content](#passing-content)
+  * [Composing components](#composing-components)
+  * [NamedTuple attributes](#namedtuple-attributes)
+  * [Boolean attributes](#boolean-attributes)
+  * [Utils](#utils)
+  * [Safety](#safety)
+  * [Custom tags](#custom-tags)
+  * [Registering components helpers](#registering-components-helpers)
+
+
 
 ## Installation
 
@@ -16,12 +54,18 @@ Bluprint is a lib for writing HTML templates in plain Crystal, allowing an OOP (
 
 ## Usage
 
-#### Basic usage
+### Basic
+
+You need three things to start using blueprint:
+
+- Require `"blueprint"`
+- Include `Blueprint::HTML` module into your class
+- Define a `blueprint` method to write an HTML structure inside.
 
 ```crystal
 require "blueprint"
 
-class MyPage
+class ExamplePage
   include Blueprint::HTML
 
   def blueprint
@@ -45,229 +89,406 @@ class MyPage
     end
   end
 end
-
-page = MyPage.new
-puts page.to_html
-# <!DOCTYPE html>
-#
-# <html>
-#   <head>
-#     <title>My website</title>
-#
-#     <link rel="stylesheet" href="app.css">
-#     <script type="text/javascript" src="app.js"></script>
-#   </head>
-#
-#   <body>
-#     <p>Hello</p>
-#
-#     <div class="bg-gray-200">
-#       <label for="email">Email</label>
-#       <input type="text" id="email">
-#     </div>
-#   </body>
-# </html>
 ```
 
-#### Composing with multiple blueprints 
+With your class defined, you can instantiate it and call `to_html` and get the result.
 
 ```crystal
-require "blueprint"
+page = ExamplePage.new
+puts page.to_html
+```
 
-class FooterComponent
+The output (this HTML output is formatted to improve the visualization):
+
+```html
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>My website</title>
+
+    <link rel="stylesheet" href="app.css">
+    <script type="text/javascript" src="app.js"></script>
+  </head>
+
+  <body>
+    <p>Hello</p>
+
+    <div class="bg-gray-200">
+      <label for="email">Email</label>
+      <input type="text" id="email">
+    </div>
+  </body>
+</html>
+```
+
+### Blueprints are just POCOs
+
+Bluprints are Plain Old Crystal Objects (**POCOs**). You can add any behavior to your class just like a normal Crystal class.
+
+```crystal
+class Profiles::ShowPage
   include Blueprint::HTML
-  
+
+  def initialize(@user : User); end
+
   def blueprint
-    footer do
-      ul do
-        li { "Home" }
-        li { "About" }
-        li { "Contact" }
-      end
+    h1 { @user.display_name }
+
+    if moderator?
+      span class: "bg-blue-500" do
+        img src: "moderator-badge.png"
+	    end
+	  end
+  end
+
+  private def moderator?
+    @user.role == "moderator"
+  end
+end
+
+page = Profiles::ShowPage.new(user: moderator)
+puts page.to_html
+```
+
+Output:
+
+```html
+<h1>Jane Doe</h1>
+<span class="bg-blue-500">
+  <img src="moderator-badge.png">
+</span>
+```
+
+### Creating components
+
+You can create reusable components using Blueprint, you just need to pass an component instance to the `#render` method.
+
+```crystal
+class AlertComponent
+  include Blueprint::HTML
+
+  def initialize(@content : String, @type : String); end
+
+  def blueprint
+    div class: "alert alert-#{@type}", role: "alert" do
+      @content
     end
   end
 end
 
-class HomePage
+class ExamplePage
   include Blueprint::HTML
-  
+
   def blueprint
-    div do
-      render FooterComponent.new
-    end
+    h1 { "Hello" }
+    render AlertComponent.new(content: "My alert", type: "primary")
   end
 end
-  
-page = HomePage.new
+
+page = ExamplePage.new
 puts page.to_html
-# <div>
-#   <footer>
-#     <ul>
-#       <li>Home</li>
-#       <li>About</li>
-#       <li>Contact</li>
-#     </ul>
-#   </footer>
-# </div>
 ```
 
-#### Passing content to another blueprint
+Output:
+
+```html
+<h1>Hello</h1>
+<div class="alert alert-primary" role="alert">
+  My alert
+</div>
+```
+
+### Passing content
+
+Sometimes you need to pass a complex content that cannot be passed through a constructor parameter. To do this, the `blueprint` method needs to receive a block (`&`) and yield it. Refactoring the previous Alert component example:
 
 ```crystal
-require "blueprint"
-
-class CalloutComponent
+class AlertComponent
   include Blueprint::HTML
+
+  def initialize(@type : String); end
 
   def blueprint(&)
-    div class: "bg-green-400 p-4 border shadow" do
+    div class: "alert alert-#{@type}", role: "alert" do
       yield
     end
   end
 end
 
-class HomePage
+class ExamplePage
   include Blueprint::HTML
 
   def blueprint
-    render CalloutComponent.new do
-      "Nice message here"
+    h1 { "Hello" }
+    render AlertComponent.new(type: "primary") do
+      h4(class: "alert-heading") { "My Alert" }
+      p { "Alert body" }
     end
   end
 end
 
-page = HomePage.new
+page = ExamplePage.new
 puts page.to_html
-# <div class="bg-green-400 p-4 border shadow">
-#   Nice message here
-# </div>
-
 ```
 
-#### Building complex blueprints
+Output:
+
+```html
+<h1>Hello</h1>
+<div class="alert alert-primary" role="alert">
+  <h4 class="alert-heading">My alert</h4>
+  <p>Alert body</p>
+</div>
+```
+
+### Composing components
+
+Blueprints components can expose some predefined structure to its users. This can be accomplished by defining public instance methods that accept blocks. Refactoring the previous Alert component example:
 
 ```crystal
-require "blueprint"
-
-class CardComponent
+class AlertComponent
   include Blueprint::HTML
 
+  def initialize(@type : String); end
+
   def blueprint(&)
-    div class: "flex flex-col gap-2 bg-white border shadow" do
+    div class: "alert alert-#{@type}", role: "alert" do
       yield
     end
   end
 
-  def header(&)
-    div class: "p-2 text-lg font-bold" do
-      yield
-    end
+  def title(&)
+    h4(class: "alert-heading") { yield }
   end
 
   def body(&)
-    div class: "p-4" do
-      yield
-    end
+    p { yield }
   end
 end
 
-class HomePage
+class ExamplePage
   include Blueprint::HTML
 
   def blueprint
-    render CardComponent.new do |c|
-      c.header { "Card title" }
-      c.body do
-        span { "Card body" }
-        a(href: "/about") { "See more" }
-      end
+    h1 { "Hello" }
+    render AlertComponent.new(type: "primary") do |alert|
+      alert.title { "My Alert" }
+      alert.body { "Alert body" }
     end
   end
 end
 
-page = HomePage.new
+page = ExamplePage.new
 puts page.to_html
-# <div class="flex flex-col gap-2 bg-white border shadow">
-#   <div class="p-2 text-lg font-bold">
-#     Card title
-#   </div>
-#   
-#   <div class="p-4">
-#     <span>Card body</span>
-#     <a href="/about">See more</a>
-#   </div>
-# </div>
 ```
 
-#### Blueprints are just POCO (Plain old crystal objects)
+Output:
 
-You can define an initializer with argurments needed to render that blueprint
+```html
+<h1>Hello</h1>
+<div class="alert alert-primary" role="alert">
+  <h4 class="alert-heading">My alert</h4>
+  <p>Alert body</p>
+</div>
+```
+
+### NamedTuple attributes
+
+If you pass a NamedTuple attribute to some element, it will be flattened with a dash between each level. This is useful for `data-*` and `aria-*` attributes.
 
 ```crystal
-require "blueprint"
-
-require "./src/blueprint"
-
-class Button
+class ExamplePage
   include Blueprint::HTML
 
-  enum Color
-    Red
-    Green
-    Blue
+  def blueprint
+    div data: { id: 42, target: "#home" }, aria: { selected: "true" } do
+      "Home"
+    end
   end
+end
 
-  def initialize(@color : Color); end
+page = ExamplePage.new
+puts page.to_html
+```
+
+Output:
+
+```html
+<div data-id="42" data-target="#home" aria-selected="true">
+  Home
+</div>
+```
+
+### Boolean attributes
+
+If you pass `true` to some attribute, it will be rendered as a boolean HTML attribute, in other words, just the attribute name will be rendered without the value. If you pass `false` the attribute will not be rendered. If you want the attribute value to be `"true"` or `"false"`, use `true` and `false` between quotes.
+
+```crystal
+class ExamplePage
+  include Blueprint::HTML
+
+  def blueprint
+    div required: true, disabled: false, x: "true", y: "false" do
+      "Boolean"
+    end
+  end
+end
+
+page = ExamplePage.new
+puts page.to_html
+```
+
+Output:
+
+```html
+<div required x="true" y="false">
+  Boolean
+</div>
+```
+
+### Utils
+
+You can use the `#plain` helper to write plain text on HTML and the `#whitespace` helper to add a simple whitespace. The `#comment` allows you to write HTML comments.
+
+```crystal
+class ExamplePage
+  include Blueprint::HTML
+
+  def blueprint
+    comment { "This is an HTML comment" }
+
+    h1 do
+      plain "Hello"
+      whitespace
+      strong { "Jane Doe" }
+    end
+  end
+end
+
+page = ExamplePage.new
+puts page.to_html
+```
+
+Output:
+
+```html
+<!--This is an HTML comment-->
+
+<h1>
+  Hello <strong>Jane Doe</strong>
+</h1>
+```
+
+### Safety
+
+All content and attribute values passed to elements and components are escaped:
+
+```crystal
+class ExamplePage
+  include Blueprint::HTML
+
+  def blueprint
+    span { "<script>alert('hello')</script>" }
+
+    input(class: "some-class\" onblur=\"alert('Attribute')")
+  end
+end
+
+page = ExamplePage.new
+puts page.to_html
+```
+
+Output:
+
+```html
+<span>&lt;script&gt;alert(&#39;hello&#39;)&lt;/script&gt;</span>
+
+<input class="some-class&quot; onblur=&quot;alert(&#39;Attribute&#39;)">
+```
+
+### Custom tags
+
+You can register custom HTML tags using the `register_element` macro. The first argument is the helper method and the second argument is an optional tag name.
+
+```crystal
+class ExamplePage
+  include Blueprint::HTML
+
+  register_element :trix_editor
+  register_element :my_button, "v-btn"
+
+  def blueprint
+    trix_editor
+
+    my_button(to: "#home") { "My button" }
+  end
+end
+
+page = ExamplePage.new
+puts page.to_html
+```
+
+Output:
+
+```html
+<trix-editor></trix-editor>
+
+<v-btn to="#home">My button</v-btn>
+```
+
+### Registering components helpers
+
+Blueprint has the `register_component` macro. It is useful to avoid writing the fully qualified name of the component class. Instead writing something like `render Views::Components::Forms::LabelComponent.new(for: "password")` you could write just `label_component(for: "password")`. You need to include the `Blueprint::HTML::ComponentRegistrar` module to make `register_component` macro available.
+
+```crystal
+class AlertComponent
+  include Blueprint::HTML
+
+  def initialize(@type : String); end
 
   def blueprint(&)
-    div class: classes do
+    div class: "alert alert-#{@type}", role: "alert" do
       yield
     end
   end
 
-  private def classes
-    case @color
-    when .red? then "bg-red-500"
-    when .green? then "bg-green-600"
-    when .blue? then "bg-blue-400"
-    end
+  def title(&)
+    h4(class: "alert-heading") { yield }
+  end
+
+  def body(&)
+    p { yield }
   end
 end
 
-class HomePage
+module ComponentHelpers
+  include Blueprint::HTML::ComponentRegistrar
+
+  register_component :alert_component, AlertComponent
+end
+
+class ExamplePage
   include Blueprint::HTML
+  include ComponentHelpers
 
   def blueprint
-    render Button.new(color: Button::Color::Red) do
-      "Destroy"
+    h1 { "Hello" }
+    alert_component(type: "primary") do |alert|
+      alert.title { "My Alert" }
+      alert.body { "Alert body" }
     end
   end
 end
-
-page = HomePage.new
-puts page.to_html
-# <div class="bg-red-500">Destroy</div>
 ```
 
-#### Using `data-*` attributes
-
-```crystal
-require "blueprint"
-
-class Tab
-  include Blueprint::HTML
-
-  def blueprint
-    a(data: { target: "#home", active: true }) { "Home" }
-  end
-end
-
-tab = Tab.new
-puts tab.to_html
-# <a data-target="#home" data-active="true">
-#   Home
-# </a>
-
+Output:
+```html
+<h1>Hello</h1>
+<div class="alert alert-primary" role="alert">
+  <h4 class="alert-heading">My alert</h4>
+  <p>Alert body</p>
+</div>
 ```
 
 ## Development
