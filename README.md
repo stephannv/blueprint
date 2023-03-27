@@ -138,8 +138,8 @@ class Profiles::ShowPage
     if moderator?
       span class: "bg-blue-500" do
         img src: "moderator-badge.png"
-	    end
-	  end
+      end
+    end
   end
 
   private def moderator?
