@@ -162,7 +162,7 @@ Output:
 
 ### Creating components
 
-You can create reusable components using Blueprint, you just need to pass an component instance to the `#render` method.
+You can create reusable components using Blueprint, you just need to pass a component instance to the `#render` method.
 
 ```crystal
 class AlertComponent
