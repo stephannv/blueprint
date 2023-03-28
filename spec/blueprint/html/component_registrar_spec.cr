@@ -15,7 +15,6 @@ private class DummyPage
 
     no_block_component
 
-
     optional_block_component do
       "Component with optional block"
     end

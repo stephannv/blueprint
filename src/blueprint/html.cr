@@ -16,7 +16,7 @@ module Blueprint::HTML
     @buffer.to_s
   end
 
-  def to_html(&block) : String
+  def to_html(&) : String
     blueprint do
       capture_content { yield }
     end
@@ -28,7 +28,7 @@ module Blueprint::HTML
     to_html
   end
 
-  def to_html(buffer : IO::Memory, &block) : String
+  def to_html(buffer : IO::Memory, &) : String
     @buffer = buffer
     to_html do
       yield

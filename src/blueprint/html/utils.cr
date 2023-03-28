@@ -7,7 +7,7 @@ module Blueprint::HTML::Utils
     @buffer << "<!DOCTYPE html>"
   end
 
-  def comment(&block)
+  def comment(&)
     @buffer << "<!--"
     ::HTML.escape(yield, @buffer)
     @buffer << "-->"

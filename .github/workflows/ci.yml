@@ -2,7 +2,8 @@ on:
   push:
 
 jobs:
-  tests:
+  ci:
+    name: Tests & Formatting
     runs-on: ubuntu-latest
     steps:
       - name: Download source
@@ -11,5 +12,14 @@ jobs:
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1
 
+      - name: Install shards
+        run: shards install
+
       - name: Run tests
         run: crystal spec
+
+      - name: Check code format
+        run: crystal tool format --check
+
+      - name: Lint with ameba
+        run: bin/ameba

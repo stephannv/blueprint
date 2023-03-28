@@ -3,7 +3,7 @@ module Blueprint::HTML::Renderer
     other.to_html(@buffer)
   end
 
-  def render(other : Blueprint::HTML, &block)
+  def render(other : Blueprint::HTML, &)
     other.to_html(@buffer) do
       with self yield other
     end
