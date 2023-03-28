@@ -6,7 +6,7 @@ class Example::LayoutComponent
 
   def initialize(@title = "Example"); end
 
-  def blueprint(&block)
+  def blueprint(&)
     html do
       head do
         title { @title }
@@ -64,7 +64,6 @@ class Example::Page
     end
   end
 end
-
 
 a = Example::Page.new.to_html
 b = Example::Page.new.to_html
