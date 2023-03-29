@@ -12,11 +12,15 @@ module Blueprint::HTML
   @buffer = IO::Memory.new
 
   def to_html : String
+    return "" unless render?
+
     blueprint
     @buffer.to_s
   end
 
   def to_html(&) : String
+    return "" unless render?
+
     blueprint do
       capture_content { yield }
     end
@@ -33,5 +37,9 @@ module Blueprint::HTML
     to_html do
       yield
     end
+  end
+
+  def render? : Bool
+    true
   end
 end

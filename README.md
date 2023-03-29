@@ -31,6 +31,7 @@ Output:
   * [Creating components](#creating-components)
   * [Passing content](#passing-content)
   * [Composing components](#composing-components)
+  * [Conditional rendering](#conditional-rendering)
   * [NamedTuple attributes](#namedtuple-attributes)
   * [Boolean attributes](#boolean-attributes)
   * [Utils](#utils)
@@ -59,7 +60,7 @@ Output:
 You need three things to start using blueprint:
 
 - Require `"blueprint"`
-- Include `Blueprint::HTML` module into your class
+- Include `Blueprint::HTML` module in your class
 - Define a `blueprint` method to write an HTML structure inside.
 
 ```crystal
@@ -291,6 +292,67 @@ Output:
   <h4 class="alert-heading">My alert</h4>
   <p>Alert body</p>
 </div>
+```
+
+### Conditional rendering
+
+Blueprints can implement a `#render?` method, if this method returns false, the blueprint will not be rendered. This allows you extract the logic from component consumer and put in the component itself.
+
+Instead writing this code:
+```crystal
+class ArticlePage
+  include Blueprint::HTML
+
+  def initialize(@article: Article); end
+
+  def blueprint
+    if @article.draft?
+      render DraftArticleAlert.new(@article)
+    end
+    h1 { @article.title }
+  end
+end
+```
+
+You can write this code:
+
+```crystal
+class ArticlePage
+  include Blueprint::HTML
+
+  def initialize(@article: Article); end
+
+  def blueprint
+    render DraftArticleAlert.new(@article)
+    h1 { @article.title }
+  end
+end
+
+class DraftArticleAlert
+  include Blueprint::HTML
+
+  def initialize(@article : Article); end
+
+  def blueprint
+    div class: "alert alert-warning" do
+      plain "This is a draft. "
+    end
+  end
+
+  def render?
+    @article.draft?
+  end
+end
+
+article = Article.new(title: "Hello Blueprint", draft: false)
+page = ArticlePage.new(article: article)
+puts page.to_html
+```
+
+Output:
+
+```html
+<h1>Hello Blueprint</h1>
 ```
 
 ### NamedTuple attributes
