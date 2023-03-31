@@ -1,11 +1,10 @@
+name: CI
 on:
   push:
-  schedule:
-    - cron: 0 0 * * 1 # At 00:00 on Monday
 
 jobs:
-  lint:
-    name: Lint code
+  ci:
+    name: Test & Lint
     runs-on: ubuntu-latest
     steps:
       - name: Download source
@@ -13,6 +12,9 @@ jobs:
 
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1
+
+      - name: Run tests
+        run: crystal spec
 
       - name: Install shards
         run: shards install
@@ -22,26 +24,3 @@ jobs:
 
       - name: Lint with ameba
         run: bin/ameba
-
-  ci:
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - {crystal: latest}
-          - {crystal: 1.6}
-          - {crystal: 1.5}
-    name: Tests & Formatting
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download source
-        uses: actions/checkout@v3
-
-      - name: Install Crystal
-        uses: crystal-lang/install-crystal@v1
-        with:
-          crystal: ${{matrix.crystal}}
-          shards: false
-
-      - name: Run tests
-        run: crystal spec
