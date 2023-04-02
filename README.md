@@ -1,6 +1,10 @@
+> **Warning**
+>
+> This is the documentation for the in-development branch of Blueprint. You can find the documentation for previous releases on [tags](https://github.com/stephannv/blueprint/tags).
+
 # Blueprint
 
-Bluprint is a lib for writing fast, reusable and testable HTML templates in plain Crystal, allowing an OOP (Oriented Object Programming) approach when building your views.
+Blueprint is a lib for writing fast, reusable and testable HTML templates in plain Crystal, allowing an OOP (Oriented Object Programming) approach when building web views.
 
 ```crystal
 class MyForm
@@ -25,6 +29,7 @@ Output:
 ```
 
 * [Instalation](#installation)
+* [Changelog](#changelog)
 * [Usage](#usage)
   * [Basic](#basic)
   * [Blueprints are just POCOs](#blueprints-are-just-pocos)
@@ -53,6 +58,9 @@ Output:
 
 2. Run `shards install`
 
+## Changelog
+
+Changelog can be found [here](/CHANGELOG.md)
 ## Usage
 
 ### Basic
