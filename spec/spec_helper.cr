@@ -1,2 +1,2 @@
 require "spec"
-require "../src/blueprint"
+require "../src/blueprint/html"

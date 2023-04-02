@@ -1,5 +1,5 @@
 require "benchmark"
-require "../src/blueprint"
+require "../src/blueprint/html"
 
 class Example::LayoutComponent
   include Blueprint::HTML
@@ -76,6 +76,6 @@ puts(
   end
 )
 
-# Benchmark.ips do |x|
-# 	x.report("Page") { Example::Page.new.to_html }
-# end
+Benchmark.ips do |x|
+  x.report("Page") { Example::Page.new.to_html }
+end

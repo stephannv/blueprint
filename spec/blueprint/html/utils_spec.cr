@@ -3,7 +3,7 @@ require "../../spec_helper"
 private class DummyPage
   include Blueprint::HTML
 
-  def blueprint
+  private def blueprint
     doctype
     div do
       plain "Hello"

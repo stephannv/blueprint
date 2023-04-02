@@ -1,5 +1,7 @@
 require "../../spec_helper"
 
+require "../../../src/blueprint/html/component_registrar"
+
 private class DummyPage
   include Blueprint::HTML
   include Blueprint::HTML::ComponentRegistrar
@@ -8,7 +10,7 @@ private class DummyPage
   register_component :no_block_component, NoBlockComponent, block: false
   register_component :optional_block_component, OptionalBlockComponent, block: :optional
 
-  def blueprint
+  private def blueprint
     required_block_component do
       "Component with required block"
     end
@@ -26,7 +28,7 @@ end
 private class RequiredBlockComponent
   include Blueprint::HTML
 
-  def blueprint(&)
+  private def blueprint(&)
     div id: "required-block" do
       yield
     end
@@ -36,7 +38,7 @@ end
 private class NoBlockComponent
   include Blueprint::HTML
 
-  def blueprint
+  private def blueprint
     h1 { "Component without block" }
   end
 end
@@ -44,7 +46,7 @@ end
 private class OptionalBlockComponent
   include Blueprint::HTML
 
-  def blueprint(&)
+  private def blueprint(&)
     div id: "optional-block" do
       yield
     end

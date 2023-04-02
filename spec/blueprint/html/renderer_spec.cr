@@ -3,7 +3,7 @@ require "../../spec_helper"
 private class DummyPage
   include Blueprint::HTML
 
-  def blueprint
+  private def blueprint
     render BasicComponent.new
 
     render ContentComponent.new do
@@ -21,7 +21,7 @@ end
 private class BasicComponent
   include Blueprint::HTML
 
-  def blueprint
+  private def blueprint
     header { "Basic component" }
   end
 end
@@ -29,7 +29,7 @@ end
 private class ContentComponent
   include Blueprint::HTML
 
-  def blueprint(&)
+  private def blueprint(&)
     div do
       p do
         yield
@@ -41,7 +41,7 @@ end
 private class ComplexComponent
   include Blueprint::HTML
 
-  def blueprint(&)
+  private def blueprint(&)
     div class: "bg-white border shadow" do
       yield
     end

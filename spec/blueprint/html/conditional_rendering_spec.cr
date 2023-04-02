@@ -3,7 +3,7 @@ require "../../spec_helper"
 private class DummyPage
   include Blueprint::HTML
 
-  def blueprint
+  private def blueprint
     div do
       render(NoRenderComponent.new)
       render(NoRenderComponent.new) { "This component will not be rendered" }
@@ -14,11 +14,11 @@ end
 private class NoRenderPage
   include Blueprint::HTML
 
-  def blueprint
+  private def blueprint
     h1 { "This page will not be rendered" }
   end
 
-  def blueprint(&)
+  private def blueprint(&)
     h1 { yield }
   end
 
@@ -30,11 +30,11 @@ end
 private class NoRenderComponent
   include Blueprint::HTML
 
-  def blueprint
+  private def blueprint
     h1 { "This component will not be rendered" }
   end
 
-  def blueprint(&)
+  private def blueprint(&)
     h1 { yield }
   end
 

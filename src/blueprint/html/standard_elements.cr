@@ -1,6 +1,4 @@
-module Blueprint::HTML::StandardElements
-  include Blueprint::HTML::ElementRegistrar
-
+module Blueprint::HTML
   register_element :a
   register_element :abbr
   register_element :address

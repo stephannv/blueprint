@@ -6,7 +6,7 @@ private class DummyPage
   register_element :v_btn
   register_element :card, "v-card"
 
-  def blueprint
+  private def blueprint
     div do
       v_btn(href: "#home", data: {id: 12, visible: true, disabled: false}) { "Home" }
       card

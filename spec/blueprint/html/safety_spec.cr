@@ -3,7 +3,7 @@ require "../../spec_helper"
 private class DummyPage
   include Blueprint::HTML
 
-  def blueprint
+  private def blueprint
     span { "<script>alert('hello')</script>" }
     plain "<script>alert('Plain Text')</script>"
     render(DummyComponent.new) { "<script>alert('DummyComponent')</script>" }
@@ -15,7 +15,7 @@ end
 private class DummyComponent
   include Blueprint::HTML
 
-  def blueprint(&)
+  private def blueprint(&)
     yield
   end
 end
