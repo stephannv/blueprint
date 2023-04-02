@@ -3,7 +3,7 @@ require "../../spec_helper"
 private class DummyPage
   include Blueprint::HTML
 
-  def blueprint
+  private def blueprint
     div(class: "hello", id: "first") { "Normal attributes" }
     span(id: 421, array: [2, 4]) { "Non-string attribute values" }
     section(v_model: "user.name", "@click": "doSomething") { "Transform attribute name" }

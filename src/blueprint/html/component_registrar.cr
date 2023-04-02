@@ -1,19 +1,19 @@
 module Blueprint::HTML::ComponentRegistrar
   macro register_component(helper_method, component_class, block = true)
     {% if block %}
-      def {{helper_method.id}}(**args, &block)
+      private def {{helper_method.id}}(**args, &block) : Nil
         render {{component_class}}.new(**args) do |component|
           yield component
         end
       end
 
       {% if block == :optional %}
-        def {{helper_method.id}}(**args)
+        private def {{helper_method.id}}(**args) : Nil
           render({{component_class}}.new(**args)) { nil }
         end
       {% end %}
     {% else %}
-      def {{helper_method.id}}(**args)
+      private def {{helper_method.id}}(**args) : Nil
         render {{component_class}}.new(**args)
       end
     {% end %}

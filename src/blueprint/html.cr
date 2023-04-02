@@ -1,14 +1,13 @@
 require "html"
-require "./html/*"
+
+require "./html/attributes_parser"
+require "./html/content_capture"
+require "./html/element_registrar"
+require "./html/renderer"
+require "./html/standard_elements"
+require "./html/utils"
 
 module Blueprint::HTML
-  include Blueprint::HTML::ElementRegistrar
-  include Blueprint::HTML::StandardElements
-  include Blueprint::HTML::AttributesParser
-  include Blueprint::HTML::ContentCapture
-  include Blueprint::HTML::Renderer
-  include Blueprint::HTML::Utils
-
   @buffer = IO::Memory.new
 
   def to_html : String
@@ -21,25 +20,11 @@ module Blueprint::HTML
   def to_html(&) : String
     return "" unless render?
 
-    blueprint do
-      capture_content { yield }
-    end
+    blueprint { capture_content { yield } }
     @buffer.to_s
   end
 
-  def to_html(buffer : IO::Memory) : String
-    @buffer = buffer
-    to_html
-  end
-
-  def to_html(buffer : IO::Memory, &) : String
-    @buffer = buffer
-    to_html do
-      yield
-    end
-  end
-
-  def render? : Bool
+  private def render? : Bool
     true
   end
 end

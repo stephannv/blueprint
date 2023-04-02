@@ -14,7 +14,7 @@ private macro define_dummy_class
   private class DummyPage
     include Blueprint::HTML
 
-    def blueprint
+    private def blueprint
       {% for element in NORMAL_ELEMENTS %}
         {{element.id}}
         {{element.id}}(attribute: "test")

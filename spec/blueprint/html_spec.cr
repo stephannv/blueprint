@@ -3,7 +3,7 @@ require "../spec_helper"
 private class BaseLayout
   include Blueprint::HTML
 
-  def blueprint(&)
+  private def blueprint(&)
     doctype
 
     html lang: "en" do
@@ -27,7 +27,7 @@ end
 private class NavbarComponent
   include Blueprint::HTML
 
-  def blueprint
+  private def blueprint
     nav do
       ul do
         li { a(href: "/home") { "Home" } }
@@ -43,7 +43,7 @@ private class ArticleComponent
 
   def initialize(@title : String); end
 
-  def blueprint(&)
+  private def blueprint(&)
     div class: "flex flex-col gap-2 bg-white border shadow" do
       title
       yield

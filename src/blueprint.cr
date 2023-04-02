@@ -1,4 +1,4 @@
-require "./blueprint/html"
+require "./blueprint/version"
 
 module Blueprint
 end

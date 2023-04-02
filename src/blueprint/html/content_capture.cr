@@ -1,7 +1,9 @@
-module Blueprint::HTML::ContentCapture
-  private def capture_content(&)
-    length_before = @buffer.size
+module Blueprint::HTML
+  private def capture_content(&) : Nil
+    buffer_size_before_block_evaluation = @buffer.size
     content = with self yield
-    ::HTML.escape(content.to_s, @buffer) if length_before == @buffer.size
+    if buffer_size_before_block_evaluation == @buffer.size
+      ::HTML.escape(content.to_s, @buffer)
+    end
   end
 end

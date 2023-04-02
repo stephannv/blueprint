@@ -1,13 +1,13 @@
-module Blueprint::HTML::AttributesParser
+module Blueprint::HTML
   private def parse_attributes(attributes : NamedTuple) : String
     String.build do |io|
       attributes.each do |name, value|
-        process_attribute(io, name, value)
+        append_attribute(io, name, value)
       end
     end
   end
 
-  private def process_attribute(io : String::Builder, attribute_name, attribute_value)
+  private def append_attribute(io : String::Builder, attribute_name, attribute_value) : Nil
     case attribute_value
     when true
       append_boolean_attribute(io, attribute_name)
@@ -20,23 +20,23 @@ module Blueprint::HTML::AttributesParser
     end
   end
 
-  private def append_normal_attribute(io : String::Builder, attribute_name, attribute_value)
+  private def append_normal_attribute(io : String::Builder, attribute_name, attribute_value) : Nil
     io << " " << parse_attribute_name(attribute_name) << "=\""
     ::HTML.escape(attribute_value.to_s, io)
     io << "\""
   end
 
-  private def append_boolean_attribute(io : String::Builder, attribute_name)
+  private def append_boolean_attribute(io : String::Builder, attribute_name) : Nil
     io << " " << parse_attribute_name(attribute_name)
   end
 
-  private def process_named_tuple_attribute(io : String::Builder, attribute_name, attribute_value : NamedTuple)
+  private def process_named_tuple_attribute(io : String::Builder, attribute_name, attribute_value : NamedTuple) : Nil
     attribute_value.each do |name, value|
-      process_attribute(io, "#{parse_attribute_name(attribute_name)}-#{parse_attribute_name(name)}", value)
+      append_attribute(io, "#{parse_attribute_name(attribute_name)}-#{parse_attribute_name(name)}", value)
     end
   end
 
-  private def parse_attribute_name(attribute_name)
+  private def parse_attribute_name(attribute_name) : String
     attribute_name.to_s.gsub("_", "-")
   end
 end

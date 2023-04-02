@@ -6,7 +6,7 @@ Bluprint is a lib for writing fast, reusable and testable HTML templates in plai
 class MyForm
   include Blueprint::HTML
 
-  def blueprint
+  private def blueprint
     div class: "mb-3" do
       label(for: "password") { "Password" }
       input type: "password", id: "password"
@@ -59,17 +59,17 @@ Output:
 
 You need three things to start using blueprint:
 
-- Require `"blueprint"`
+- Require `"blueprint/html"`
 - Include `Blueprint::HTML` module in your class
 - Define a `blueprint` method to write an HTML structure inside.
 
 ```crystal
-require "blueprint"
+require "blueprint/html"
 
 class ExamplePage
   include Blueprint::HTML
 
-  def blueprint
+  private def blueprint
     doctype
 
     html do
@@ -133,7 +133,7 @@ class Profiles::ShowPage
 
   def initialize(@user : User); end
 
-  def blueprint
+  private def blueprint
     h1 { @user.display_name }
 
     if moderator?
@@ -171,7 +171,7 @@ class AlertComponent
 
   def initialize(@content : String, @type : String); end
 
-  def blueprint
+  private def blueprint
     div class: "alert alert-#{@type}", role: "alert" do
       @content
     end
@@ -181,7 +181,7 @@ end
 class ExamplePage
   include Blueprint::HTML
 
-  def blueprint
+  private def blueprint
     h1 { "Hello" }
     render AlertComponent.new(content: "My alert", type: "primary")
   end
@@ -210,7 +210,7 @@ class AlertComponent
 
   def initialize(@type : String); end
 
-  def blueprint(&)
+  private def blueprint(&)
     div class: "alert alert-#{@type}", role: "alert" do
       yield
     end
@@ -220,7 +220,7 @@ end
 class ExamplePage
   include Blueprint::HTML
 
-  def blueprint
+  private def blueprint
     h1 { "Hello" }
     render AlertComponent.new(type: "primary") do
       h4(class: "alert-heading") { "My Alert" }
@@ -253,7 +253,7 @@ class AlertComponent
 
   def initialize(@type : String); end
 
-  def blueprint(&)
+  private def blueprint(&)
     div class: "alert alert-#{@type}", role: "alert" do
       yield
     end
@@ -271,7 +271,7 @@ end
 class ExamplePage
   include Blueprint::HTML
 
-  def blueprint
+  private def blueprint
     h1 { "Hello" }
     render AlertComponent.new(type: "primary") do |alert|
       alert.title { "My Alert" }
@@ -305,7 +305,7 @@ class ArticlePage
 
   def initialize(@article: Article); end
 
-  def blueprint
+  private def blueprint
     if @article.draft?
       render DraftArticleAlert.new(@article)
     end
@@ -322,7 +322,7 @@ class ArticlePage
 
   def initialize(@article: Article); end
 
-  def blueprint
+  private def blueprint
     render DraftArticleAlert.new(@article)
     h1 { @article.title }
   end
@@ -333,7 +333,7 @@ class DraftArticleAlert
 
   def initialize(@article : Article); end
 
-  def blueprint
+  private def blueprint
     div class: "alert alert-warning" do
       plain "This is a draft. "
     end
@@ -363,7 +363,7 @@ If you pass a NamedTuple attribute to some element, it will be flattened with a 
 class ExamplePage
   include Blueprint::HTML
 
-  def blueprint
+  private def blueprint
     div data: { id: 42, target: "#home" }, aria: { selected: "true" } do
       "Home"
     end
@@ -390,7 +390,7 @@ If you pass `true` to some attribute, it will be rendered as a boolean HTML attr
 class ExamplePage
   include Blueprint::HTML
 
-  def blueprint
+  private def blueprint
     div required: true, disabled: false, x: "true", y: "false" do
       "Boolean"
     end
@@ -417,7 +417,7 @@ You can use the `#plain` helper to write plain text on HTML and the `#whitespace
 class ExamplePage
   include Blueprint::HTML
 
-  def blueprint
+  private def blueprint
     comment { "This is an HTML comment" }
 
     h1 do
@@ -450,7 +450,7 @@ All content and attribute values passed to elements and components are escaped:
 class ExamplePage
   include Blueprint::HTML
 
-  def blueprint
+  private def blueprint
     span { "<script>alert('hello')</script>" }
 
     input(class: "some-class\" onblur=\"alert('Attribute')")
@@ -480,7 +480,7 @@ class ExamplePage
   register_element :trix_editor
   register_element :my_button, "v-btn"
 
-  def blueprint
+  private def blueprint
     trix_editor
 
     my_button(to: "#home") { "My button" }
@@ -509,7 +509,7 @@ class AlertComponent
 
   def initialize(@type : String); end
 
-  def blueprint(&)
+  private def blueprint(&)
     div class: "alert alert-#{@type}", role: "alert" do
       yield
     end
@@ -534,7 +534,7 @@ class ExamplePage
   include Blueprint::HTML
   include ComponentHelpers
 
-  def blueprint
+  private def blueprint
     h1 { "Hello" }
     alert_component(type: "primary") do |alert|
       alert.title { "My Alert" }
