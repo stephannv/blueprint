@@ -88,7 +88,7 @@ describe "Blueprint::HTML renderer" do
 
     it "can use another blueprint methods" do
       page = DummyPage.new
-      complex_component = <<-HTML.strip.gsub(/\n\s+/, "")
+      complex_component = <<-HTML.strip.gsub(/\R\s+/, "")
         <div class="bg-white border shadow">
           <div class="p-4 font-bold text-lg">My card</div>
           <div class="px-4 py-2">Card content</div>

@@ -74,7 +74,7 @@ describe "Blueprint::HTML components registration" do
 
   it "allows component helper definition with optional block" do
     page = DummyPage.new
-    expected_html = <<-HTML.strip.gsub(/\n\s+/, "")
+    expected_html = <<-HTML.strip.gsub(/\R\s+/, "")
       <div id="optional-block">Component with optional block</div>
       <div id="optional-block"></div>
     HTML
