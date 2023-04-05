@@ -28,12 +28,20 @@ module Blueprint::HTML
   end
 
   private def element(_tag_name : String | Symbol, **attributes, &block) : Nil
-    @buffer << "<" << _tag_name << parse_attributes(attributes) << ">"
+    @buffer << "<"
+    @buffer << _tag_name
+    @buffer << parse_attributes(attributes)
+    @buffer << ">"
     capture_content { with self yield }
-    @buffer << "</" << _tag_name << ">"
+    @buffer << "</"
+    @buffer << _tag_name
+    @buffer << ">"
   end
 
   private def void_element(_tag_name : String | Symbol, **attributes) : Nil
-    @buffer << "<" << _tag_name << parse_attributes(attributes) << ">"
+    @buffer << "<"
+    @buffer << _tag_name
+    @buffer << parse_attributes(attributes)
+    @buffer << ">"
   end
 end
