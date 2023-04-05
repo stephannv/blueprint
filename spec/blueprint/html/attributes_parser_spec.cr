@@ -5,10 +5,11 @@ private class DummyPage
 
   private def blueprint
     div(class: "hello", id: "first") { "Normal attributes" }
-    span(id: 421, array: [2, 4]) { "Non-string attribute values" }
+    span(id: 421, float: 2.4) { "Non-string attribute values" }
     section(v_model: "user.name", "@click": "doSomething") { "Transform attribute name" }
     input(disabled: true, checked: false, outline: "true", border: "false")
     nav(aria: {target: "#home", selected: "false", enabled: true, hidden: false}) { "Nested attributes" }
+    div(class: ["a", "b", ["c", "d"]]) { "Array attributes" }
   end
 end
 
@@ -25,7 +26,7 @@ describe "Blueprint::HTML attributes parser" do
   it "converts attribute values to string" do
     page = DummyPage.new
     span = <<-HTML.strip
-      <span id="421" array="[2, 4]">Non-string attribute values</span>
+      <span id="421" float="2.4">Non-string attribute values</span>
     HTML
 
     page.to_html.should contain(span)
@@ -53,6 +54,15 @@ describe "Blueprint::HTML attributes parser" do
     page = DummyPage.new
     nav = <<-HTML.strip
       <nav aria-target="#home" aria-selected="false" aria-enabled>Nested attributes</nav>
+    HTML
+
+    page.to_html.should contain(nav)
+  end
+
+  it "flattens and joins array attributes" do
+    page = DummyPage.new
+    nav = <<-HTML.strip
+      <div class="a b c d">Array attributes</div>
     HTML
 
     page.to_html.should contain(nav)
