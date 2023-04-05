@@ -15,6 +15,8 @@ module Blueprint::HTML
       append_boolean_attribute(io, attribute_name)
     when NamedTuple
       process_named_tuple_attribute(io, attribute_name, attribute_value)
+    when Array
+      append_array_attribute(io, attribute_name, attribute_value)
     else
       append_normal_attribute(io, attribute_name, attribute_value)
     end
@@ -31,6 +33,10 @@ module Blueprint::HTML
   private def append_boolean_attribute(io : String::Builder, attribute_name) : Nil
     io << " "
     io << parse_attribute_name(attribute_name)
+  end
+
+  private def append_array_attribute(io : String::Builder, attribute_name, attribute_value : Array) : Nil
+    append_normal_attribute(io, attribute_name, attribute_value.flatten.join(" "))
   end
 
   private def process_named_tuple_attribute(io : String::Builder, attribute_name, attribute_value : NamedTuple) : Nil

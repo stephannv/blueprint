@@ -39,6 +39,7 @@ Output:
   * [Conditional rendering](#conditional-rendering)
   * [NamedTuple attributes](#namedtuple-attributes)
   * [Boolean attributes](#boolean-attributes)
+  * [Array attributes](#array-attributes)
   * [Utils](#utils)
   * [Safety](#safety)
   * [Custom tags](#custom-tags)
@@ -414,6 +415,36 @@ Output:
 ```html
 <div required x="true" y="false">
   Boolean
+</div>
+```
+
+### Array attributes
+
+If you pass an Array as attribute value, it will be flattened and joined using `" "` as separator.
+
+```crystal
+class ExamplePage
+  include Blueprint::HTML
+
+  BASE_CLASSES = "bg-white shadow border"
+  TEXT_CLASSES = ["text-lg", "font-medium"]
+
+  private def blueprint
+    div class: [BASE_CLASSES, TEXT_CLASSES] do
+      "Hello"
+    end
+  end
+end
+
+page = ExamplePage.new
+puts page.to_html
+```
+
+Output:
+
+```html
+<div class="bg-white shadow border text-lg font-medium">
+  Hello
 </div>
 ```
 
