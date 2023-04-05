@@ -3,8 +3,35 @@ on:
   push:
 
 jobs:
-  ci:
-    name: Test & Lint
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download source
+        uses: actions/checkout@v3
+
+      - name: Install Crystal
+        uses: crystal-lang/install-crystal@v1
+
+      - name: Cache Shards
+        uses: actions/cache@v3
+        with:
+          path: |
+            ./lib
+            ./bin
+          key: shards-${{ hashFiles('shard.yml') }}
+
+      - name: Install shards
+        run: shards install
+
+      - name: Check code format
+        run: crystal tool format --check
+
+      - name: Lint with ameba
+        run: bin/ameba
+
+  test:
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - name: Download source
@@ -15,12 +42,3 @@ jobs:
 
       - name: Run tests
         run: crystal spec
-
-      - name: Install shards
-        run: shards install
-
-      - name: Check code format
-        run: crystal tool format --check
-
-      - name: Lint with ameba
-        run: bin/ameba
