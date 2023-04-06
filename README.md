@@ -170,6 +170,32 @@ Output:
 </span>
 ```
 
+It is possible even use structs instead classes:
+```crystal
+struct Card
+  include Blueprint::HTML
+
+  private def blueprint
+    div(class: "card") { "Hello" }
+  end
+end
+
+# or using `record` macro
+record Alert, message : String do
+  include Blueprint::HTML
+
+  def blueprint
+    div(class: "alert") { @message }
+  end
+end
+
+card = Card.new
+card.to_html # => <div class="card">Hello</div>
+
+alert = Alert.new(message: "Hello")
+alert.to_html # => <div class="alert">Hello</div>
+```
+
 ### Creating components
 
 You can create reusable components using Blueprint, you just need to pass a component instance to the `#render` method.
