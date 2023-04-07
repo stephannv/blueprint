@@ -438,6 +438,70 @@ Output:
 </html>
 ```
 
+
+If you have more than one layout, you can take advantage of generics:
+
+```crystal
+class MainLayout
+  include Blueprint::HTML
+
+  private def blueprint(&)
+    html do
+      body do
+        div class: "main-layout" do
+          yield
+        end
+      end
+    end
+  end
+end
+
+class AuthLayout
+  include Blueprint::HTML
+
+  private def blueprint(&)
+    html do
+      body do
+        div class: "auth-layout" do
+          yield
+        end
+      end
+    end
+  end
+end
+
+class BasePage(T)
+  include Blueprint::HTML
+
+  private def envelope(&)
+    render(T.new) do
+      yield
+    end
+  end
+end
+
+class LoginPage < BasePage(AuthLayout)
+  private def blueprint
+    h1 { "Sign In" }
+  end
+end
+
+page = LoginPage.new
+puts page.to_html
+```
+
+Output:
+
+```html
+<html>
+  <body>
+    <div class="auth-layout">
+      <h1>Sign In</h1>
+    </div>
+  </body>
+</html>
+```
+
 ### NamedTuple attributes
 
 If you pass a NamedTuple attribute to some element, it will be flattened with a dash between each level. This is useful for `data-*` and `aria-*` attributes.
