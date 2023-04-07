@@ -13,18 +13,26 @@ module Blueprint::HTML
   def to_html : String
     return "" unless render?
 
-    blueprint
+    envelope { blueprint }
+
     @buffer.to_s
   end
 
   def to_html(&) : String
     return "" unless render?
 
-    blueprint { capture_content { yield } }
+    envelope do
+      blueprint { capture_content { yield } }
+    end
+
     @buffer.to_s
   end
 
   private def render? : Bool
     true
+  end
+
+  private def envelope(&) : Nil
+    yield
   end
 end

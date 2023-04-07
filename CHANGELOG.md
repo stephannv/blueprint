@@ -7,7 +7,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Added
-- Allow conditional rendering (#26)
+- Allow conditional rendering
+- Handles array attributes
+- Adds `#envelope(&)` method
 
 ### Changed
 - Requires `require "blueprint/html"` to use `Blueprint::HTML` module

@@ -37,6 +37,7 @@ Output:
   * [Passing content](#passing-content)
   * [Composing components](#composing-components)
   * [Conditional rendering](#conditional-rendering)
+  * [Enveloping](#enveloping)
   * [NamedTuple attributes](#namedtuple-attributes)
   * [Boolean attributes](#boolean-attributes)
   * [Array attributes](#array-attributes)
@@ -388,6 +389,53 @@ Output:
 
 ```html
 <h1>Hello Blueprint</h1>
+```
+
+### Enveloping
+
+By overriding the `#envelope(&)` method, you can create a wrapper around blueprint content. This is useful when defining layouts for pages, for example.
+
+```crystal
+class MainLayout
+  include Blueprint::HTML
+
+  private def blueprint(&)
+    html do
+      body do
+        yield
+      end
+    end
+  end
+end
+
+class BasePage
+  include Blueprint::HTML
+
+  private def envelope(&)
+    render(MainLayout.new) do
+      yield
+    end
+  end
+end
+
+class HomePage < BasePage
+  private def blueprint
+    h1 { "Home" }
+  end
+end
+
+page = HomePage.new
+puts page.to_html
+```
+
+Output:
+
+```html
+<html>
+  <body>
+    <h1>Home</h1>
+  </body>
+</html>
 ```
 
 ### NamedTuple attributes
