@@ -1,36 +1,20 @@
-# Blueprint
+<p align="center">
+  <a href="https://blueprint.gunbolt.org" target="_blank">
+    <picture>
+      <img alt="Blueprint" src="https://raw.githubusercontent.com/gunbolt/blueprint/HEAD/.github/blueprint-logo.svg" width="200" height="200" style="max-width: 100%;">
+    </picture>
+  </a>
+</p>
 
-Blueprint is a framework for writing reusable and testable HTML templates in 
-plain Crystal, allowing an oriented object approach when building web views.
+<p align="center">
+  A framework for writing reusable and testable HTML templates in plain Crystal.
+</p>
 
-```crystal
-class MyForm
-  include Blueprint::HTML
+------
 
-  private def blueprint
-    div class: "mb-3" do
-      label(for: "password") { "Password" }
-      input type: "password", id: "password"
-    end
-  end
-end
-```
+## Documentation
 
-Output:
-
-```html
-<div class="mb-3">
-  <label for="password">Password</label>
-  <input type="password" id="password">
-</div>
-```
-
-## Getting Started
-Check out the docs website: <https://blueprint.gunbolt.org>
-
-## Development
-
-TODO: Write development instructions here
+For full documentation, visit <https://blueprint.gunbolt.org>.
 
 ## Contributing
 
@@ -39,7 +23,3 @@ TODO: Write development instructions here
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
-
-## Contributors
-
-- [Stephann V.](https://github.com/stephannv) - creator and maintainer
