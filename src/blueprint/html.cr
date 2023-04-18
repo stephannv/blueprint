@@ -6,6 +6,7 @@ require "./html/element_registrar"
 require "./html/renderer"
 require "./html/standard_elements"
 require "./html/utils"
+require "./html/builder"
 
 module Blueprint::HTML
   @buffer = IO::Memory.new
