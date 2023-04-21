@@ -1,13 +1,13 @@
 require "../svg/component"
 
 module Blueprint::HTML
-  def svg(**attributes, &)
+  private def svg(**attributes, &) : Nil
     render Blueprint::SVG::Component.new(**attributes) do |component|
       with component yield
     end
   end
 
-  def svg(**attributes)
+  private def svg(**attributes) : Nil
     svg(**attributes) { }
   end
 end

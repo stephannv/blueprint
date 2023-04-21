@@ -10,37 +10,33 @@ private NORMAL_ELEMENTS = %i[
 private VOID_ELEMENTS  = %i[area base br col embed hr img input link meta source track wbr]
 private EMPTY_ELEMENTS = %i[iframe portal]
 
-private macro define_dummy_class
-  private class DummyPage
-    include Blueprint::HTML
+private class DummyPage
+  include Blueprint::HTML
 
-    private def blueprint
-      {% for element in NORMAL_ELEMENTS %}
-        {{element.id}}
-        {{element.id}}(attribute: "test")
-        {{element.id}} { "content" }
-        {{element.id}}(attribute: "test") { "content" }
-      {% end %}
+  private def blueprint
+    {% for element in NORMAL_ELEMENTS %}
+      {{element.id}}
+      {{element.id}}(attribute: "test")
+      {{element.id}} { "content" }
+      {{element.id}}(attribute: "test") { "content" }
+    {% end %}
 
-      {% for element in VOID_ELEMENTS %}
-        {{element.id}}
-        {{element.id}}(attribute: "test")
-      {% end %}
+    {% for element in VOID_ELEMENTS %}
+      {{element.id}}
+      {{element.id}}(attribute: "test")
+    {% end %}
 
-      {% for element in EMPTY_ELEMENTS %}
-        {{element.id}}
-        {{element.id}}(attribute: "test")
-      {% end %}
+    {% for element in EMPTY_ELEMENTS %}
+      {{element.id}}
+      {{element.id}}(attribute: "test")
+    {% end %}
 
-      select_tag
-      select_tag(attribute: "test")
-      select_tag { "content" }
-      select_tag(attribute: "test") { "content" }
-    end
+    select_tag
+    select_tag(attribute: "test")
+    select_tag { "content" }
+    select_tag(attribute: "test") { "content" }
   end
 end
-
-define_dummy_class
 
 describe "Blueprint::HTML standard HTML elements" do
   it "defines all base HTML elements helper methods" do
