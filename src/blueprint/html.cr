@@ -1,12 +1,13 @@
 require "html"
 
 require "./html/attributes_parser"
+require "./html/builder"
 require "./html/content_capture"
 require "./html/element_registrar"
 require "./html/renderer"
 require "./html/standard_elements"
+require "./html/svg"
 require "./html/utils"
-require "./html/builder"
 
 module Blueprint::HTML
   @buffer = IO::Memory.new
