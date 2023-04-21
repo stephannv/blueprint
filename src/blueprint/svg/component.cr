@@ -3,7 +3,7 @@ struct Blueprint::SVG::Component(T)
 
   @attributes : T
 
-  def self.new(**kwargs)
+  def self.new(**kwargs) : Blueprint::SVG::Component
     new kwargs
   end
 
@@ -16,7 +16,7 @@ struct Blueprint::SVG::Component(T)
     @attributes = attributes
   end
 
-  def blueprint(&)
+  private def blueprint(&) : Nil
     element :svg, **@attributes do
       yield
     end
