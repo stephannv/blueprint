@@ -31,7 +31,7 @@ class Alert
   private def blueprint
     div class: "alert alert-success" do
       h4(class: "alert-heading") { "Well done!" }
-      p { "Hellow Word" }
+      p { "Hello Word" }
     end
   end
 end
