@@ -23,6 +23,30 @@
 
 ------
 
+Example:
+```crystal
+class Alert
+  include Blueprint::HTML
+
+  private def blueprint
+    div class: "alert alert-success" do
+      h4(class: "alert-heading") { "Well done!" }
+      p { "Hellow Word" }
+    end
+  end
+end
+
+Alert.new.to_html
+```
+
+Output:
+```html
+<div class="alert alert-success">
+  <h4 class="alert-heading">Well done!</h4>
+  <p>Hello World</p>
+</div>
+```
+
 ## Documentation
 
 For full documentation, visit <https://stephannv.github.io/blueprint-docs/>.
