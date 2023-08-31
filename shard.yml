@@ -7,11 +7,11 @@ version: 0.4.0
 authors:
   - Stephann V. <3025661+stephannv@users.noreply.github.com>
 
-crystal: 1.8.1
+crystal: 1.9.2
 
 license: MIT
 
 development_dependencies:
   ameba:
     github: crystal-ameba/ameba
-    version: 1.4.3
+    version: 1.5.0
