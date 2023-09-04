@@ -36,7 +36,7 @@ module Blueprint::HTML
   end
 
   private def append_array_attribute(io : String::Builder, attribute_name, attribute_value : Array) : Nil
-    append_normal_attribute(io, attribute_name, attribute_value.flatten.join(" "))
+    append_normal_attribute(io, attribute_name, attribute_value.flatten.compact.join(" "))
   end
 
   private def process_named_tuple_attribute(io : String::Builder, attribute_name, attribute_value : NamedTuple) : Nil

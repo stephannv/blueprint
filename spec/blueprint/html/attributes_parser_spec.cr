@@ -9,7 +9,7 @@ private class DummyPage
     section(v_model: "user.name", "@click": "doSomething") { "Transform attribute name" }
     input(disabled: true, checked: false, outline: "true", border: "false")
     nav(aria: {target: "#home", selected: "false", enabled: true, hidden: false}) { "Nested attributes" }
-    div(class: ["a", "b", ["c", "d"]]) { "Array attributes" }
+    div(class: ["a", nil, "b", ["c", nil, "d"]]) { "Array attributes" }
   end
 end
 
@@ -59,7 +59,7 @@ describe "Blueprint::HTML attributes parser" do
     page.to_html.should contain(nav)
   end
 
-  it "flattens and joins array attributes" do
+  it "flattens, compacts and joins array attributes" do
     page = DummyPage.new
     nav = <<-HTML.strip
       <div class="a b c d">Array attributes</div>
