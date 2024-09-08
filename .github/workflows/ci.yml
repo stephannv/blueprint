@@ -3,15 +3,18 @@ on:
   push:
 
 jobs:
-  lint:
-    name: Lint
+  ci:
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - name: Download source
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1
+
+      - name: Run tests
+        run: crystal spec
 
       - name: Cache Shards
         uses: actions/cache@v3
@@ -29,16 +32,3 @@ jobs:
 
       - name: Lint with ameba
         run: bin/ameba
-
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download source
-        uses: actions/checkout@v3
-
-      - name: Install Crystal
-        uses: crystal-lang/install-crystal@v1
-
-      - name: Run tests
-        run: crystal spec
