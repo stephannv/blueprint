@@ -10,14 +10,14 @@ module Blueprint::HTML
     end
   end
 
-  protected def render_to(buffer : IO::Memory) : Nil
+  protected def render_to(buffer : String::Builder) : Nil
     return unless render?
 
     @buffer = buffer
     blueprint
   end
 
-  protected def render_to(buffer : IO::Memory, &) : Nil
+  protected def render_to(buffer : String::Builder, &) : Nil
     return unless render?
 
     @buffer = buffer
