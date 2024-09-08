@@ -9,6 +9,10 @@ module Blueprint::HTML
     private def {{method_name.id}}(**attributes) : Nil
       element({{tag}}, **attributes) { "" }
     end
+
+    private def {{method_name.id}}(__content__ : String, **attributes) : Nil
+      element({{tag}}, __content__, **attributes)
+    end
   end
 
   macro register_empty_element(method_name, tag = nil)
@@ -33,6 +37,17 @@ module Blueprint::HTML
     @buffer << parse_attributes(attributes)
     @buffer << ">"
     capture_content { with self yield }
+    @buffer << "</"
+    @buffer << _tag_name
+    @buffer << ">"
+  end
+
+  private def element(_tag_name : String | Symbol, __content__ : String, **attributes) : Nil
+    @buffer << "<"
+    @buffer << _tag_name
+    @buffer << parse_attributes(attributes)
+    @buffer << ">"
+    @buffer << __content__
     @buffer << "</"
     @buffer << _tag_name
     @buffer << ">"
