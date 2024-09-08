@@ -10,7 +10,7 @@ require "./html/svg"
 require "./html/utils"
 
 module Blueprint::HTML
-  @buffer = IO::Memory.new
+  @buffer = String::Builder.new
 
   def to_html : String
     return "" unless render?
