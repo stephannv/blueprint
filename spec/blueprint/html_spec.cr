@@ -78,8 +78,8 @@ private class ExamplePage
   end
 
   private def article(title : String, content : String)
-    render ArticleComponent.new(title) do |c|
-      c.body { content }
+    render ArticleComponent.new(title) do |article|
+      article.body { content }
     end
   end
 end

@@ -2,7 +2,7 @@ name: blueprint
 description: |
   Blueprint is a lib for writing reusable and testable HTML templates in plain Crystal, allowing an OOP (Oriented Object Programming) approach when building your views.
 
-version: 0.5.1
+version: 0.6.0
 
 authors:
   - Stephann V. <3025661+stephannv@users.noreply.github.com>
@@ -14,4 +14,4 @@ license: MIT
 development_dependencies:
   ameba:
     github: crystal-ameba/ameba
-    version: 1.5.0
+    version: 1.6.1

@@ -2,9 +2,23 @@
 
 All notable changes to this project will be documented on <https://stephannv.github.io/blueprint-docs/>.
 
+## [0.6.0] - 2023-04-25
+
+Allows passing content to elements without using blocks, eg.
+
+```crystal
+  h1 { "Hello World!" }
+  # or
+  h1 "Hello World!"
+```
+
+Release details: <https://stephannv.github.io/blueprint-docs/changelogs/v0.6.0/>
+
 ## [0.5.1] - 2023-04-25
 
 Fix Crystal version string requirement.
+
+Release details: <https://stephannv.github.io/blueprint-docs/changelogs/v0.5.1/>
 
 ## [0.5.0] - 2023-04-25
 

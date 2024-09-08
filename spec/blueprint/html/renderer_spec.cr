@@ -10,9 +10,9 @@ private class DummyPage
       span { "Passing content to component" }
     end
 
-    render ComplexComponent.new do |c|
-      c.title { "My card" }
-      c.body { "Card content" }
+    render ComplexComponent.new do |card|
+      card.title { "My card" }
+      card.body { "Card content" }
       footer { "Footer tag" }
     end
   end

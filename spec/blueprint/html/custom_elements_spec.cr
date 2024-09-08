@@ -9,6 +9,7 @@ private class DummyPage
   private def blueprint
     div do
       v_btn(href: "#home", data: {id: 12, visible: true, disabled: false}) { "Home" }
+      v_btn("Contact", href: "#contact")
       card
     end
   end
@@ -19,6 +20,15 @@ describe "Blueprint::HTML custom elements registration" do
     page = DummyPage.new
     expected_html = <<-HTML.strip
       <v-btn href="#home" data-id="12" data-visible>Home</v-btn>
+    HTML
+
+    page.to_html.should contain expected_html
+  end
+
+  it "allows passing content as first argument" do
+    page = DummyPage.new
+    expected_html = <<-HTML.strip
+      <v-btn href="#contact">Contact</v-btn>
     HTML
 
     page.to_html.should contain expected_html
