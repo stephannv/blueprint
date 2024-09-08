@@ -17,7 +17,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/stephannv/blueprint/actions/workflows/ci.yml"><img src="https://github.com/stephannv/blueprint/actions/workflows/ci.yml/badge.svg" alt="Tests & Code Format"></a>
+  <a href="https://github.com/stephannv/blueprint/actions/workflows/ci.yml"><img src="https://github.com/stephannv/blueprint/actions/workflows/ci.yml/badge.svg" alt="Tests"></a>
   <a href="https://github.com/stephannv/blueprint/actions/workflows/weekly.yml"><img src="https://github.com/stephannv/blueprint/actions/workflows/weekly.yml/badge.svg" alt="Weekly CI"></a>
 </p>
 
