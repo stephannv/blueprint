@@ -1,5 +1,5 @@
-module Blueprint::HTML
-  private def capture_content(&) : Nil
+module Blueprint::HTML::BlockRenderer
+  private def render_block(&) : Nil
     buffer_size_before_block_evaluation = @buffer.bytesize
     content = with self yield
     if buffer_size_before_block_evaluation == @buffer.bytesize

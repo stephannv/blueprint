@@ -1,5 +1,5 @@
 # :nodoc:
-module Blueprint::HTML
+module Blueprint::HTML::ComponentRenderer
   private def render(blueprint : Blueprint::HTML) : Nil
     blueprint.render_to(@buffer)
   end
@@ -21,6 +21,6 @@ module Blueprint::HTML
     return unless render?
 
     @buffer = buffer
-    blueprint { capture_content { yield } }
+    blueprint { render_block { yield } }
   end
 end
