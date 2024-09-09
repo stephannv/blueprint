@@ -2,7 +2,35 @@
 
 All notable changes to this project will be documented on <https://stephannv.github.io/blueprint-docs/>.
 
-## [0.6.0] - 2023-04-25
+## [0.7.0] - 2023-09-09
+
+- Allow passing comment via argument
+```crystal
+comment "Cool comment here"
+```
+
+- Allow rendering unsafe content using `unsafe_raw`
+```crystal
+unsafe_raw "<script>alert('Danger!')</script>"
+```
+
+- Add `RawHtml` to priorize performance over safety
+```crystal
+require "blueprint/unsafe_html"
+class MyHTML
+  include Blueprint::UnsafeHTML
+
+  def blueprint
+    div "<script>alert('Danger!')</script>" # this will not be escaped
+  end
+end
+```
+
+- Code refactoring to improve performance
+- Fix safety when passing content to elements via argument
+
+
+## [0.6.0] - 2023-09-08
 
 Allows passing content to elements without using blocks, eg.
 
@@ -14,13 +42,13 @@ Allows passing content to elements without using blocks, eg.
 
 Release details: <https://stephannv.github.io/blueprint-docs/changelogs/v0.6.0/>
 
-## [0.5.1] - 2023-04-25
+## [0.5.1] - 2023-09-08
 
 Fix Crystal version string requirement.
 
 Release details: <https://stephannv.github.io/blueprint-docs/changelogs/v0.5.1/>
 
-## [0.5.0] - 2023-04-25
+## [0.5.0] - 2023-09-08
 
 Performance improvements: Increased speed execution by 15%.
 ```
