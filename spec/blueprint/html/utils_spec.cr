@@ -16,6 +16,9 @@ private class DummyPage
 
     comment { "This is an html comment" }
     comment "This is another html comment"
+
+    unsafe_raw "<script>Dangerous script</script>"
+    div { unsafe_raw { "<script>Another dangerous script</script>" } }
   end
 end
 
@@ -55,6 +58,20 @@ describe "Blueprint::HTML utils" do
       page = DummyPage.new
 
       page.to_html.should contain("<i>Hi</i> User")
+    end
+  end
+
+  describe "#unsafe_raw" do
+    it "renders content passed via argument without escaping" do
+      page = DummyPage.new
+
+      page.to_html.should contain("<script>Dangerous script</script>")
+    end
+
+    it "renders content passed via block without escaping" do
+      page = DummyPage.new
+
+      page.to_html.should contain("<div><script>Another dangerous script</script></div>")
     end
   end
 end

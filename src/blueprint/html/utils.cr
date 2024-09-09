@@ -22,4 +22,12 @@ module Blueprint::HTML
   private def whitespace : Nil
     @buffer << " "
   end
+
+  def unsafe_raw(content : String) : Nil
+    @buffer << content
+  end
+
+  def unsafe_raw(&) : Nil
+    @buffer << yield
+  end
 end
