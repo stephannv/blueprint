@@ -7,7 +7,7 @@ module Blueprint::HTML
     end
 
     private def {{method_name.id}}(**attributes) : Nil
-      element({{tag}}, **attributes) { "" }
+      element({{tag}}, "", **attributes)
     end
 
     private def {{method_name.id}}(__content__ : String, **attributes) : Nil
@@ -19,7 +19,7 @@ module Blueprint::HTML
     {% tag ||= method_name.tr("_", "-") %}
 
     private def {{method_name.id}}(**attributes) : Nil
-      element({{tag}}, **attributes) { "" }
+      element({{tag}}, "", **attributes)
     end
   end
 
@@ -47,7 +47,7 @@ module Blueprint::HTML
     @buffer << _tag_name
     @buffer << parse_attributes(attributes)
     @buffer << ">"
-    @buffer << __content__
+    ::HTML.escape(__content__, @buffer)
     @buffer << "</"
     @buffer << _tag_name
     @buffer << ">"
