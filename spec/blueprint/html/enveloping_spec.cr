@@ -22,7 +22,7 @@ end
 
 private class IndexPage < BasePage
   private def blueprint
-    h1 { "Home" }
+    h1 "Home"
   end
 end
 
