@@ -4,10 +4,10 @@ describe Blueprint::HTML do
   describe ".build" do
     it "renders given html structure" do
       html = Blueprint::HTML.build do
-        h1 { "Hello" }
+        h1 "Hello"
 
         div do
-          span { "World" }
+          span "World"
         end
       end
 

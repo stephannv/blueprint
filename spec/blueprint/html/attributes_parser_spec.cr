@@ -4,12 +4,12 @@ private class DummyPage
   include Blueprint::HTML
 
   private def blueprint
-    div(class: "hello", id: "first") { "Normal attributes" }
-    span(id: 421, float: 2.4) { "Non-string attribute values" }
-    section(v_model: "user.name", "@click": "doSomething") { "Transform attribute name" }
-    input(disabled: true, checked: false, outline: "true", border: "false")
-    nav(aria: {target: "#home", selected: "false", enabled: true, hidden: false}) { "Nested attributes" }
-    div(class: ["a", nil, "b", ["c", nil, "d"]]) { "Array attributes" }
+    div "Normal attributes", class: "hello", id: "first"
+    span "Non-string attribute values", id: 421, float: 2.4
+    section "Transform attribute name", v_model: "user.name", "@click": "doSomething"
+    input disabled: true, checked: false, outline: "true", border: "false"
+    nav "Nested attributes", aria: {target: "#home", selected: "false", enabled: true, hidden: false}
+    div "Array attributes", class: ["a", nil, "b", ["c", nil, "d"]]
   end
 end
 

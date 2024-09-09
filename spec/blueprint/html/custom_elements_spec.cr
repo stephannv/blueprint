@@ -4,7 +4,7 @@ private class DummyPage
   include Blueprint::HTML
 
   register_element :v_btn
-  register_element :card, "v-card"
+  register_element :card, "MyCard"
 
   private def blueprint
     div do
@@ -37,7 +37,7 @@ describe "Blueprint::HTML custom elements registration" do
   it "allows empty custom elements" do
     page = DummyPage.new
     expected_html = <<-HTML.strip
-      <v-card></v-card>
+      <MyCard></MyCard>
     HTML
 
     page.to_html.should contain expected_html

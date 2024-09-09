@@ -8,7 +8,7 @@ private class BaseLayout
 
     html lang: "en" do
       head do
-        title { "Test page" }
+        title "Test page"
 
         meta charset: "utf-8"
         meta name: "viewport", content: "width=device-width,initial-scale=1"
@@ -30,9 +30,9 @@ private class NavbarComponent
   private def blueprint
     nav do
       ul do
-        li { a(href: "/home") { "Home" } }
-        li { a(href: "/about") { "About" } }
-        li { a(href: "/contact") { "Contact" } }
+        li { a("Home", href: "/home") }
+        li { a("About", href: "/about") }
+        li { a("Contact", href: "/contact") }
       end
     end
   end
@@ -51,9 +51,7 @@ private class ArticleComponent
   end
 
   def title
-    div class: "p-2 text-lg font-bold" do
-      @title
-    end
+    div @title, class: "p-2 text-lg font-bold"
   end
 
   def body(&)
