@@ -12,6 +12,7 @@ private class DummyPage
     render(DummyComponent.new) { "<script>alert('DummyComponent')</script>" }
     div(class: "some-class\" onblur=\"alert('Attribute')")
     comment { "--><script>alert('Plain Text')</script><!--" }
+    comment "--><script>alert('Another plain text')</script><!--"
     v_btn "<script>alert('content')</script>"
     v_btn(class: "some-class\" onclick=\"alert('Attribute')") { "<script>alert('hello')</script>" }
   end
@@ -71,10 +72,19 @@ describe "Blueprint::HTML safety" do
     page.to_html.should contain(expected_html)
   end
 
-  it "escapes comment contents" do
+  it "escapes comment content passed via block" do
     page = DummyPage.new
     expected_html = <<-HTML.strip
       <!----&gt;&lt;script&gt;alert(&#39;Plain Text&#39;)&lt;/script&gt;&lt;!---->
+    HTML
+
+    page.to_html.should contain(expected_html)
+  end
+
+  it "escapes comment content passed via argument" do
+    page = DummyPage.new
+    expected_html = <<-HTML.strip
+      <!----&gt;&lt;script&gt;alert(&#39;Another plain text&#39;)&lt;/script&gt;&lt;!---->
     HTML
 
     page.to_html.should contain(expected_html)

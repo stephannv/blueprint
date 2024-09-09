@@ -13,6 +13,12 @@ module Blueprint::HTML
     @buffer << "-->"
   end
 
+  private def comment(content : String) : Nil
+    @buffer << "<!--"
+    ::HTML.escape(content, @buffer)
+    @buffer << "-->"
+  end
+
   private def whitespace : Nil
     @buffer << " "
   end

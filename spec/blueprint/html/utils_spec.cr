@@ -15,6 +15,7 @@ private class DummyPage
     plain "User"
 
     comment { "This is an html comment" }
+    comment "This is another html comment"
   end
 end
 
@@ -36,10 +37,16 @@ describe "Blueprint::HTML utils" do
   end
 
   describe "#comment" do
-    it "renders an html comment" do
+    it "renders an html comment passed via block" do
       page = DummyPage.new
 
       page.to_html.should contain("<!--This is an html comment-->")
+    end
+
+    it "renders an html comment passed via argument" do
+      page = DummyPage.new
+
+      page.to_html.should contain("<!--This is another html comment-->")
     end
   end
 
