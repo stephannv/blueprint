@@ -1,4 +1,4 @@
-module Blueprint::HTML
+module Blueprint::HTML::Utils
   private def plain(content : String) : Nil
     ::HTML.escape(content, @buffer)
   end

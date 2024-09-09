@@ -1,6 +1,6 @@
 require "../svg/component"
 
-module Blueprint::HTML
+module Blueprint::HTML::SVG
   private def svg(**attributes, &) : Nil
     render Blueprint::SVG::Component.new(**attributes) do |component|
       with component yield
@@ -8,6 +8,6 @@ module Blueprint::HTML
   end
 
   private def svg(**attributes) : Nil
-    svg(**attributes) { }
+    render Blueprint::SVG::Component.new(**attributes)
   end
 end

@@ -1,10 +1,11 @@
 module Blueprint::HTML
-  # EXPERIMENTAL
+  @[Experimental]
   def self.build(&) : String
     Builder.build { |builder| with builder yield }
   end
 
-  private struct Builder
+  @[Experimental]
+  struct Builder
     include Blueprint::HTML
 
     def self.build(&) : String
