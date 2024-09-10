@@ -10,6 +10,8 @@ private class DummyPage
       b "World"
     end
 
+    span { plain { "Plain!" } }
+
     i "Hi"
     whitespace
     plain "User"
@@ -24,10 +26,16 @@ end
 
 describe "Blueprint::HTML utils" do
   describe "#plain" do
-    it "renders plain text" do
+    it "renders plain text passed via argument" do
       page = DummyPage.new
 
       page.to_html.should contain("<div>Hello<b>World</b></div>")
+    end
+
+    it "renders plain text passed via block" do
+      page = DummyPage.new
+
+      page.to_html.should contain("<span>Plain!</span>")
     end
   end
 

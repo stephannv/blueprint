@@ -9,18 +9,4 @@ module Blueprint::HTML::ComponentRenderer
       with self yield blueprint
     end
   end
-
-  protected def render_to(buffer : String::Builder) : Nil
-    return unless render?
-
-    @buffer = buffer
-    blueprint
-  end
-
-  protected def render_to(buffer : String::Builder, &) : Nil
-    return unless render?
-
-    @buffer = buffer
-    blueprint { render_block { yield } }
-  end
 end
