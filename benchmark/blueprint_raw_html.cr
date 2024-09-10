@@ -1,8 +1,7 @@
-require "benchmark"
-require "../src/blueprint/html"
+require "../src/blueprint/raw_html"
 
-class Example::LayoutComponent
-  include Blueprint::HTML
+class BlueprintRawHTML::LayoutComponent
+  include Blueprint::RawHTML
 
   def initialize(@title = "Example"); end
 
@@ -31,11 +30,11 @@ class Example::LayoutComponent
   end
 end
 
-class Example::Page
-  include Blueprint::HTML
+class BlueprintRawHTML::Page
+  include Blueprint::RawHTML
 
   def blueprint
-    render Example::LayoutComponent.new do
+    render BlueprintRawHTML::LayoutComponent.new do
       h1 "Hi"
 
       table id: "test", class: "a b c d e f g" do
@@ -63,19 +62,4 @@ class Example::Page
       end
     end
   end
-end
-
-a = Example::Page.new.to_html
-b = Example::Page.new.to_html
-
-raise "Different results" unless a == b
-
-puts(
-  Benchmark.measure do
-    300000.times { Example::Page.new.to_html }
-  end
-)
-
-Benchmark.ips do |x|
-  x.report("Page") { Example::Page.new.to_html }
 end
