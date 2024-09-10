@@ -16,7 +16,7 @@ module Blueprint::RawHTML
   private def render_block(&) : Nil
     buffer_size_before_block_evaluation = @buffer.bytesize
     content = with self yield
-    @buffer << content.to_s if buffer_size_before_block_evaluation == @buffer.bytesize
+    @buffer << content if buffer_size_before_block_evaluation == @buffer.bytesize
   end
 
   private def element(_tag_name : String | Symbol, __content__ : String, **attributes) : Nil
@@ -37,12 +37,6 @@ module Blueprint::RawHTML
   private def comment(&) : Nil
     @buffer << "<!--"
     @buffer << yield
-    @buffer << "-->"
-  end
-
-  private def comment(content : String) : Nil
-    @buffer << "<!--"
-    @buffer << content
     @buffer << "-->"
   end
 end
