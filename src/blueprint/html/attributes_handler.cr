@@ -1,5 +1,5 @@
-module Blueprint::HTML::AttributesParser
-  private def parse_attributes(attributes : NamedTuple)
+module Blueprint::HTML::AttributesHandler
+  private def append_attributes(attributes : NamedTuple) : Nil
     attributes.each do |name, value|
       append_attribute(name, value)
     end

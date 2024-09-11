@@ -1,4 +1,3 @@
-# :nodoc:
 module Blueprint::HTML::ComponentRenderer
   private def render(blueprint : Blueprint::HTML) : Nil
     blueprint.render_to(@buffer)
@@ -6,7 +5,7 @@ module Blueprint::HTML::ComponentRenderer
 
   private def render(blueprint : Blueprint::HTML, &) : Nil
     blueprint.render_to(@buffer) do
-      with self yield blueprint
+      yield blueprint
     end
   end
 end
