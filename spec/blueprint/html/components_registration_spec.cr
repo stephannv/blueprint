@@ -2,30 +2,30 @@ require "../../spec_helper"
 
 require "../../../src/blueprint/html/component_registrar"
 
-private class DummyPage
+private class ExamplePage
   include Blueprint::HTML
   include Blueprint::HTML::ComponentRegistrar
 
-  register_component :required_block_component, RequiredBlockComponent
-  register_component :no_block_component, NoBlockComponent, block: false
-  register_component :optional_block_component, OptionalBlockComponent, block: :optional
+  register_component :component_with_block, ComponentWithBlock
+  register_component :component_without_block, ComponentWithoutBlock, block: false
+  register_component :component_with_optional_block, ComponentWithOptionalBlock, block: :optional
 
   private def blueprint
-    required_block_component do
+    component_with_block do
       "Component with required block"
     end
 
-    no_block_component
+    component_without_block
 
-    optional_block_component do
+    component_with_optional_block do
       "Component with optional block"
     end
 
-    optional_block_component
+    component_with_optional_block
   end
 end
 
-private class RequiredBlockComponent
+private class ComponentWithBlock
   include Blueprint::HTML
 
   private def blueprint(&)
@@ -35,7 +35,7 @@ private class RequiredBlockComponent
   end
 end
 
-private class NoBlockComponent
+private class ComponentWithoutBlock
   include Blueprint::HTML
 
   private def blueprint
@@ -43,7 +43,7 @@ private class NoBlockComponent
   end
 end
 
-private class OptionalBlockComponent
+private class ComponentWithOptionalBlock
   include Blueprint::HTML
 
   private def blueprint(&)
@@ -53,10 +53,10 @@ private class OptionalBlockComponent
   end
 end
 
-describe "Blueprint::HTML components registration" do
+describe "components registration" do
   it "allows component helper definition" do
-    page = DummyPage.new
-    expected_html = <<-HTML.strip
+    page = ExamplePage.new
+    expected_html = normalize_html <<-HTML
       <div id="required-block">Component with required block</div>
     HTML
 
@@ -64,8 +64,8 @@ describe "Blueprint::HTML components registration" do
   end
 
   it "allows component helper definition without required block" do
-    page = DummyPage.new
-    expected_html = <<-HTML.strip
+    page = ExamplePage.new
+    expected_html = normalize_html <<-HTML
       <h1>Component without block</h1>
     HTML
 
@@ -73,8 +73,8 @@ describe "Blueprint::HTML components registration" do
   end
 
   it "allows component helper definition with optional block" do
-    page = DummyPage.new
-    expected_html = <<-HTML.strip.gsub(/\R\s+/, "")
+    page = ExamplePage.new
+    expected_html = normalize_html <<-HTML
       <div id="optional-block">Component with optional block</div>
       <div id="optional-block"></div>
     HTML

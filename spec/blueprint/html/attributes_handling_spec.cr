@@ -1,6 +1,6 @@
 require "../../spec_helper"
 
-private class DummyPage
+private class ExamplePage
   include Blueprint::HTML
 
   private def blueprint
@@ -13,10 +13,10 @@ private class DummyPage
   end
 end
 
-describe "Blueprint::HTML attributes parser" do
+describe "attributes handling" do
   it "parses normal attributes" do
-    page = DummyPage.new
-    div = <<-HTML.strip
+    page = ExamplePage.new
+    div = normalize_html <<-HTML
       <div class="hello" id="first">Normal attributes</div>
     HTML
 
@@ -24,8 +24,8 @@ describe "Blueprint::HTML attributes parser" do
   end
 
   it "converts attribute values to string" do
-    page = DummyPage.new
-    span = <<-HTML.strip
+    page = ExamplePage.new
+    span = normalize_html <<-HTML
       <span id="421" float="2.4">Non-string attribute values</span>
     HTML
 
@@ -33,8 +33,8 @@ describe "Blueprint::HTML attributes parser" do
   end
 
   it "replaces `_` by `-` on attribute names" do
-    page = DummyPage.new
-    section = <<-HTML.strip
+    page = ExamplePage.new
+    section = normalize_html <<-HTML
       <section v-model="user.name" @click="doSomething">Transform attribute name</section>
     HTML
 
@@ -42,8 +42,8 @@ describe "Blueprint::HTML attributes parser" do
   end
 
   it "accepts boolean attributes" do
-    page = DummyPage.new
-    input = <<-HTML.strip
+    page = ExamplePage.new
+    input = normalize_html <<-HTML
       <input disabled outline="true" border="false">
     HTML
 
@@ -51,8 +51,8 @@ describe "Blueprint::HTML attributes parser" do
   end
 
   it "expands nested attributes" do
-    page = DummyPage.new
-    nav = <<-HTML.strip
+    page = ExamplePage.new
+    nav = normalize_html <<-HTML
       <nav aria-target="#home" aria-selected="false" aria-enabled>Nested attributes</nav>
     HTML
 
@@ -60,8 +60,8 @@ describe "Blueprint::HTML attributes parser" do
   end
 
   it "flattens, compacts and joins array attributes" do
-    page = DummyPage.new
-    nav = <<-HTML.strip
+    page = ExamplePage.new
+    nav = normalize_html <<-HTML
       <div class="a b c d">Array attributes</div>
     HTML
 

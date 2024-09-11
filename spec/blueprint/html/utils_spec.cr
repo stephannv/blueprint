@@ -1,6 +1,6 @@
 require "../../spec_helper"
 
-private class DummyPage
+private class ExamplePage
   include Blueprint::HTML
 
   private def blueprint
@@ -24,16 +24,16 @@ private class DummyPage
   end
 end
 
-describe "Blueprint::HTML utils" do
+describe "utils" do
   describe "#plain" do
     it "renders plain text passed via argument" do
-      page = DummyPage.new
+      page = ExamplePage.new
 
       page.to_html.should contain("<div>Hello<b>World</b></div>")
     end
 
     it "renders plain text passed via block" do
-      page = DummyPage.new
+      page = ExamplePage.new
 
       page.to_html.should contain("<span>Plain!</span>")
     end
@@ -41,7 +41,7 @@ describe "Blueprint::HTML utils" do
 
   describe "#doctype" do
     it "renders HTML 5 doctype declaration" do
-      page = DummyPage.new
+      page = ExamplePage.new
 
       page.to_html.should contain("<!DOCTYPE html>")
     end
@@ -49,13 +49,13 @@ describe "Blueprint::HTML utils" do
 
   describe "#comment" do
     it "renders an html comment passed via block" do
-      page = DummyPage.new
+      page = ExamplePage.new
 
       page.to_html.should contain("<!--This is an html comment-->")
     end
 
     it "renders an html comment passed via argument" do
-      page = DummyPage.new
+      page = ExamplePage.new
 
       page.to_html.should contain("<!--This is another html comment-->")
     end
@@ -63,7 +63,7 @@ describe "Blueprint::HTML utils" do
 
   describe "#whitespace" do
     it "renders an whitespace" do
-      page = DummyPage.new
+      page = ExamplePage.new
 
       page.to_html.should contain("<i>Hi</i> User")
     end
@@ -71,13 +71,13 @@ describe "Blueprint::HTML utils" do
 
   describe "#unsafe_raw" do
     it "renders content passed via argument without escaping" do
-      page = DummyPage.new
+      page = ExamplePage.new
 
       page.to_html.should contain("<script>Dangerous script</script>")
     end
 
     it "renders content passed via block without escaping" do
-      page = DummyPage.new
+      page = ExamplePage.new
 
       page.to_html.should contain("<div><script>Another dangerous script</script></div>")
     end
