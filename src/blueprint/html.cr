@@ -1,6 +1,6 @@
 require "html"
 
-require "./html/attributes_parser"
+require "./html/attributes_handler"
 require "./html/block_renderer"
 require "./html/builder"
 require "./html/component_renderer"
@@ -12,7 +12,7 @@ require "./html/svg"
 require "./html/utils"
 
 module Blueprint::HTML
-  include Blueprint::HTML::AttributesParser
+  include Blueprint::HTML::AttributesHandler
   include Blueprint::HTML::BlockRenderer
   include Blueprint::HTML::ComponentRenderer
   include Blueprint::HTML::ElementRegistrar
@@ -31,7 +31,7 @@ module Blueprint::HTML
   end
 
   def to_html(&) : String
-    render_to(@buffer) { yield self }
+    render_to(@buffer) { yield }
 
     @buffer.to_s
   end

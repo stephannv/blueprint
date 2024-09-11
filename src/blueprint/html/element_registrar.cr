@@ -3,7 +3,7 @@ module Blueprint::HTML::ElementRegistrar
     {% tag ||= method_name.tr("_", "-") %}
 
     private def {{method_name.id}}(**attributes, &block) : Nil
-      element({{tag}}, **attributes) { with self yield }
+      element({{tag}}, **attributes) { yield }
     end
 
     private def {{method_name.id}}(**attributes) : Nil

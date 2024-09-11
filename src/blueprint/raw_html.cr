@@ -13,16 +13,16 @@ module Blueprint::RawHTML
     @buffer << %(")
   end
 
-  private def render_block(&) : Nil
+  private def capture_content(&) : Nil
     buffer_size_before_block_evaluation = @buffer.bytesize
-    content = with self yield
+    content = yield
     @buffer << content if buffer_size_before_block_evaluation == @buffer.bytesize
   end
 
   private def element(_tag_name : String | Symbol, __content__ : String, **attributes) : Nil
     @buffer << "<"
     @buffer << _tag_name
-    parse_attributes(attributes)
+    append_attributes(attributes)
     @buffer << ">"
     @buffer << __content__
     @buffer << "</"

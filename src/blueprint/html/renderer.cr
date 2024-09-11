@@ -13,7 +13,7 @@ module Blueprint::HTML::Renderer
     @buffer = buffer
 
     envelope do
-      blueprint { render_block { yield } }
+      blueprint { capture_content { yield } }
     end
   end
 

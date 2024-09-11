@@ -5,7 +5,7 @@ module Blueprint::HTML
   end
 
   @[Experimental]
-  struct Builder
+  private struct Builder
     include Blueprint::HTML
 
     def self.build(&) : String
@@ -14,7 +14,7 @@ module Blueprint::HTML
     end
 
     def build(&) : String
-      to_html { with self yield }
+      to_html { yield }
     end
 
     private def blueprint(&) : Nil
