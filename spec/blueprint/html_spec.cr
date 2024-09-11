@@ -86,7 +86,7 @@ describe Blueprint::HTML do
   describe "#to_html" do
     it "renders html" do
       page = ExamplePage.new
-      expected_html = <<-HTML.strip.gsub(/\R\s+/, "")
+      expected_html = normalize_html <<-HTML
         <!DOCTYPE html>
         <html lang="en">
           <head>

@@ -87,9 +87,9 @@ end
 
 describe Blueprint::RawHTML do
   describe "#to_html" do
-    it "renders html" do
+    it "renders html without escaping" do
       page = ExamplePage.new
-      expected_html = <<-HTML.strip.gsub(/\R\s+/, "")
+      expected_html = normalize_html <<-HTML
         <!DOCTYPE html>
         <html lang="en">
           <head>

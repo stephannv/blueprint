@@ -8,7 +8,20 @@ private ELEMENTS = %w(a animate animateMotion animateTransform circle clipPath d
   text textPath title tspan use view
 )
 
-private class DummyPage
+private class ExamplePage
+  include Blueprint::HTML
+
+  private def blueprint
+    svg width: 30, height: 10 do
+      g fill: :red do
+        rect x: 0, y: 0, width: 10, height: 10
+        rect x: 20, y: 0, width: 10, height: 10
+      end
+    end
+  end
+end
+
+private class CompleteExamplePage
   include Blueprint::HTML
 
   private def blueprint
@@ -23,9 +36,23 @@ private class DummyPage
   end
 end
 
-describe "Bluprint::SVG::Component" do
+describe "SVG rendering" do
+  it "allows SVG rendering" do
+    example = ExamplePage.new
+    expected_html = normalize_html <<-HTML
+      <svg width="30" height="10">
+        <g fill="red">
+          <rect x="0" y="0" width="10" height="10"></rect>
+          <rect x="20" y="0" width="10" height="10"></rect>
+        </g>
+      </svg>
+    HTML
+
+    example.to_html.should eq expected_html
+  end
+
   it "defines all SVG element helper methods" do
-    page = DummyPage.new
+    page = CompleteExamplePage.new
     expected_html = String.build do |io|
       io << "<svg>"
       ELEMENTS.each do |tag|

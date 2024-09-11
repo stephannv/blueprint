@@ -1,6 +1,6 @@
 require "../../spec_helper"
 
-private class DummyPage
+private class ExamplePage
   include Blueprint::HTML
 
   private def blueprint
@@ -43,11 +43,11 @@ private class NoRenderComponent
   end
 end
 
-describe "Blueprint::HTML conditional rendering" do
+describe "conditional rendering" do
   context "when component `#render?` returns false" do
     it "doesn't render the component" do
-      page = DummyPage.new
-      expected_html = <<-HTML.strip
+      page = ExamplePage.new
+      expected_html = normalize_html <<-HTML
         <div></div>
       HTML
 

@@ -1,6 +1,6 @@
 require "../../spec_helper"
 
-private class DummyPage
+private class Example
   include Blueprint::HTML
 
   register_element :v_btn
@@ -9,7 +9,7 @@ private class DummyPage
     span { "<script>alert('hello')</script>" }
     span "<script>alert('content')</script>"
     plain "<script>alert('Plain Text')</script>"
-    render(DummyComponent.new) { "<script>alert('DummyComponent')</script>" }
+    render(ExampleComponent.new) { "<script>alert('ExampleComponent')</script>" }
     div(class: "some-class\" onblur=\"alert('Attribute')")
     comment { "--><script>alert('Plain Text')</script><!--" }
     comment "--><script>alert('Another plain text')</script><!--"
@@ -18,7 +18,7 @@ private class DummyPage
   end
 end
 
-private class DummyComponent
+private class ExampleComponent
   include Blueprint::HTML
 
   private def blueprint(&)
@@ -26,10 +26,10 @@ private class DummyComponent
   end
 end
 
-describe "Blueprint::HTML safety" do
+describe "safety" do
   it "escapes content passed to tags via block" do
-    page = DummyPage.new
-    expected_html = <<-HTML.strip
+    page = Example.new
+    expected_html = normalize_html <<-HTML
       <span>&lt;script&gt;alert(&#39;hello&#39;)&lt;/script&gt;</span>
     HTML
 
@@ -37,8 +37,8 @@ describe "Blueprint::HTML safety" do
   end
 
   it "escapes content passed to tags via argument" do
-    page = DummyPage.new
-    expected_html = <<-HTML.strip
+    page = Example.new
+    expected_html = normalize_html <<-HTML
       <span>&lt;script&gt;alert(&#39;content&#39;)&lt;/script&gt;</span>
     HTML
 
@@ -46,8 +46,8 @@ describe "Blueprint::HTML safety" do
   end
 
   it "escapes plain text" do
-    page = DummyPage.new
-    expected_html = <<-HTML.strip
+    page = Example.new
+    expected_html = normalize_html <<-HTML
       &lt;script&gt;alert(&#39;Plain Text&#39;)&lt;/script&gt;
     HTML
 
@@ -55,17 +55,17 @@ describe "Blueprint::HTML safety" do
   end
 
   it "escapes content passed to blueprints" do
-    page = DummyPage.new
-    expected_html = <<-HTML.strip
-      &lt;script&gt;alert(&#39;DummyComponent&#39;)&lt;/script&gt;
+    page = Example.new
+    expected_html = normalize_html <<-HTML
+      &lt;script&gt;alert(&#39;ExampleComponent&#39;)&lt;/script&gt;
     HTML
 
     page.to_html.should contain(expected_html)
   end
 
   it "escapes attribute values" do
-    page = DummyPage.new
-    expected_html = <<-HTML.strip
+    page = Example.new
+    expected_html = normalize_html <<-HTML
       <div class="some-class&quot; onblur=&quot;alert(&#39;Attribute&#39;)"></div>
     HTML
 
@@ -73,8 +73,8 @@ describe "Blueprint::HTML safety" do
   end
 
   it "escapes comment content passed via block" do
-    page = DummyPage.new
-    expected_html = <<-HTML.strip
+    page = Example.new
+    expected_html = normalize_html <<-HTML
       <!----&gt;&lt;script&gt;alert(&#39;Plain Text&#39;)&lt;/script&gt;&lt;!---->
     HTML
 
@@ -82,8 +82,8 @@ describe "Blueprint::HTML safety" do
   end
 
   it "escapes comment content passed via argument" do
-    page = DummyPage.new
-    expected_html = <<-HTML.strip
+    page = Example.new
+    expected_html = normalize_html <<-HTML
       <!----&gt;&lt;script&gt;alert(&#39;Another plain text&#39;)&lt;/script&gt;&lt;!---->
     HTML
 
@@ -91,8 +91,8 @@ describe "Blueprint::HTML safety" do
   end
 
   it "escapes custom tag content passed via argument" do
-    page = DummyPage.new
-    expected_html = <<-HTML.strip
+    page = Example.new
+    expected_html = normalize_html <<-HTML
       <v-btn>&lt;script&gt;alert(&#39;content&#39;)&lt;/script&gt;</v-btn>
     HTML
 
@@ -100,8 +100,8 @@ describe "Blueprint::HTML safety" do
   end
 
   it "escapes custom tag content passed via block" do
-    page = DummyPage.new
-    expected_html = <<-HTML.strip
+    page = Example.new
+    expected_html = normalize_html <<-HTML
       <v-btn class="some-class&quot; onclick=&quot;alert(&#39;Attribute&#39;)">&lt;script&gt;alert(&#39;hello&#39;)&lt;/script&gt;</v-btn>
     HTML
 

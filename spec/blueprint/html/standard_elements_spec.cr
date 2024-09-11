@@ -10,7 +10,7 @@ private NORMAL_ELEMENTS = %i[
 private VOID_ELEMENTS  = %i[area base br col embed hr img input link meta source track wbr]
 private EMPTY_ELEMENTS = %i[iframe portal]
 
-private class DummyPage
+private class ExamplePage
   include Blueprint::HTML
 
   private def blueprint
@@ -42,9 +42,9 @@ private class DummyPage
   end
 end
 
-describe "Blueprint::HTML standard HTML elements" do
+describe "standard HTML elements" do
   it "defines all base HTML elements helper methods" do
-    page = DummyPage.new
+    page = ExamplePage.new
     expected_html = String.build do |io|
       NORMAL_ELEMENTS.each do |tag|
         io << "<" << tag << ">" << "</" << tag << ">"

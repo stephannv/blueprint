@@ -1,6 +1,6 @@
 require "../../spec_helper"
 
-private class DummyPage
+private class ExamplePage
   include Blueprint::HTML
 
   register_element :v_btn
@@ -10,15 +10,16 @@ private class DummyPage
     div do
       v_btn(href: "#home", data: {id: 12, visible: true, disabled: false}) { "Home" }
       v_btn("Contact", href: "#contact")
+      v_btn
       card
     end
   end
 end
 
-describe "Blueprint::HTML custom elements registration" do
+describe "custom elements registration" do
   it "allows custom elements definition" do
-    page = DummyPage.new
-    expected_html = <<-HTML.strip
+    page = ExamplePage.new
+    expected_html = normalize_html <<-HTML
       <v-btn href="#home" data-id="12" data-visible>Home</v-btn>
     HTML
 
@@ -26,8 +27,8 @@ describe "Blueprint::HTML custom elements registration" do
   end
 
   it "allows passing content as first argument" do
-    page = DummyPage.new
-    expected_html = <<-HTML.strip
+    page = ExamplePage.new
+    expected_html = normalize_html <<-HTML
       <v-btn href="#contact">Contact</v-btn>
     HTML
 
@@ -35,8 +36,17 @@ describe "Blueprint::HTML custom elements registration" do
   end
 
   it "allows empty custom elements" do
-    page = DummyPage.new
-    expected_html = <<-HTML.strip
+    page = ExamplePage.new
+    expected_html = normalize_html <<-HTML
+      <v-btn></v-btn>
+    HTML
+
+    page.to_html.should contain expected_html
+  end
+
+  it "allows defining custom tags" do
+    page = ExamplePage.new
+    expected_html = normalize_html <<-HTML
       <MyCard></MyCard>
     HTML
 
