@@ -1,12 +1,12 @@
 module Blueprint::HTML::Helpers
-  def tokens(conditions : Hash(Proc(Bool), String)) : String
+  macro tokens(**conditions)
     String.build do |io|
-      conditions.each do |proc, classes|
-        if proc.call
+      {% for key, value in conditions %}
+        if {{key.id}}
           io << " " unless io.empty?
-          io << classes
+          io << {{value}}
         end
-      end
+      {% end %}
     end
   end
 end
