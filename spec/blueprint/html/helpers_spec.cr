@@ -4,7 +4,7 @@ private class ExamplePage
   include Blueprint::HTML
 
   private def blueprint
-    div("Tokens", class: ["a", "b", tokens({->c? => "c", ->d? => "d", ->e? => "e"})])
+    div("Tokens", class: ["a", "b", tokens(c?: "c", d?: "d", e?: "e")])
   end
 
   private def c?
