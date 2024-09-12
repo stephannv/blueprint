@@ -6,6 +6,7 @@ require "./html/builder"
 require "./html/component_renderer"
 require "./html/element_registrar"
 require "./html/element_renderer"
+require "./html/helpers"
 require "./html/renderer"
 require "./html/standard_elements"
 require "./html/svg"
@@ -17,6 +18,7 @@ module Blueprint::HTML
   include Blueprint::HTML::ComponentRenderer
   include Blueprint::HTML::ElementRegistrar
   include Blueprint::HTML::ElementRenderer
+  include Blueprint::HTML::Helpers
   include Blueprint::HTML::Renderer
   include Blueprint::HTML::StandardElements
   include Blueprint::HTML::SVG
