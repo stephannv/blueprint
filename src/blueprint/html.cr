@@ -9,6 +9,7 @@ require "./html/element_renderer"
 require "./html/helpers"
 require "./html/renderer"
 require "./html/standard_elements"
+require "./html/style_builder"
 require "./html/svg"
 require "./html/utils"
 
@@ -21,6 +22,7 @@ module Blueprint::HTML
   include Blueprint::HTML::Helpers
   include Blueprint::HTML::Renderer
   include Blueprint::HTML::StandardElements
+  include Blueprint::HTML::StyleBuilder
   include Blueprint::HTML::SVG
   include Blueprint::HTML::Utils
 
