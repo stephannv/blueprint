@@ -1,10 +1,10 @@
 module Blueprint::HTML::ComponentRenderer
   private def render(blueprint : Blueprint::HTML) : Nil
-    blueprint.render_to(@buffer)
+    blueprint.to_s(@buffer)
   end
 
   private def render(blueprint : Blueprint::HTML, &) : Nil
-    blueprint.render_to(@buffer) do
+    blueprint.to_s(@buffer) do
       yield blueprint
     end
   end

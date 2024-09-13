@@ -86,7 +86,7 @@ private class ExamplePage
 end
 
 describe Blueprint::RawHTML do
-  describe "#to_html" do
+  describe "#to_s" do
     it "renders html without escaping" do
       page = ExamplePage.new
       expected_html = normalize_html <<-HTML
@@ -130,7 +130,7 @@ describe Blueprint::RawHTML do
         </html>
       HTML
 
-      html = page.to_html
+      html = page.to_s
 
       html.should eq expected_html
     end

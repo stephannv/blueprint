@@ -14,7 +14,7 @@ module Blueprint::HTML
     end
 
     def build(&) : String
-      to_html { yield }
+      to_s { yield }
     end
 
     private def blueprint(&) : Nil

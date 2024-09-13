@@ -73,7 +73,7 @@ describe "component rendering" do
       <header>Basic component</header>
     HTML
 
-    page.to_html.should contain(basic_component)
+    page.to_s.should contain(basic_component)
   end
 
   it "can provide content to another blueprints" do
@@ -86,7 +86,7 @@ describe "component rendering" do
       </div>
     HTML
 
-    page.to_html.should contain(content_component)
+    page.to_s.should contain(content_component)
   end
 
   it "can use another blueprint methods" do
@@ -99,6 +99,6 @@ describe "component rendering" do
       </div>
     HTML
 
-    page.to_html.should contain(complex_component)
+    page.to_s.should contain(complex_component)
   end
 end

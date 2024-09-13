@@ -48,7 +48,7 @@ describe "SVG rendering" do
       </svg>
     HTML
 
-    example.to_html.should eq expected_html
+    example.to_s.should eq expected_html
   end
 
   it "defines all SVG element helper methods" do
@@ -64,6 +64,6 @@ describe "SVG rendering" do
       io << "</svg>"
     end
 
-    page.to_html.should eq expected_html
+    page.to_s.should eq expected_html
   end
 end

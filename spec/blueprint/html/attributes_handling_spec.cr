@@ -20,7 +20,7 @@ describe "attributes handling" do
       <div class="hello" id="first">Normal attributes</div>
     HTML
 
-    page.to_html.should contain(div)
+    page.to_s.should contain(div)
   end
 
   it "converts attribute values to string" do
@@ -29,7 +29,7 @@ describe "attributes handling" do
       <span id="421" float="2.4">Non-string attribute values</span>
     HTML
 
-    page.to_html.should contain(span)
+    page.to_s.should contain(span)
   end
 
   it "replaces `_` by `-` on attribute names" do
@@ -38,7 +38,7 @@ describe "attributes handling" do
       <section v-model="user.name" @click="doSomething">Transform attribute name</section>
     HTML
 
-    page.to_html.should contain(section)
+    page.to_s.should contain(section)
   end
 
   it "accepts boolean attributes" do
@@ -47,7 +47,7 @@ describe "attributes handling" do
       <input disabled outline="true" border="false">
     HTML
 
-    page.to_html.should contain(input)
+    page.to_s.should contain(input)
   end
 
   it "expands nested attributes" do
@@ -56,7 +56,7 @@ describe "attributes handling" do
       <nav aria-target="#home" aria-selected="false" aria-enabled>Nested attributes</nav>
     HTML
 
-    page.to_html.should contain(nav)
+    page.to_s.should contain(nav)
   end
 
   it "flattens, compacts and joins array attributes" do
@@ -65,6 +65,6 @@ describe "attributes handling" do
       <div class="a b c d">Array attributes</div>
     HTML
 
-    page.to_html.should contain(nav)
+    page.to_s.should contain(nav)
   end
 end

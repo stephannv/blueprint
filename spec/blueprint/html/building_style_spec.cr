@@ -102,7 +102,7 @@ describe "style building" do
   end
 
   it "allows to build style inside components" do
-    actual_html = ButtonComponent.new.to_html { "Build Style!" }
+    actual_html = ButtonComponent.new.to_s { "Build Style!" }
     expected_html = normalize_html <<-HTML
       <a class="btn btn-xs btn-outline btn-blue">Build Style!</a>
     HTML
