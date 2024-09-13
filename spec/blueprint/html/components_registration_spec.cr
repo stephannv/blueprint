@@ -1,10 +1,7 @@
 require "../../spec_helper"
 
-require "../../../src/blueprint/html/component_registrar"
-
 private class ExamplePage
   include Blueprint::HTML
-  include Blueprint::HTML::ComponentRegistrar
 
   register_component :component_with_block, ComponentWithBlock
   register_component :component_without_block, ComponentWithoutBlock, block: false
