@@ -29,13 +29,13 @@ describe "utils" do
     it "renders plain text passed via argument" do
       page = ExamplePage.new
 
-      page.to_html.should contain("<div>Hello<b>World</b></div>")
+      page.to_s.should contain("<div>Hello<b>World</b></div>")
     end
 
     it "renders plain text passed via block" do
       page = ExamplePage.new
 
-      page.to_html.should contain("<span>Plain!</span>")
+      page.to_s.should contain("<span>Plain!</span>")
     end
   end
 
@@ -43,7 +43,7 @@ describe "utils" do
     it "renders HTML 5 doctype declaration" do
       page = ExamplePage.new
 
-      page.to_html.should contain("<!DOCTYPE html>")
+      page.to_s.should contain("<!DOCTYPE html>")
     end
   end
 
@@ -51,13 +51,13 @@ describe "utils" do
     it "renders an html comment passed via block" do
       page = ExamplePage.new
 
-      page.to_html.should contain("<!--This is an html comment-->")
+      page.to_s.should contain("<!--This is an html comment-->")
     end
 
     it "renders an html comment passed via argument" do
       page = ExamplePage.new
 
-      page.to_html.should contain("<!--This is another html comment-->")
+      page.to_s.should contain("<!--This is another html comment-->")
     end
   end
 
@@ -65,7 +65,7 @@ describe "utils" do
     it "renders an whitespace" do
       page = ExamplePage.new
 
-      page.to_html.should contain("<i>Hi</i> User")
+      page.to_s.should contain("<i>Hi</i> User")
     end
   end
 
@@ -73,13 +73,13 @@ describe "utils" do
     it "renders content passed via argument without escaping" do
       page = ExamplePage.new
 
-      page.to_html.should contain("<script>Dangerous script</script>")
+      page.to_s.should contain("<script>Dangerous script</script>")
     end
 
     it "renders content passed via block without escaping" do
       page = ExamplePage.new
 
-      page.to_html.should contain("<div><script>Another dangerous script</script></div>")
+      page.to_s.should contain("<div><script>Another dangerous script</script></div>")
     end
   end
 end

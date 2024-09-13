@@ -73,6 +73,6 @@ describe "standard HTML elements" do
       io << "<select attribute=\"test\">content</select>"
     end
 
-    page.to_html.should eq expected_html
+    page.to_s.should eq expected_html
   end
 end

@@ -36,7 +36,7 @@ class Alert
   end
 end
 
-Alert.new.to_html
+Alert.new.to_s
 ```
 
 Output:

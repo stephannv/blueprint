@@ -60,7 +60,7 @@ describe "components registration" do
       <div id="required-block">Component with required block</div>
     HTML
 
-    page.to_html.should contain expected_html
+    page.to_s.should contain expected_html
   end
 
   it "allows component helper definition without required block" do
@@ -69,7 +69,7 @@ describe "components registration" do
       <h1>Component without block</h1>
     HTML
 
-    page.to_html.should contain expected_html
+    page.to_s.should contain expected_html
   end
 
   it "allows component helper definition with optional block" do
@@ -79,6 +79,6 @@ describe "components registration" do
       <div id="optional-block"></div>
     HTML
 
-    page.to_html.should contain expected_html
+    page.to_s.should contain expected_html
   end
 end

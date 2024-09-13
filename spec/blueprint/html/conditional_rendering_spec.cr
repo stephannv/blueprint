@@ -51,17 +51,17 @@ describe "conditional rendering" do
         <div></div>
       HTML
 
-      page.to_html.should eq expected_html
+      page.to_s.should eq expected_html
     end
   end
 
   context "when blueprint `#render?` returns false" do
     it "doesn't render the blueprint" do
       page = NoRenderPage.new
-      page.to_html.should eq ""
+      page.to_s.should eq ""
 
       page = NoRenderPage.new
-      html = page.to_html { "This page will not be rendered" }
+      html = page.to_s { "This page will not be rendered" }
       html.should eq ""
     end
   end

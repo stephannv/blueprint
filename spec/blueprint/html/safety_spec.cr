@@ -33,7 +33,7 @@ describe "safety" do
       <span>&lt;script&gt;alert(&#39;hello&#39;)&lt;/script&gt;</span>
     HTML
 
-    page.to_html.should contain(expected_html)
+    page.to_s.should contain(expected_html)
   end
 
   it "escapes content passed to tags via argument" do
@@ -42,7 +42,7 @@ describe "safety" do
       <span>&lt;script&gt;alert(&#39;content&#39;)&lt;/script&gt;</span>
     HTML
 
-    page.to_html.should contain(expected_html)
+    page.to_s.should contain(expected_html)
   end
 
   it "escapes plain text" do
@@ -51,7 +51,7 @@ describe "safety" do
       &lt;script&gt;alert(&#39;Plain Text&#39;)&lt;/script&gt;
     HTML
 
-    page.to_html.should contain(expected_html)
+    page.to_s.should contain(expected_html)
   end
 
   it "escapes content passed to blueprints" do
@@ -60,7 +60,7 @@ describe "safety" do
       &lt;script&gt;alert(&#39;ExampleComponent&#39;)&lt;/script&gt;
     HTML
 
-    page.to_html.should contain(expected_html)
+    page.to_s.should contain(expected_html)
   end
 
   it "escapes attribute values" do
@@ -69,7 +69,7 @@ describe "safety" do
       <div class="some-class&quot; onblur=&quot;alert(&#39;Attribute&#39;)"></div>
     HTML
 
-    page.to_html.should contain(expected_html)
+    page.to_s.should contain(expected_html)
   end
 
   it "escapes comment content passed via block" do
@@ -78,7 +78,7 @@ describe "safety" do
       <!----&gt;&lt;script&gt;alert(&#39;Plain Text&#39;)&lt;/script&gt;&lt;!---->
     HTML
 
-    page.to_html.should contain(expected_html)
+    page.to_s.should contain(expected_html)
   end
 
   it "escapes comment content passed via argument" do
@@ -87,7 +87,7 @@ describe "safety" do
       <!----&gt;&lt;script&gt;alert(&#39;Another plain text&#39;)&lt;/script&gt;&lt;!---->
     HTML
 
-    page.to_html.should contain(expected_html)
+    page.to_s.should contain(expected_html)
   end
 
   it "escapes custom tag content passed via argument" do
@@ -96,7 +96,7 @@ describe "safety" do
       <v-btn>&lt;script&gt;alert(&#39;content&#39;)&lt;/script&gt;</v-btn>
     HTML
 
-    page.to_html.should contain(expected_html)
+    page.to_s.should contain(expected_html)
   end
 
   it "escapes custom tag content passed via block" do
@@ -105,6 +105,6 @@ describe "safety" do
       <v-btn class="some-class&quot; onclick=&quot;alert(&#39;Attribute&#39;)">&lt;script&gt;alert(&#39;hello&#39;)&lt;/script&gt;</v-btn>
     HTML
 
-    page.to_html.should contain(expected_html)
+    page.to_s.should contain(expected_html)
   end
 end

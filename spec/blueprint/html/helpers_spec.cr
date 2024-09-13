@@ -28,7 +28,7 @@ describe "helpers" do
         <div class="a b c e">Tokens</div>
       HTML
 
-      page.to_html.should contain expected_html
+      page.to_s.should contain expected_html
     end
   end
 end

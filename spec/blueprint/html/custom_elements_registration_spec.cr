@@ -23,7 +23,7 @@ describe "custom elements registration" do
       <v-btn href="#home" data-id="12" data-visible>Home</v-btn>
     HTML
 
-    page.to_html.should contain expected_html
+    page.to_s.should contain expected_html
   end
 
   it "allows passing content as first argument" do
@@ -32,7 +32,7 @@ describe "custom elements registration" do
       <v-btn href="#contact">Contact</v-btn>
     HTML
 
-    page.to_html.should contain expected_html
+    page.to_s.should contain expected_html
   end
 
   it "allows empty custom elements" do
@@ -41,7 +41,7 @@ describe "custom elements registration" do
       <v-btn></v-btn>
     HTML
 
-    page.to_html.should contain expected_html
+    page.to_s.should contain expected_html
   end
 
   it "allows defining custom tags" do
@@ -50,6 +50,6 @@ describe "custom elements registration" do
       <MyCard></MyCard>
     HTML
 
-    page.to_html.should contain expected_html
+    page.to_s.should contain expected_html
   end
 end

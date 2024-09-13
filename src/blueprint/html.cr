@@ -7,7 +7,6 @@ require "./html/component_renderer"
 require "./html/element_registrar"
 require "./html/element_renderer"
 require "./html/helpers"
-require "./html/renderer"
 require "./html/standard_elements"
 require "./html/style_builder"
 require "./html/svg"
@@ -20,7 +19,6 @@ module Blueprint::HTML
   include Blueprint::HTML::ElementRegistrar
   include Blueprint::HTML::ElementRenderer
   include Blueprint::HTML::Helpers
-  include Blueprint::HTML::Renderer
   include Blueprint::HTML::StandardElements
   include Blueprint::HTML::StyleBuilder
   include Blueprint::HTML::SVG
@@ -28,16 +26,38 @@ module Blueprint::HTML
 
   @buffer : String::Builder = String::Builder.new
 
-  def to_html : String
-    render_to(@buffer)
+  def to_s : String
+    to_s(@buffer)
 
     @buffer.to_s
   end
 
-  def to_html(&) : String
-    render_to(@buffer) { yield }
+  def to_s(&) : String
+    to_s(@buffer) { yield }
 
     @buffer.to_s
+  end
+
+  def to_s(buffer : String::Builder) : Nil
+    return unless render?
+
+    @buffer = buffer
+
+    envelope { blueprint }
+  end
+
+  def to_s(buffer : String::Builder, &) : Nil
+    return unless render?
+
+    @buffer = buffer
+
+    envelope do
+      blueprint { capture_content { yield } }
+    end
+  end
+
+  private def render? : Bool
+    true
   end
 
   private def envelope(&) : Nil

@@ -56,6 +56,6 @@ describe "enveloping" do
       </html>
     HTML
 
-    page.to_html.should eq expected_html
+    page.to_s.should eq expected_html
   end
 end
