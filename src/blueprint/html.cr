@@ -3,6 +3,7 @@ require "html"
 require "./html/attributes_handler"
 require "./html/block_renderer"
 require "./html/builder"
+require "./html/component_registrar"
 require "./html/component_renderer"
 require "./html/element_registrar"
 require "./html/element_renderer"
@@ -15,6 +16,7 @@ require "./html/utils"
 module Blueprint::HTML
   include Blueprint::HTML::AttributesHandler
   include Blueprint::HTML::BlockRenderer
+  include Blueprint::HTML::ComponentRegistrar
   include Blueprint::HTML::ComponentRenderer
   include Blueprint::HTML::ElementRegistrar
   include Blueprint::HTML::ElementRenderer
