@@ -11,8 +11,7 @@ private class Example
     plain "<script>alert('Plain Text')</script>"
     render(ExampleComponent.new) { "<script>alert('ExampleComponent')</script>" }
     div(class: "some-class\" onblur=\"alert('Attribute')")
-    comment { "--><script>alert('Plain Text')</script><!--" }
-    comment "--><script>alert('Another plain text')</script><!--"
+    comment "--><script>alert('Comment')</script><!--"
     v_btn "<script>alert('content')</script>"
     v_btn(class: "some-class\" onclick=\"alert('Attribute')") { "<script>alert('hello')</script>" }
   end
@@ -72,19 +71,10 @@ describe "safety" do
     page.to_s.should contain(expected_html)
   end
 
-  it "escapes comment content passed via block" do
+  it "escapes comment content" do
     page = Example.new
     expected_html = normalize_html <<-HTML
-      <!----&gt;&lt;script&gt;alert(&#39;Plain Text&#39;)&lt;/script&gt;&lt;!---->
-    HTML
-
-    page.to_s.should contain(expected_html)
-  end
-
-  it "escapes comment content passed via argument" do
-    page = Example.new
-    expected_html = normalize_html <<-HTML
-      <!----&gt;&lt;script&gt;alert(&#39;Another plain text&#39;)&lt;/script&gt;&lt;!---->
+      <!----&gt;&lt;script&gt;alert(&#39;Comment&#39;)&lt;/script&gt;&lt;!---->
     HTML
 
     page.to_s.should contain(expected_html)

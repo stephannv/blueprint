@@ -1,10 +1,6 @@
 module Blueprint::HTML::Utils
   private def plain(content : String) : Nil
-    plain { content }
-  end
-
-  private def plain(&) : Nil
-    ::HTML.escape(yield, @buffer)
+    ::HTML.escape(content, @buffer)
   end
 
   private def doctype : Nil
@@ -12,12 +8,8 @@ module Blueprint::HTML::Utils
   end
 
   private def comment(content : String) : Nil
-    comment { content }
-  end
-
-  private def comment(&) : Nil
     @buffer << "<!--"
-    ::HTML.escape(yield, @buffer)
+    ::HTML.escape(content, @buffer)
     @buffer << "-->"
   end
 
@@ -26,10 +18,6 @@ module Blueprint::HTML::Utils
   end
 
   def unsafe_raw(content : String) : Nil
-    unsafe_raw { content }
-  end
-
-  def unsafe_raw(&) : Nil
-    @buffer << yield
+    @buffer << content
   end
 end
