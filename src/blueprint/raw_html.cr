@@ -2,6 +2,7 @@ require "html"
 
 require "./html"
 
+@[Experimental]
 module Blueprint::RawHTML
   include Blueprint::HTML
 

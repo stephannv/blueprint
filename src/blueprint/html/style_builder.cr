@@ -3,6 +3,7 @@ module Blueprint::HTML::StyleBuilder
 
   class InvalidVariantOptionError < Exception; end
 
+  @[Experimental]
   macro build_style(**styles)
     ([
       {% if @type.class.has_method?(:style_builder_base_classes) %}
@@ -28,6 +29,7 @@ module Blueprint::HTML::StyleBuilder
   ] of String).join(" ")
   end
 
+  @[Experimental]
   macro style_builder(&block)
     __parse_style_builer_top_level_body__ do
       {{ block.body }}
