@@ -24,7 +24,7 @@ module Blueprint::HTML::AttributesHandler
     @buffer << " "
     @buffer << parse_attribute_name(attribute_name)
     @buffer << %(=")
-    ::HTML.escape(attribute_value.to_s, @buffer)
+    append_to_buffer(attribute_value)
     @buffer << %(")
   end
 

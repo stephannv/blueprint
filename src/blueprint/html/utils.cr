@@ -1,6 +1,6 @@
 module Blueprint::HTML::Utils
   private def plain(content : String) : Nil
-    ::HTML.escape(content, @buffer)
+    append_to_buffer(content)
   end
 
   private def doctype : Nil
@@ -17,7 +17,7 @@ module Blueprint::HTML::Utils
     @buffer << " "
   end
 
-  def unsafe_raw(content : String) : Nil
-    @buffer << content
+  def raw(content : SafeObject) : Nil
+    append_to_buffer(content)
   end
 end
