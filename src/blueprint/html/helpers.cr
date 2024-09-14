@@ -3,6 +3,7 @@ module Blueprint::HTML::Helpers
     Blueprint::SafeValue.new(value)
   end
 
+  @[Experimental]
   macro tokens(**conditions)
     String.build do |io|
       {% for key, value in conditions %}
