@@ -17,7 +17,7 @@ private class ExamplePage
     comment "This is an html comment"
 
     div do
-      unsafe_raw "<script>Dangerous script</script>"
+      raw safe("<script>Dangerous script</script>")
     end
   end
 end

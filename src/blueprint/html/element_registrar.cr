@@ -10,7 +10,7 @@ module Blueprint::HTML::ElementRegistrar
       element({{tag}}, "", **attributes)
     end
 
-    private def {{method_name.id}}(__content__ : String, **attributes) : Nil
+    private def {{method_name.id}}(__content__, **attributes) : Nil
       element({{tag}}, __content__, **attributes)
     end
   end

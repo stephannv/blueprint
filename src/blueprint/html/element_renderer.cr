@@ -10,12 +10,12 @@ module Blueprint::HTML::ElementRenderer
     @buffer << ">"
   end
 
-  private def element(tag_name : String | Symbol, __content__ : String, **attributes) : Nil
+  private def element(tag_name : String | Symbol, __content__, **attributes) : Nil
     @buffer << "<"
     @buffer << tag_name
     append_attributes(attributes)
     @buffer << ">"
-    ::HTML.escape(__content__, @buffer)
+    append_to_buffer(__content__)
     @buffer << "</"
     @buffer << tag_name
     @buffer << ">"
