@@ -2,6 +2,39 @@
 
 All notable changes to this project will be documented on <https://stephannv.github.io/blueprint-docs/>.
 
+# [0.9.0] - 2024-09-21
+
+### Form Builder
+Using `#form_builder` you can access some utility methods to build labels and inputs:
+
+```crystal
+class ExamplePage
+  include Blueprint::HTML
+
+  def blueprint
+    form_builder action: "/sign-in", method: :post do |form|
+      form.label :email
+      form.email_input :email
+
+      form.label :password
+      form.password_input :password
+    end
+  end
+end
+
+puts ExamplePage.new.to_s
+# <form action="/sign-in" method="post">
+#   <label for="email">Email</label>
+#   <input type="email" id="email" name="email">
+#
+#   <label for="password">Password</label>
+#   <input type="password" id="password" name="password">
+# </form>
+```
+
+More example at docs: https://stephannv.github.io/blueprint-docs/handbook/forms/
+
+
 # [0.8.0] - 2024-09-14
 
 ### Overhauled docs
