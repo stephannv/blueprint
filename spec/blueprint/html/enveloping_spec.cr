@@ -1,3 +1,5 @@
+require "../../spec_helper"
+
 private class MainLayout
   include Blueprint::HTML
 

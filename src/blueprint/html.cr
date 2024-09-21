@@ -1,18 +1,6 @@
 require "html"
 
-require "./html/attributes_handler"
-require "./html/block_renderer"
-require "./html/buffer_appender"
-require "./html/builder"
-require "./html/component_registrar"
-require "./html/component_renderer"
-require "./html/element_registrar"
-require "./html/element_renderer"
-require "./html/helpers"
-require "./html/standard_elements"
-require "./html/style_builder"
-require "./html/svg"
-require "./html/utils"
+require "./html/*"
 
 require "./safe_object"
 require "./safe_value"
@@ -25,6 +13,7 @@ module Blueprint::HTML
   include Blueprint::HTML::ComponentRenderer
   include Blueprint::HTML::ElementRegistrar
   include Blueprint::HTML::ElementRenderer
+  include Blueprint::HTML::Forms
   include Blueprint::HTML::Helpers
   include Blueprint::HTML::StandardElements
   include Blueprint::HTML::StyleBuilder

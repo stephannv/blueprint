@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  A framework for writing reusable and testable HTML templates in plain Crystal.
+  A lib for writing reusable and testable views templates (HTML, SVG, Forms) in plain Crystal.
 </p>
 
 <p align="center">

@@ -1,6 +1,6 @@
 name: blueprint
 description: |
-  Blueprint is a lib for writing reusable and testable HTML templates in plain Crystal, allowing an OOP (Oriented Object Programming) approach when building your views.
+  A lib for writing reusable and testable views templates (HTML, SVG, Forms) in plain Crystal. Inspired by Phlex.
 
 version: 0.8.0
 
