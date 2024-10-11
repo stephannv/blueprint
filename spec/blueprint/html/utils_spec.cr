@@ -1,5 +1,13 @@
 require "../../spec_helper"
 
+private class MarkdownLink
+  def initialize(@text : String, @href : String); end
+
+  def to_s
+    "[#{@text}](#{@href})"
+  end
+end
+
 private class ExamplePage
   include Blueprint::HTML
 
@@ -10,11 +18,14 @@ private class ExamplePage
       b "World"
     end
 
+    plain MarkdownLink.new("Blueprint", "blueprint.example.com")
+
     i "Hi"
     whitespace
     plain "User"
 
     comment "This is an html comment"
+    comment MarkdownLink.new("Comment", "comment.example.com")
 
     div do
       raw safe("<script>Dangerous script</script>")
@@ -28,6 +39,12 @@ describe "utils" do
       page = ExamplePage.new
 
       page.to_s.should contain("<div>Hello<b>World</b></div>")
+    end
+
+    it "accepts any objects that respond `#to_s`" do
+      page = ExamplePage.new
+
+      page.to_s.should contain("[Blueprint](blueprint.example.com)")
     end
   end
 
@@ -44,6 +61,12 @@ describe "utils" do
       page = ExamplePage.new
 
       page.to_s.should contain("<!--This is an html comment-->")
+    end
+
+    it "accepts any objects that respond `#to_s`" do
+      page = ExamplePage.new
+
+      page.to_s.should contain("<!--[Comment](comment.example.com)-->")
     end
   end
 

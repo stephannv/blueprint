@@ -1,5 +1,5 @@
 module Blueprint::HTML::Utils
-  private def plain(content : String) : Nil
+  private def plain(content) : Nil
     append_to_buffer(content)
   end
 
@@ -7,9 +7,9 @@ module Blueprint::HTML::Utils
     @buffer << "<!DOCTYPE html>"
   end
 
-  private def comment(content : String) : Nil
+  private def comment(content) : Nil
     @buffer << "<!--"
-    ::HTML.escape(content, @buffer)
+    append_to_buffer(content)
     @buffer << "-->"
   end
 
