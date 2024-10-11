@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented on <https://stephannv.github.io/blueprint-docs/>.
 
+# [0.10.0] - 2024-10-11
+
+### Allow any type `#plain`/`#comment` methods
+
+Now you can pass any object that responds `to_s` to `#plain`/`#comment` methods.
+
+```crystal
+class ExamplePage
+  include Blueprint::HTML
+
+  def blueprint
+    # before:
+    plain custom_object.to_s
+    comment other_object.to_s
+
+    # after:
+    plain custom_object
+    comment other_object
+  end
+end
+```
+
 # [0.9.0] - 2024-09-21
 
 ### Form Builder
