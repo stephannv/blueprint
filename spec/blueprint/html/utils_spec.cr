@@ -1,13 +1,5 @@
 require "../../spec_helper"
 
-private class MarkdownLink
-  def initialize(@text : String, @href : String); end
-
-  def to_s
-    "[#{@text}](#{@href})"
-  end
-end
-
 private class ExamplePage
   include Blueprint::HTML
 
