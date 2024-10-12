@@ -17,7 +17,7 @@ module Blueprint::HTML::Utils
     @buffer << " "
   end
 
-  def raw(content : SafeObject) : Nil
+  private def raw(content : SafeObject) : Nil
     append_to_buffer(content)
   end
 end

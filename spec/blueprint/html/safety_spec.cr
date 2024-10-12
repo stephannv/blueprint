@@ -65,7 +65,7 @@ describe "safety" do
   it "escapes attribute values" do
     page = Example.new
     expected_html = normalize_html <<-HTML
-      <div class="some-class&quot; onblur=&quot;alert(&#39;Attribute&#39;)"></div>
+      <div class="some-class&quot; onblur=&quot;alert('Attribute')"></div>
     HTML
 
     page.to_s.should contain(expected_html)
@@ -92,7 +92,7 @@ describe "safety" do
   it "escapes custom tag content passed via block" do
     page = Example.new
     expected_html = normalize_html <<-HTML
-      <v-btn class="some-class&quot; onclick=&quot;alert(&#39;Attribute&#39;)">&lt;script&gt;alert(&#39;hello&#39;)&lt;/script&gt;</v-btn>
+      <v-btn class="some-class&quot; onclick=&quot;alert('Attribute')">&lt;script&gt;alert(&#39;hello&#39;)&lt;/script&gt;</v-btn>
     HTML
 
     page.to_s.should contain(expected_html)
