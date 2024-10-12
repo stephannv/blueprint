@@ -1,6 +1,6 @@
 module Blueprint::HTML::BufferAppender
   private def append_to_buffer(content : String)
-    ::HTML.escape(content, @buffer)
+    escape(content, @buffer)
   end
 
   private def append_to_buffer(content : SafeObject)
@@ -11,6 +11,10 @@ module Blueprint::HTML::BufferAppender
   end
 
   private def append_to_buffer(content)
-    ::HTML.escape(content.to_s, @buffer)
+    escape(content.to_s, @buffer)
+  end
+
+  private def escape(value : String, io : IO)
+    ::HTML.escape(value, io)
   end
 end
