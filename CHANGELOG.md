@@ -2,6 +2,51 @@
 
 All notable changes to this project will be documented on <https://stephannv.github.io/blueprint-docs/>.
 
+# [0.11.0] - 2024-10-11
+
+### Add `escape_once` helper
+
+It escapes HTML without affecting existing escaped entities
+```crystal
+class ExamplePage
+  include Blueprint::HTML
+
+  def blueprint
+    plain escape_once("1 < 2 &amp; 3")
+
+    span escape_once("&lt;&lt; Accept & Checkout")
+
+    span { escape_once("<script>alert('content')</script>") }
+  end
+end
+
+puts ExamplePage.new.to_s
+```
+
+Output:
+```html
+1 &lt; 2 &amp; 3
+
+<span>&lt;&lt; Accept &amp; Checkout</span>
+
+<span>&lt;script&gt;alert(&#39;content&#39;)&lt;/script&gt;</span>
+```
+
+### Change attribute value escaper
+Before attribute values were escaped using `HTML.escape`, now the escape is done using `.gsub('"', "&quot;")`.
+
+```crystal
+class ExamplePage
+  include Blueprint::HTML
+
+  def blueprint
+    input(value: %(>'test'<">))
+    # Before <input value="&gt;&#39;test&#39;&lt;&quot;&gt;">
+    # After <input value=">'test'<&quot;>">
+  end
+end
+```
+
 # [0.10.0] - 2024-10-11
 
 ### Allow any type `#plain`/`#comment` methods
