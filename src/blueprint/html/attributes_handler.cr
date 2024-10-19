@@ -1,67 +1,60 @@
 module Blueprint::HTML::AttributesHandler
-  private def append_attributes(attributes : NamedTuple) : Nil
-    attributes.each do |name, value|
-      append_attribute(name, value)
-    end
+  private def __append_attributes__(attributes : NamedTuple) : Nil
+    attributes.each { |name, value| __append_attribute__(name, value) }
   end
 
-  private def append_attribute(name, value) : Nil
-    case value
-    when Nil, false
-      # does nothing
-    when true
-      append_boolean_attribute(name)
-    when NamedTuple
-      process_named_tuple_attribute(name, value)
-    when Array
-      append_array_attribute(name, value)
-    else
-      append_normal_attribute(name, value)
-    end
+  # Do nothing
+  private def __append_attribute__(name, value : Nil) : Nil
   end
 
-  private def append_boolean_attribute(name) : Nil
+  # Append boolean attribute when it's true or do nothing when it's false
+  private def __append_attribute__(name, value : Bool) : Nil
+    return unless value
+
     @buffer << " "
-    @buffer << parse_name(name)
+    @buffer << __parse_attribute_name__(name)
   end
 
-  private def append_array_attribute(name, value : Array) : Nil
-    append_normal_attribute(name, value.flatten.compact.join(" "))
-  end
-
-  private def process_named_tuple_attribute(name, value : NamedTuple) : Nil
-    name_prefix = parse_name(name)
+  # Expand NamedTuple attribute using '-' as separator
+  private def __append_attribute__(name, value : NamedTuple) : Nil
+    name_prefix = __parse_attribute_name__(name)
 
     value.each do |attr_name, attr_value|
-      append_attribute("#{name_prefix}-#{parse_name(attr_name)}", attr_value)
+      __append_attribute__("#{name_prefix}-#{__parse_attribute_name__(attr_name)}", attr_value)
     end
   end
 
-  private def append_normal_attribute(name, value) : Nil
+  # Flatten, compact and join array attribute
+  private def __append_attribute__(name, value : Array) : Nil
+    __append_attribute__(name, value.flatten.compact.join(" "))
+  end
+
+  # Append attribute escaping its value if it's not a safe object
+  private def __append_attribute__(name, value) : Nil
     @buffer << " "
-    @buffer << parse_name(name)
+    @buffer << __parse_attribute_name__(name)
     @buffer << %(=")
-    append_attribute_value(value)
+    __append_attribute_value__(value)
     @buffer << %(")
   end
 
-  private def append_attribute_value(value : String) : Nil
+  private def __append_attribute_value__(value : String) : Nil
     @buffer << value.gsub('"', "&quot;")
   end
 
-  private def append_attribute_value(value : SafeObject) : Nil
+  private def __append_attribute_value__(value : SafeObject) : Nil
     value.to_s @buffer
   end
 
-  private def append_attribute_value(value : Number) : Nil
+  private def __append_attribute_value__(value : Number) : Nil
     value.to_s @buffer
   end
 
-  private def append_attribute_value(value) : Nil
-    append_attribute_value value.to_s
+  private def __append_attribute_value__(value) : Nil
+    __append_attribute_value__ value.to_s
   end
 
-  private def parse_name(name) : String
+  private def __parse_attribute_name__(name) : String
     name.to_s.gsub("_", "-")
   end
 end
