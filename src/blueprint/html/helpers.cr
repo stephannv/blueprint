@@ -14,16 +14,4 @@ module Blueprint::HTML::Helpers
   private def escape_once(value) : SafeValue
     escape_once(value.to_s)
   end
-
-  @[Experimental]
-  macro tokens(**conditions)
-    String.build do |io|
-      {% for key, value in conditions %}
-        if {{key.id}}
-          io << " " unless io.empty?
-          io << {{value}}
-        end
-      {% end %}
-    end
-  end
 end
