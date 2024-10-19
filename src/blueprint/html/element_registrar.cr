@@ -3,15 +3,25 @@ module Blueprint::HTML::ElementRegistrar
     {% tag ||= method_name.tr("_", "-") %}
 
     private def {{method_name.id}}(**attributes, &block) : Nil
-      element({{tag}}, **attributes) { yield }
+      @buffer << "<{{tag.id}}"
+      append_attributes(attributes)
+      @buffer << ">"
+      capture_content { yield }
+      @buffer << "</{{tag.id}}>"
     end
 
     private def {{method_name.id}}(**attributes) : Nil
-      element({{tag}}, "", **attributes)
+      @buffer << "<{{tag.id}}"
+      append_attributes(attributes)
+      @buffer << "></{{tag.id}}>"
     end
 
     private def {{method_name.id}}(__content__, **attributes) : Nil
-      element({{tag}}, __content__, **attributes)
+      @buffer << "<{{tag.id}}"
+      append_attributes(attributes)
+      @buffer << ">"
+      append_to_buffer(__content__)
+      @buffer << "</{{tag.id}}>"
     end
   end
 
@@ -19,7 +29,9 @@ module Blueprint::HTML::ElementRegistrar
     {% tag ||= method_name.tr("_", "-") %}
 
     private def {{method_name.id}}(**attributes) : Nil
-      element({{tag}}, "", **attributes)
+      @buffer << "<{{tag.id}}"
+      append_attributes(attributes)
+      @buffer << "></{{tag.id}}>"
     end
   end
 
@@ -27,7 +39,9 @@ module Blueprint::HTML::ElementRegistrar
     {% tag ||= method_name.tr("_", "-") %}
 
     private def {{method_name.id}}(**attributes) : Nil
-      void_element({{tag}}, **attributes)
+      @buffer << "<{{tag.id}}"
+      append_attributes(attributes)
+      @buffer << ">"
     end
   end
 end
