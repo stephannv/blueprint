@@ -1,70 +1,77 @@
 require "../../spec_helper"
 
-private class ExamplePage
-  include Blueprint::HTML
-
-  private def blueprint
-    div "Normal attributes", class: "hello", id: "first"
-    span "Non-string attribute values", id: 421, float: 2.4
-    section "Transform attribute name", v_model: "user.name", "@click": "doSomething"
-    input disabled: true, checked: false, outline: "true", border: "false"
-    nav "Nested attributes", aria: {target: "#home", selected: "false", enabled: true, hidden: false}
-    div "Array attributes", class: ["a", nil, "b", ["c", nil, "d"]]
-  end
-end
-
 describe "attributes handling" do
   it "parses normal attributes" do
-    page = ExamplePage.new
-    div = normalize_html <<-HTML
-      <div class="hello" id="first">Normal attributes</div>
+    actual_html = Blueprint::HTML.build do
+      div "Blueprint", class: "hello", id: "first"
+    end
+
+    expected_html = normalize_html <<-HTML
+      <div class="hello" id="first">Blueprint</div>
     HTML
 
-    page.to_s.should contain(div)
+    actual_html.to_s.should eq expected_html
   end
 
   it "converts attribute values to string" do
-    page = ExamplePage.new
-    span = normalize_html <<-HTML
-      <span id="421" float="2.4">Non-string attribute values</span>
+    actual_html = Blueprint::HTML.build do
+      span id: 421, float: 2.4, md: MarkdownLink.new("Example", "example.com") do
+        "Blueprint"
+      end
+    end
+
+    expected_html = normalize_html <<-HTML
+      <span id="421" float="2.4" md="[Example](example.com)">Blueprint</span>
     HTML
 
-    page.to_s.should contain(span)
+    actual_html.to_s.should eq expected_html
   end
 
   it "replaces `_` by `-` on attribute names" do
-    page = ExamplePage.new
-    section = normalize_html <<-HTML
-      <section v-model="user.name" @click="doSomething">Transform attribute name</section>
+    actual_html = Blueprint::HTML.build do
+      section "Blueprint", v_model: "user.name", "@click": "doSomething"
+    end
+
+    expected_html = normalize_html <<-HTML
+      <section v-model="user.name" @click="doSomething">Blueprint</section>
     HTML
 
-    page.to_s.should contain(section)
+    actual_html.to_s.should eq expected_html
   end
 
   it "accepts boolean attributes" do
-    page = ExamplePage.new
-    input = normalize_html <<-HTML
+    actual_html = Blueprint::HTML.build do
+      input disabled: true, checked: false, outline: "true", border: "false"
+    end
+
+    expected_html = normalize_html <<-HTML
       <input disabled outline="true" border="false">
     HTML
 
-    page.to_s.should contain(input)
+    actual_html.to_s.should eq expected_html
   end
 
-  it "expands nested attributes" do
-    page = ExamplePage.new
-    nav = normalize_html <<-HTML
-      <nav aria-target="#home" aria-selected="false" aria-enabled>Nested attributes</nav>
+  it "expands NamedTuple attributes" do
+    actual_html = Blueprint::HTML.build do
+      nav "Blueprint", aria: {target: "#home", selected: "false", enabled: true, hidden: false}
+    end
+
+    expected_html = normalize_html <<-HTML
+      <nav aria-target="#home" aria-selected="false" aria-enabled>Blueprint</nav>
     HTML
 
-    page.to_s.should contain(nav)
+    actual_html.to_s.should eq expected_html
   end
 
   it "flattens, compacts and joins array attributes" do
-    page = ExamplePage.new
-    nav = normalize_html <<-HTML
-      <div class="a b c d">Array attributes</div>
+    actual_html = Blueprint::HTML.build do
+      div "Blueprint", class: ["a", nil, "b", ["c", nil, "d"]]
+    end
+
+    expected_html = normalize_html <<-HTML
+      <div class="a b c d">Blueprint</div>
     HTML
 
-    page.to_s.should contain(nav)
+    actual_html.to_s.should eq expected_html
   end
 end
