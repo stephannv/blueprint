@@ -39,7 +39,19 @@ module Blueprint::HTML
 
     @buffer = buffer
 
-    envelope { blueprint }
+    {% if @type.has_method?(:before_render) %}
+      before_render { }
+    {% end %}
+
+    {% if @type.has_method?(:around_render) %}
+      around_render { blueprint }
+    {% else %}
+      blueprint
+    {% end %}
+
+    {% if @type.has_method?(:after_render) %}
+      after_render { }
+    {% end %}
   end
 
   def to_s(buffer : String::Builder, &) : Nil
@@ -47,16 +59,24 @@ module Blueprint::HTML
 
     @buffer = buffer
 
-    envelope do
+    {% if @type.has_method?(:before_render) %}
+      before_render { yield }
+    {% end %}
+
+    {% if @type.has_method?(:around_render) %}
+      around_render do
+        blueprint { capture_content { yield } }
+      end
+    {% else %}
       blueprint { capture_content { yield } }
-    end
+    {% end %}
+
+    {% if @type.has_method?(:after_render) %}
+      after_render { yield }
+    {% end %}
   end
 
   private def render? : Bool
     true
-  end
-
-  private def envelope(&) : Nil
-    yield
   end
 end
