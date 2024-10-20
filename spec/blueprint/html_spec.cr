@@ -127,5 +127,20 @@ describe Blueprint::HTML do
 
       html.should eq expected_html
     end
+
+    it "yields self" do
+      actual_html = ArticleComponent.new("Hello").to_s do |article|
+        article.body { "Blueprint" }
+      end
+
+      expected_html = normalize_html <<-HTML
+        <div class="flex flex-col gap-2 bg-white border shadow">
+          <div class="p-2 text-lg font-bold">Hello</div>
+          <div class="p-4">Blueprint</div>
+        </div>
+      HTML
+
+      actual_html.should eq expected_html
+    end
   end
 end
