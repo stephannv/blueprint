@@ -1,5 +1,5 @@
 module Blueprint::HTML::Utils
-  private def plain(content) : Nil
+  private def plain(content : String) : Nil
     append_to_buffer(content)
   end
 
