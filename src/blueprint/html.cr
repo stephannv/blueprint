@@ -29,7 +29,7 @@ module Blueprint::HTML
   end
 
   def to_s(&) : String
-    to_s(@buffer) { yield }
+    to_s(@buffer) { yield self }
 
     @buffer.to_s
   end
