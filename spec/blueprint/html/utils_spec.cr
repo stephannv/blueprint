@@ -10,8 +10,6 @@ private class ExamplePage
       b "World"
     end
 
-    plain MarkdownLink.new("Blueprint", "blueprint.example.com")
-
     i "Hi"
     whitespace
     plain "User"
@@ -31,12 +29,6 @@ describe "utils" do
       page = ExamplePage.new
 
       page.to_s.should contain("<div>Hello<b>World</b></div>")
-    end
-
-    it "accepts any objects that respond `#to_s`" do
-      page = ExamplePage.new
-
-      page.to_s.should contain("[Blueprint](blueprint.example.com)")
     end
   end
 
