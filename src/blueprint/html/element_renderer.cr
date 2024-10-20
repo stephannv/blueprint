@@ -4,7 +4,7 @@ module Blueprint::HTML::ElementRenderer
     @buffer << tag_name
     __append_attributes__(attributes)
     @buffer << ">"
-    capture_content { yield }
+    __capture_content__ { yield }
     @buffer << "</"
     @buffer << tag_name
     @buffer << ">"
@@ -15,7 +15,7 @@ module Blueprint::HTML::ElementRenderer
     @buffer << tag_name
     __append_attributes__(attributes)
     @buffer << ">"
-    append_to_buffer(__content__)
+    __append_to_buffer__(__content__)
     @buffer << "</"
     @buffer << tag_name
     @buffer << ">"

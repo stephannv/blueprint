@@ -10,11 +10,11 @@ module Blueprint::HTML
   include Blueprint::HTML::BlockRenderer
   include Blueprint::HTML::BufferAppender
   include Blueprint::HTML::ComponentRegistrar
-  include Blueprint::HTML::ComponentRenderer
   include Blueprint::HTML::ElementRegistrar
   include Blueprint::HTML::ElementRenderer
   include Blueprint::HTML::Forms
   include Blueprint::HTML::Helpers
+  include Blueprint::HTML::Renderer
   include Blueprint::HTML::StandardElements
   include Blueprint::HTML::StyleBuilder
   include Blueprint::HTML::SVG
@@ -65,10 +65,10 @@ module Blueprint::HTML
 
     {% if @type.has_method?(:around_render) %}
       around_render do
-        blueprint { capture_content { yield } }
+        blueprint { __capture_content__ { yield } }
       end
     {% else %}
-      blueprint { capture_content { yield } }
+      blueprint { __capture_content__ { yield } }
     {% end %}
 
     {% if @type.has_method?(:after_render) %}
