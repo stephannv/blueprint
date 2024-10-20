@@ -1,6 +1,6 @@
 module Blueprint::HTML::Utils
   private def plain(content : String) : Nil
-    append_to_buffer(content)
+    __append_to_buffer__(content)
   end
 
   private def doctype : Nil
@@ -9,7 +9,7 @@ module Blueprint::HTML::Utils
 
   private def comment(content) : Nil
     @buffer << "<!--"
-    append_to_buffer(content)
+    __append_to_buffer__(content)
     @buffer << "-->"
   end
 
@@ -18,6 +18,6 @@ module Blueprint::HTML::Utils
   end
 
   private def raw(content : SafeObject) : Nil
-    append_to_buffer(content)
+    __append_to_buffer__(content)
   end
 end
