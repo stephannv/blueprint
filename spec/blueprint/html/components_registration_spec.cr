@@ -36,7 +36,7 @@ private class ComponentWithoutBlock
   include Blueprint::HTML
 
   private def blueprint
-    h1 "Component without block"
+    h1 { "Component without block" }
   end
 end
 

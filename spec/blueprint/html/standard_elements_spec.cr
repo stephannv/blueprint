@@ -18,8 +18,6 @@ private class ExamplePage
       {{element.id}}
       {{element.id}}(attribute: "test")
       {{element.id}} { "content" }
-      {{element.id}}("content")
-      {{element.id}}("content", attribute: "test")
       {{element.id}}(attribute: "test") { "content" }
     {% end %}
 
@@ -36,8 +34,6 @@ private class ExamplePage
     select_tag
     select_tag(attribute: "test")
     select_tag { "content" }
-    select_tag("content")
-    select_tag("content", attribute: "test")
     select_tag(attribute: "test") { "content" }
   end
 end
@@ -50,8 +46,6 @@ describe "standard HTML elements" do
         io << "<" << tag << ">" << "</" << tag << ">"
         io << "<" << tag << " attribute=\"test\">" << "</" << tag << ">"
         io << "<" << tag << ">content" << "</" << tag << ">"
-        io << "<" << tag << ">content" << "</" << tag << ">"
-        io << "<" << tag << " attribute=\"test\">content" << "</" << tag << ">"
         io << "<" << tag << " attribute=\"test\">content" << "</" << tag << ">"
       end
 
@@ -68,8 +62,6 @@ describe "standard HTML elements" do
       io << "<select></select>"
       io << "<select attribute=\"test\"></select>"
       io << "<select>content</select>"
-      io << "<select>content</select>"
-      io << "<select attribute=\"test\">content</select>"
       io << "<select attribute=\"test\">content</select>"
     end
 

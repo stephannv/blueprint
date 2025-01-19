@@ -15,14 +15,6 @@ module Blueprint::HTML::ElementRegistrar
       __append_attributes__(attributes)
       @buffer << "></{{tag.id}}>"
     end
-
-    private def {{method_name.id}}(__content__, **attributes) : Nil
-      @buffer << "<{{tag.id}}"
-      __append_attributes__(attributes)
-      @buffer << ">"
-      __append_to_buffer__(__content__)
-      @buffer << "</{{tag.id}}>"
-    end
   end
 
   macro register_empty_element(method_name, tag = nil)

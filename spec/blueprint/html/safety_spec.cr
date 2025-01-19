@@ -7,12 +7,10 @@ private class Example
 
   private def blueprint
     span { "<script>alert('hello')</script>" }
-    span "<script>alert('content')</script>"
     plain "<script>alert('Plain Text')</script>"
     render(ExampleComponent.new) { "<script>alert('ExampleComponent')</script>" }
     div(class: "some-class\" onblur=\"alert('Attribute')")
     comment "--><script>alert('Comment')</script><!--"
-    v_btn "<script>alert('content')</script>"
     v_btn(class: "some-class\" onclick=\"alert('Attribute')") { "<script>alert('hello')</script>" }
   end
 end
@@ -26,19 +24,10 @@ private class ExampleComponent
 end
 
 describe "safety" do
-  it "escapes content passed to tags via block" do
+  it "escapes tag content" do
     page = Example.new
     expected_html = normalize_html <<-HTML
       <span>&lt;script&gt;alert(&#39;hello&#39;)&lt;/script&gt;</span>
-    HTML
-
-    page.to_s.should contain(expected_html)
-  end
-
-  it "escapes content passed to tags via argument" do
-    page = Example.new
-    expected_html = normalize_html <<-HTML
-      <span>&lt;script&gt;alert(&#39;content&#39;)&lt;/script&gt;</span>
     HTML
 
     page.to_s.should contain(expected_html)
@@ -80,16 +69,7 @@ describe "safety" do
     page.to_s.should contain(expected_html)
   end
 
-  it "escapes custom tag content passed via argument" do
-    page = Example.new
-    expected_html = normalize_html <<-HTML
-      <v-btn>&lt;script&gt;alert(&#39;content&#39;)&lt;/script&gt;</v-btn>
-    HTML
-
-    page.to_s.should contain(expected_html)
-  end
-
-  it "escapes custom tag content passed via block" do
+  it "escapes custom tag content" do
     page = Example.new
     expected_html = normalize_html <<-HTML
       <v-btn class="some-class&quot; onclick=&quot;alert('Attribute')">&lt;script&gt;alert(&#39;hello&#39;)&lt;/script&gt;</v-btn>
