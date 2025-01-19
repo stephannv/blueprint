@@ -15,7 +15,7 @@ private class NoRenderPage
   include Blueprint::HTML
 
   private def blueprint
-    h1 "This page will not be rendered"
+    h1 { "This page will not be rendered" }
   end
 
   private def blueprint(&)
@@ -31,7 +31,7 @@ private class NoRenderComponent
   include Blueprint::HTML
 
   private def blueprint
-    h1 "This component will not be rendered"
+    h1 { "This component will not be rendered" }
   end
 
   private def blueprint(&)

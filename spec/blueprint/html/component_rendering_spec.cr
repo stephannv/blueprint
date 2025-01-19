@@ -7,13 +7,13 @@ private class ExamplePage
     render BasicComponent.new
 
     render ContentComponent.new do
-      span "Passing content to component"
+      span { "Passing content to component" }
     end
 
     render ComplexComponent.new do |card|
       card.title { "My card" }
       card.body { "Card content" }
-      footer "Footer tag"
+      footer { "Footer tag" }
     end
   end
 end
@@ -22,7 +22,7 @@ private class BasicComponent
   include Blueprint::HTML
 
   private def blueprint
-    header "Basic component"
+    header { "Basic component" }
   end
 end
 

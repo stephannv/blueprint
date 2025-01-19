@@ -9,7 +9,6 @@ private class ExamplePage
   private def blueprint
     div do
       v_btn(href: "#home", data: {id: 12, visible: true, disabled: false}) { "Home" }
-      v_btn("Contact", href: "#contact")
       v_btn
       card
     end
@@ -21,15 +20,6 @@ describe "custom elements registration" do
     page = ExamplePage.new
     expected_html = normalize_html <<-HTML
       <v-btn href="#home" data-id="12" data-visible>Home</v-btn>
-    HTML
-
-    page.to_s.should contain expected_html
-  end
-
-  it "allows passing content as first argument" do
-    page = ExamplePage.new
-    expected_html = normalize_html <<-HTML
-      <v-btn href="#contact">Contact</v-btn>
     HTML
 
     page.to_s.should contain expected_html

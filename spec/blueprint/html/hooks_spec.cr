@@ -26,7 +26,7 @@ private class ExampleWithoutBlock
   include Blueprint::HTML
 
   private def blueprint
-    h1 "Without block"
+    h1 { "Without block" }
   end
 
   private def before_render(&)

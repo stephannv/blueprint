@@ -3,7 +3,9 @@ require "../../spec_helper"
 describe "attributes handling" do
   it "parses normal attributes" do
     actual_html = Blueprint::HTML.build do
-      div "Blueprint", class: "hello", id: "first"
+      div class: "hello", id: "first" do
+        "Blueprint"
+      end
     end
 
     expected_html = normalize_html <<-HTML
@@ -29,7 +31,9 @@ describe "attributes handling" do
 
   it "replaces `_` by `-` on attribute names" do
     actual_html = Blueprint::HTML.build do
-      section "Blueprint", v_model: "user.name", "@click": "doSomething"
+      section v_model: "user.name", "@click": "doSomething" do
+        "Blueprint"
+      end
     end
 
     expected_html = normalize_html <<-HTML
@@ -53,7 +57,9 @@ describe "attributes handling" do
 
   it "expands NamedTuple attributes" do
     actual_html = Blueprint::HTML.build do
-      nav "Blueprint", aria: {target: "#home", selected: "false", enabled: true, hidden: false}
+      nav aria: {target: "#home", selected: "false", enabled: true, hidden: false} do
+        "Blueprint"
+      end
     end
 
     expected_html = normalize_html <<-HTML
@@ -65,7 +71,9 @@ describe "attributes handling" do
 
   it "flattens, compacts and joins array attributes" do
     actual_html = Blueprint::HTML.build do
-      div "Blueprint", class: ["a", nil, "b", ["c", nil, "d"]]
+      div class: ["a", nil, "b", ["c", nil, "d"]] do
+        "Blueprint"
+      end
     end
 
     expected_html = normalize_html <<-HTML

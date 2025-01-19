@@ -7,10 +7,10 @@ private class ExamplePage
     doctype
     div do
       plain "Hello"
-      b "World"
+      b { "World" }
     end
 
-    i "Hi"
+    i { "Hi" }
     whitespace
     plain "User"
 
