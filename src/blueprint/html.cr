@@ -9,7 +9,6 @@ module Blueprint::HTML
   include Blueprint::HTML::AttributesHandler
   include Blueprint::HTML::BlockRenderer
   include Blueprint::HTML::BufferAppender
-  include Blueprint::HTML::ComponentRegistrar
   include Blueprint::HTML::ElementRegistrar
   include Blueprint::HTML::ElementRenderer
   include Blueprint::HTML::Helpers
