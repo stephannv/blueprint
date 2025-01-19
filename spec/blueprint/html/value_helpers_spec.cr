@@ -1,6 +1,6 @@
 require "../../spec_helper"
 
-describe "helpers" do
+describe "value helpers" do
   describe "#safe" do
     it "returns an object that Blueprint will understand as safe to render without escaping" do
       actual_html = Blueprint::HTML.build do

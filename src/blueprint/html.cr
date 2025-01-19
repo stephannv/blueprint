@@ -11,11 +11,11 @@ module Blueprint::HTML
   include Blueprint::HTML::BufferAppender
   include Blueprint::HTML::ElementRegistrar
   include Blueprint::HTML::ElementRenderer
-  include Blueprint::HTML::Helpers
+  include Blueprint::HTML::OutputHelpers
   include Blueprint::HTML::Renderer
   include Blueprint::HTML::StandardElements
   include Blueprint::HTML::SVG
-  include Blueprint::HTML::Utils
+  include Blueprint::HTML::ValueHelpers
 
   @buffer : String::Builder = String::Builder.new
 
