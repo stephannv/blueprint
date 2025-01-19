@@ -45,7 +45,7 @@ describe "renderer" do
 
   it "renders blocks" do
     actual_html = Blueprint::HTML.build do
-      render ->{ "He" + "llo" }
+      render -> { "He" + "llo" }
     end
 
     expected_html = "Hello"

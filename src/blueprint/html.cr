@@ -12,11 +12,9 @@ module Blueprint::HTML
   include Blueprint::HTML::ComponentRegistrar
   include Blueprint::HTML::ElementRegistrar
   include Blueprint::HTML::ElementRenderer
-  include Blueprint::HTML::Forms
   include Blueprint::HTML::Helpers
   include Blueprint::HTML::Renderer
   include Blueprint::HTML::StandardElements
-  include Blueprint::HTML::StyleBuilder
   include Blueprint::HTML::SVG
   include Blueprint::HTML::Utils
 
