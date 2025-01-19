@@ -76,4 +76,10 @@ module Blueprint::HTML
   private def render? : Bool
     true
   end
+
+  private def buffering_to(other : String::Builder, &) : Nil
+    original, @buffer = @buffer, other
+    yield
+    @buffer = original
+  end
 end
