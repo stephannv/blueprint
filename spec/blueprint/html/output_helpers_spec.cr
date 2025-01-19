@@ -23,7 +23,7 @@ private class ExamplePage
   end
 end
 
-describe "utils" do
+describe "output helpers" do
   describe "#plain" do
     it "renders plain text" do
       page = ExamplePage.new

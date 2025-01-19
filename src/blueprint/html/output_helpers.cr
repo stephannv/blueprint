@@ -1,4 +1,4 @@
-module Blueprint::HTML::Utils
+module Blueprint::HTML::OutputHelpers
   private def plain(content : String) : Nil
     __append_to_buffer__(content)
   end
