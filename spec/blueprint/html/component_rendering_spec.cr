@@ -1,23 +1,5 @@
 require "../../spec_helper"
 
-private class ExamplePage
-  include Blueprint::HTML
-
-  private def blueprint
-    render BasicComponent.new
-
-    render ContentComponent.new do
-      span { "Passing content to component" }
-    end
-
-    render ComplexComponent.new do |card|
-      card.title { "My card" }
-      card.body { "Card content" }
-      footer { "Footer tag" }
-    end
-  end
-end
-
 private class BasicComponent
   include Blueprint::HTML
 
@@ -68,17 +50,25 @@ end
 
 describe "component rendering" do
   it "can render another blueprints" do
-    page = ExamplePage.new
-    basic_component = normalize_html <<-HTML
+    actual_html = Blueprint::HTML.build do
+      render BasicComponent.new
+    end
+
+    expected_html = normalize_html <<-HTML
       <header>Basic component</header>
     HTML
 
-    page.to_s.should contain(basic_component)
+    actual_html.should eq expected_html
   end
 
-  it "can provide content to another blueprints" do
-    page = ExamplePage.new
-    content_component = normalize_html <<-HTML
+  it "can provide content to another components" do
+    actual_html = Blueprint::HTML.build do
+      render ContentComponent.new do
+        span { "Passing content to component" }
+      end
+    end
+
+    expected_html = normalize_html <<-HTML
       <div>
         <p>
           <span>Passing content to component</span>
@@ -86,12 +76,19 @@ describe "component rendering" do
       </div>
     HTML
 
-    page.to_s.should contain(content_component)
+    actual_html.should eq expected_html
   end
 
   it "can use another blueprint methods" do
-    page = ExamplePage.new
-    complex_component = normalize_html <<-HTML
+    actual_html = Blueprint::HTML.build do
+      render ComplexComponent.new do |card|
+        card.title { "My card" }
+        card.body { "Card content" }
+        footer { "Footer tag" }
+      end
+    end
+
+    expected_html = normalize_html <<-HTML
       <div class="bg-white border shadow">
         <div class="p-4 font-bold text-lg">My card</div>
         <div class="px-4 py-2">Card content</div>
@@ -99,6 +96,6 @@ describe "component rendering" do
       </div>
     HTML
 
-    page.to_s.should contain(complex_component)
+    actual_html.should eq expected_html
   end
 end
