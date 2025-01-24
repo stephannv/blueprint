@@ -7,18 +7,10 @@ private class ExampleWithBlock
     h1 { yield }
   end
 
-  private def before_render(&)
-    span { "Before render" }
-  end
-
   private def around_render(&)
-    span { "Around start" }
+    span { "Before" }
     yield
-    span { "Around end" }
-  end
-
-  private def after_render(&)
-    span { "After render" }
+    span { "After" }
   end
 end
 
@@ -29,31 +21,21 @@ private class ExampleWithoutBlock
     h1 { "Without block" }
   end
 
-  private def before_render(&)
-    span { "Before render" }
-  end
-
   private def around_render(&)
-    span { "Around start" }
+    span { "Before" }
     yield
-    span { "Around end" }
-  end
-
-  private def after_render(&)
-    span { "After render" }
+    span { "After" }
   end
 end
 
-describe "hooks" do
+describe "around render" do
   context "with block" do
     it "allows defining hooks before_render, around_render, after_render" do
       actual_html = ExampleWithBlock.new.to_s { "With block" }
       expected_html = normalize_html <<-HTML
-        <span>Before render</span>
-        <span>Around start</span>
+        <span>Before</span>
         <h1>With block</h1>
-        <span>Around end</span>
-        <span>After render</span>
+        <span>After</span>
       HTML
 
       actual_html.should eq expected_html
@@ -64,11 +46,9 @@ describe "hooks" do
     it "allows defining hooks before_render, around_render, after_render" do
       actual_html = ExampleWithoutBlock.new.to_s
       expected_html = normalize_html <<-HTML
-        <span>Before render</span>
-        <span>Around start</span>
+        <span>Before</span>
         <h1>Without block</h1>
-        <span>Around end</span>
-        <span>After render</span>
+        <span>After</span>
       HTML
 
       actual_html.should eq expected_html
