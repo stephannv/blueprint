@@ -36,19 +36,7 @@ module Blueprint::HTML
 
     @buffer = buffer
 
-    {% if @type.has_method?(:before_render) %}
-      before_render { }
-    {% end %}
-
-    {% if @type.has_method?(:around_render) %}
-      around_render { blueprint }
-    {% else %}
-      blueprint
-    {% end %}
-
-    {% if @type.has_method?(:after_render) %}
-      after_render { }
-    {% end %}
+    around_render { blueprint }
   end
 
   def to_s(buffer : String::Builder, &) : Nil
@@ -56,25 +44,17 @@ module Blueprint::HTML
 
     @buffer = buffer
 
-    {% if @type.has_method?(:before_render) %}
-      before_render { yield }
-    {% end %}
-
-    {% if @type.has_method?(:around_render) %}
-      around_render do
-        blueprint { BufferRenderer.render(to: @buffer) { yield } }
-      end
-    {% else %}
+    around_render do
       blueprint { BufferRenderer.render(to: @buffer) { yield } }
-    {% end %}
-
-    {% if @type.has_method?(:after_render) %}
-      after_render { yield }
-    {% end %}
+    end
   end
 
   def render? : Bool
     true
+  end
+
+  def around_render(&)
+    yield
   end
 
   def element(tag_name : String | Symbol, **attributes, &) : Nil
