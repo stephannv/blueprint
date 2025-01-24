@@ -4,7 +4,7 @@ module Blueprint::HTML::ElementRenderer
     @buffer << tag_name
     AttributesRenderer.render(@buffer, attributes)
     @buffer << ">"
-    __capture_content__ { yield }
+    BufferRenderer.render(to: @buffer) { yield }
     @buffer << "</"
     @buffer << tag_name
     @buffer << ">"

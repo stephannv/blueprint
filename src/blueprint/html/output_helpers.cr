@@ -1,6 +1,6 @@
 module Blueprint::HTML::OutputHelpers
   private def plain(content : String) : Nil
-    __append_to_buffer__(content)
+    BufferRenderer.render(content, to: @buffer)
   end
 
   private def doctype : Nil
@@ -9,7 +9,7 @@ module Blueprint::HTML::OutputHelpers
 
   private def comment(content) : Nil
     @buffer << "<!--"
-    __append_to_buffer__(content)
+    BufferRenderer.render(content, to: @buffer)
     @buffer << "-->"
   end
 
@@ -18,6 +18,6 @@ module Blueprint::HTML::OutputHelpers
   end
 
   private def raw(content : SafeObject) : Nil
-    __append_to_buffer__(content)
+    BufferRenderer.render(content, to: @buffer)
   end
 end

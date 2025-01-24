@@ -6,8 +6,6 @@ require "./safe_object"
 require "./safe_value"
 
 module Blueprint::HTML
-  include Blueprint::HTML::BlockRenderer
-  include Blueprint::HTML::BufferAppender
   include Blueprint::HTML::ElementRegistrar
   include Blueprint::HTML::ElementRenderer
   include Blueprint::HTML::OutputHelpers
@@ -61,10 +59,10 @@ module Blueprint::HTML
 
     {% if @type.has_method?(:around_render) %}
       around_render do
-        blueprint { __capture_content__ { yield } }
+        blueprint { BufferRenderer.render(to: @buffer) { yield } }
       end
     {% else %}
-      blueprint { __capture_content__ { yield } }
+      blueprint { BufferRenderer.render(to: @buffer) { yield } }
     {% end %}
 
     {% if @type.has_method?(:after_render) %}
