@@ -1,7 +1,7 @@
 module Blueprint::HTML::AttributesRenderer
   extend self
 
-  def render(buffer : String::Builder, attributes : NamedTuple) : Nil
+  def render(attributes : NamedTuple, to buffer : String::Builder) : Nil
     attributes.each { |name, value| append_attribute(buffer, name, value) }
   end
 
