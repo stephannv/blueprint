@@ -20,6 +20,6 @@ module Blueprint::HTML::Renderer
   end
 
   private def render(renderable) : Nil
-    __append_to_buffer__(renderable)
+    BufferRenderer.render(renderable, to: @buffer)
   end
 end

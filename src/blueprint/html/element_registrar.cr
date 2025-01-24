@@ -6,7 +6,7 @@ module Blueprint::HTML::ElementRegistrar
       @buffer << "<{{tag.id}}"
       AttributesRenderer.render(@buffer, attributes)
       @buffer << ">"
-      __capture_content__ { yield }
+      BufferRenderer.render(to: @buffer) { yield }
       @buffer << "</{{tag.id}}>"
     end
 
