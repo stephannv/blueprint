@@ -7,7 +7,6 @@ require "./safe_value"
 
 module Blueprint::HTML
   include Blueprint::HTML::ElementRegistrar
-  include Blueprint::HTML::ElementRenderer
   include Blueprint::HTML::OutputHelpers
   include Blueprint::HTML::Renderer
   include Blueprint::HTML::StandardElements
@@ -74,7 +73,25 @@ module Blueprint::HTML
     {% end %}
   end
 
-  private def render? : Bool
+  def render? : Bool
     true
+  end
+
+  def element(tag_name : String | Symbol, **attributes, &) : Nil
+    @buffer << "<"
+    @buffer << tag_name
+    AttributesRenderer.render(attributes, to: @buffer)
+    @buffer << ">"
+    BufferRenderer.render(to: @buffer) { yield }
+    @buffer << "</"
+    @buffer << tag_name
+    @buffer << ">"
+  end
+
+  def void_element(tag_name : String | Symbol, **attributes) : Nil
+    @buffer << "<"
+    @buffer << tag_name
+    AttributesRenderer.render(attributes, to: @buffer)
+    @buffer << ">"
   end
 end
