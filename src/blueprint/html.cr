@@ -7,7 +7,6 @@ require "./safe_value"
 
 module Blueprint::HTML
   include Blueprint::HTML::ElementRegistrar
-  include Blueprint::HTML::OutputHelpers
   include Blueprint::HTML::StandardElements
 
   @buffer : String::Builder = String::Builder.new
@@ -52,6 +51,28 @@ module Blueprint::HTML
 
   def around_render(&) : Nil
     yield
+  end
+
+  def plain(content : String) : Nil
+    BufferRenderer.render(content, to: @buffer)
+  end
+
+  def doctype : Nil
+    @buffer << "<!DOCTYPE html>"
+  end
+
+  def comment(content) : Nil
+    @buffer << "<!--"
+    BufferRenderer.render(content, to: @buffer)
+    @buffer << "-->"
+  end
+
+  def whitespace : Nil
+    @buffer << " "
+  end
+
+  def raw(content : Blueprint::SafeObject) : Nil
+    BufferRenderer.render(content, to: @buffer)
   end
 
   def element(tag_name : String | Symbol, **attributes, &) : Nil
@@ -106,11 +127,11 @@ module Blueprint::HTML
     end
   end
 
-  def safe(value) : SafeValue
+  def safe(value) : Blueprint::SafeValue
     Blueprint::SafeValue.new(value)
   end
 
-  def escape_once(value) : SafeValue
+  def escape_once(value) : Blueprint::SafeValue
     safe EscapeOnce.escape(value)
   end
 end
