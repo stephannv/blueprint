@@ -16,6 +16,10 @@ module Blueprint::HTML
 
   @buffer : String::Builder = String::Builder.new
 
+  def self.build(&) : String
+    Builder.build { |builder| with builder yield }
+  end
+
   def to_s : String
     to_s(@buffer)
 
