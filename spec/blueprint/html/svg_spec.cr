@@ -8,37 +8,17 @@ private ELEMENTS = %w(a animate animateMotion animateTransform circle clipPath d
   text textPath title tspan use view
 )
 
-private class ExamplePage
-  include Blueprint::HTML
-
-  private def blueprint
-    svg width: 30, height: 10 do
-      g fill: :red do
-        rect x: 0, y: 0, width: 10, height: 10
-        rect x: 20, y: 0, width: 10, height: 10
+describe "SVG" do
+  it "allows SVG rendering" do
+    actual_html = Blueprint::HTML.build do
+      svg width: 30, height: 10 do
+        g fill: :red do
+          rect x: 0, y: 0, width: 10, height: 10
+          rect x: 20, y: 0, width: 10, height: 10
+        end
       end
     end
-  end
-end
 
-private class CompleteExamplePage
-  include Blueprint::HTML
-
-  private def blueprint
-    svg do
-      {% for element in ELEMENTS %}
-        {{element.id}}
-        {{element.id}}(attribute: "test")
-        {{element.id}} { "content" }
-        {{element.id}}(attribute: "test") { "content" }
-      {% end %}
-    end
-  end
-end
-
-describe "SVG rendering" do
-  it "allows SVG rendering" do
-    example = ExamplePage.new
     expected_html = normalize_html <<-HTML
       <svg width="30" height="10">
         <g fill="red">
@@ -48,11 +28,21 @@ describe "SVG rendering" do
       </svg>
     HTML
 
-    example.to_s.should eq expected_html
+    actual_html.should eq expected_html
   end
 
   it "defines all SVG element helper methods" do
-    page = CompleteExamplePage.new
+    actual_html = Blueprint::HTML.build do
+      svg do
+        {% for element in ELEMENTS %}
+          {{element.id}}
+          {{element.id}}(attribute: "test")
+          {{element.id}} { "content" }
+          {{element.id}}(attribute: "test") { "content" }
+        {% end %}
+      end
+    end
+
     expected_html = String.build do |io|
       io << "<svg>"
       ELEMENTS.each do |tag|
@@ -64,6 +54,6 @@ describe "SVG rendering" do
       io << "</svg>"
     end
 
-    page.to_s.should eq expected_html
+    actual_html.should eq expected_html
   end
 end

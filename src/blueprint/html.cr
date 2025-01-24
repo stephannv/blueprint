@@ -9,7 +9,6 @@ module Blueprint::HTML
   include Blueprint::HTML::ElementRegistrar
   include Blueprint::HTML::OutputHelpers
   include Blueprint::HTML::StandardElements
-  include Blueprint::HTML::SVG
   include Blueprint::HTML::ValueHelpers
 
   @buffer : String::Builder = String::Builder.new
@@ -96,5 +95,15 @@ module Blueprint::HTML
 
   def render(renderable) : Nil
     BufferRenderer.render(renderable, to: @buffer)
+  end
+
+  private def svg(**attributes) : Nil
+    svg(**attributes) { }
+  end
+
+  private def svg(**attributes, &) : Nil
+    render SVG.new(**attributes) do |svg|
+      with svg yield
+    end
   end
 end
