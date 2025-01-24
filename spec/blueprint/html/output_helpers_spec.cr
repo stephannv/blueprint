@@ -1,72 +1,81 @@
 require "../../spec_helper"
 
-private class ExamplePage
-  include Blueprint::HTML
-
-  private def blueprint
-    doctype
-    div do
-      plain "Hello"
-      b { "World" }
-    end
-
-    i { "Hi" }
-    whitespace
-    plain "User"
-
-    comment "This is an html comment"
-    comment MarkdownLink.new("Comment", "comment.example.com")
-
-    div do
-      raw safe("<script>Dangerous script</script>")
-    end
-  end
-end
-
 describe "output helpers" do
   describe "#plain" do
     it "renders plain text" do
-      page = ExamplePage.new
+      actual_html = Blueprint::HTML.build do
+        div do
+          plain "Hello"
+          b { "World" }
+        end
+      end
 
-      page.to_s.should contain("<div>Hello<b>World</b></div>")
+      expected_html = normalize_html <<-HTML
+        <div>
+          Hello
+          <b>World</b>
+        </div>
+      HTML
+
+      actual_html.should eq expected_html
     end
   end
 
   describe "#doctype" do
     it "renders HTML 5 doctype declaration" do
-      page = ExamplePage.new
+      actual_html = Blueprint::HTML.build do
+        doctype
+      end
 
-      page.to_s.should contain("<!DOCTYPE html>")
+      expected_html = normalize_html <<-HTML
+        <!DOCTYPE html>
+      HTML
+
+      actual_html.should eq expected_html
     end
   end
 
   describe "#comment" do
     it "renders an html comment" do
-      page = ExamplePage.new
+      actual_html = Blueprint::HTML.build do
+        comment "This is an html comment"
+      end
 
-      page.to_s.should contain("<!--This is an html comment-->")
-    end
+      expected_html = normalize_html <<-HTML
+        <!--This is an html comment-->
+      HTML
 
-    it "accepts any objects that respond `#to_s`" do
-      page = ExamplePage.new
-
-      page.to_s.should contain("<!--[Comment](comment.example.com)-->")
+      actual_html.should eq expected_html
     end
   end
 
   describe "#whitespace" do
     it "renders an whitespace" do
-      page = ExamplePage.new
+      actual_html = Blueprint::HTML.build do
+        i { "Hi" }
+        whitespace
+        plain "User"
+      end
 
-      page.to_s.should contain("<i>Hi</i> User")
+      expected_html = normalize_html <<-HTML
+        <i>Hi</i> User
+      HTML
+
+      actual_html.should eq expected_html
     end
   end
 
-  describe "#unsafe_raw" do
-    it "renders content without escaping" do
-      page = ExamplePage.new
+  describe "#raw" do
+    it "renders safe content without escaping" do
+      actual_html = Blueprint::HTML.build do
+        raw safe("<script>Dangerous script</script>")
+      end
 
-      page.to_s.should contain("<script>Dangerous script</script>")
+      expected_html = normalize_html <<-HTML
+        <script>Dangerous script</script>
+      HTML
+
+      actual_html.should eq expected_html
     end
   end
 end
