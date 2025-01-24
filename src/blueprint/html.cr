@@ -6,7 +6,6 @@ require "./safe_object"
 require "./safe_value"
 
 module Blueprint::HTML
-  include Blueprint::HTML::AttributesHandler
   include Blueprint::HTML::BlockRenderer
   include Blueprint::HTML::BufferAppender
   include Blueprint::HTML::ElementRegistrar

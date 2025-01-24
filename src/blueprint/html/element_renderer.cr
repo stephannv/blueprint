@@ -2,7 +2,7 @@ module Blueprint::HTML::ElementRenderer
   private def element(tag_name : String | Symbol, **attributes, &) : Nil
     @buffer << "<"
     @buffer << tag_name
-    __append_attributes__(attributes)
+    AttributesRenderer.render(@buffer, attributes)
     @buffer << ">"
     __capture_content__ { yield }
     @buffer << "</"
@@ -13,7 +13,7 @@ module Blueprint::HTML::ElementRenderer
   private def void_element(tag_name : String | Symbol, **attributes) : Nil
     @buffer << "<"
     @buffer << tag_name
-    __append_attributes__(attributes)
+    AttributesRenderer.render(@buffer, attributes)
     @buffer << ">"
   end
 end
