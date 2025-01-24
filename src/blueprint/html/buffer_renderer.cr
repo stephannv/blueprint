@@ -1,22 +1,22 @@
 module Blueprint::HTML::BufferRenderer
   extend self
 
-  def render(content : String, to buffer : String::Builder)
+  def render(content : String, to buffer : String::Builder) : Nil
     ::HTML.escape(content, buffer)
   end
 
-  def render(content : Proc, to buffer : String::Builder)
+  def render(content : Proc, to buffer : String::Builder) : Nil
     BlockRenderer.render(content, to: buffer)
   end
 
-  def render(content : SafeObject, to buffer : String::Builder)
+  def render(content : SafeObject, to buffer : String::Builder) : Nil
     content.to_s(buffer)
   end
 
-  def render(content : Nil, to buffer : String::Builder)
+  def render(content : Nil, to buffer : String::Builder) : Nil
   end
 
-  def render(content, to buffer : String::Builder)
+  def render(content, to buffer : String::Builder) : Nil
     ::HTML.escape(content.to_s, buffer)
   end
 

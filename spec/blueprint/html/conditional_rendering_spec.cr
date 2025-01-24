@@ -1,37 +1,10 @@
 require "../../spec_helper"
 
-private class ExamplePage
+private class NoRender
   include Blueprint::HTML
 
   private def blueprint
-    div do
-      render(NoRenderComponent.new)
-      render(NoRenderComponent.new) { "This component will not be rendered" }
-    end
-  end
-end
-
-private class NoRenderPage
-  include Blueprint::HTML
-
-  private def blueprint
-    h1 { "This page will not be rendered" }
-  end
-
-  private def blueprint(&)
-    h1 { yield }
-  end
-
-  def render?
-    false
-  end
-end
-
-private class NoRenderComponent
-  include Blueprint::HTML
-
-  private def blueprint
-    h1 { "This component will not be rendered" }
+    h1 { "This will not be rendered" }
   end
 
   private def blueprint(&)
@@ -44,25 +17,19 @@ private class NoRenderComponent
 end
 
 describe "conditional rendering" do
-  context "when component `#render?` returns false" do
-    it "doesn't render the component" do
-      page = ExamplePage.new
-      expected_html = normalize_html <<-HTML
-        <div></div>
-      HTML
-
-      page.to_s.should eq expected_html
-    end
-  end
-
-  context "when blueprint `#render?` returns false" do
+  context "when `#render?` returns false" do
     it "doesn't render the blueprint" do
-      page = NoRenderPage.new
-      page.to_s.should eq ""
+      actual_html = Blueprint::HTML.build do
+        render NoRender
+        render NoRender.new
+        render NoRender.new do
+          "Hello World"
+        end
+      end
 
-      page = NoRenderPage.new
-      html = page.to_s { "This page will not be rendered" }
-      html.should eq ""
+      actual_html.should eq ""
+      NoRender.new.to_s.should eq ""
+      NoRender.new.to_s { "Hello World" }.should eq ""
     end
   end
 end

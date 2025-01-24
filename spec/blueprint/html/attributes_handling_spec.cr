@@ -12,7 +12,7 @@ describe "attributes handling" do
       <div class="hello" id="first">Blueprint</div>
     HTML
 
-    actual_html.to_s.should eq expected_html
+    actual_html.should eq expected_html
   end
 
   it "converts attribute values to string" do
@@ -26,7 +26,7 @@ describe "attributes handling" do
       <span id="421" float="2.4" md="[Example](example.com)">Blueprint</span>
     HTML
 
-    actual_html.to_s.should eq expected_html
+    actual_html.should eq expected_html
   end
 
   it "replaces `_` by `-` on attribute names" do
@@ -40,7 +40,7 @@ describe "attributes handling" do
       <section v-model="user.name" @click="doSomething">Blueprint</section>
     HTML
 
-    actual_html.to_s.should eq expected_html
+    actual_html.should eq expected_html
   end
 
   it "accepts boolean attributes" do
@@ -52,7 +52,7 @@ describe "attributes handling" do
       <input disabled outline="true" border="false">
     HTML
 
-    actual_html.to_s.should eq expected_html
+    actual_html.should eq expected_html
   end
 
   it "expands NamedTuple attributes" do
@@ -66,7 +66,7 @@ describe "attributes handling" do
       <nav aria-target="#home" aria-selected="false" aria-enabled>Blueprint</nav>
     HTML
 
-    actual_html.to_s.should eq expected_html
+    actual_html.should eq expected_html
   end
 
   it "flattens, compacts and joins array attributes" do
@@ -80,6 +80,6 @@ describe "attributes handling" do
       <div class="a b c d">Blueprint</div>
     HTML
 
-    actual_html.to_s.should eq expected_html
+    actual_html.should eq expected_html
   end
 end

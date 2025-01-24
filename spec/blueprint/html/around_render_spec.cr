@@ -1,7 +1,11 @@
 require "../../spec_helper"
 
-private class ExampleWithBlock
+private class Example
   include Blueprint::HTML
+
+  private def blueprint
+    h1 { "Hello World" }
+  end
 
   private def blueprint(&)
     h1 { yield }
@@ -14,24 +18,11 @@ private class ExampleWithBlock
   end
 end
 
-private class ExampleWithoutBlock
-  include Blueprint::HTML
-
-  private def blueprint
-    h1 { "Without block" }
-  end
-
-  private def around_render(&)
-    span { "Before" }
-    yield
-    span { "After" }
-  end
-end
-
 describe "around render" do
   context "with block" do
-    it "allows defining hooks before_render, around_render, after_render" do
-      actual_html = ExampleWithBlock.new.to_s { "With block" }
+    it "allows wrapping component render" do
+      actual_html = Example.new.to_s { "With block" }
+
       expected_html = normalize_html <<-HTML
         <span>Before</span>
         <h1>With block</h1>
@@ -43,11 +34,12 @@ describe "around render" do
   end
 
   context "without block" do
-    it "allows defining hooks before_render, around_render, after_render" do
-      actual_html = ExampleWithoutBlock.new.to_s
+    it "allows wrapping component render" do
+      actual_html = Example.new.to_s
+
       expected_html = normalize_html <<-HTML
         <span>Before</span>
-        <h1>Without block</h1>
+        <h1>Hello World</h1>
         <span>After</span>
       HTML
 

@@ -2,7 +2,7 @@ module Blueprint::HTML::ElementRegistrar
   macro register_element(method_name, tag = nil)
     {% tag ||= method_name.tr("_", "-") %}
 
-    private def {{method_name.id}}(**attributes, &block) : Nil
+    def {{method_name.id}}(**attributes, &block) : Nil
       @buffer << "<{{tag.id}}"
       AttributesRenderer.render(attributes, to: @buffer)
       @buffer << ">"
@@ -10,7 +10,7 @@ module Blueprint::HTML::ElementRegistrar
       @buffer << "</{{tag.id}}>"
     end
 
-    private def {{method_name.id}}(**attributes) : Nil
+    def {{method_name.id}}(**attributes) : Nil
       @buffer << "<{{tag.id}}"
       AttributesRenderer.render(attributes, to: @buffer)
       @buffer << "></{{tag.id}}>"
@@ -20,7 +20,7 @@ module Blueprint::HTML::ElementRegistrar
   macro register_empty_element(method_name, tag = nil)
     {% tag ||= method_name.tr("_", "-") %}
 
-    private def {{method_name.id}}(**attributes) : Nil
+    def {{method_name.id}}(**attributes) : Nil
       @buffer << "<{{tag.id}}"
       AttributesRenderer.render(attributes, to: @buffer)
       @buffer << "></{{tag.id}}>"
@@ -30,7 +30,7 @@ module Blueprint::HTML::ElementRegistrar
   macro register_void_element(method_name, tag = nil)
     {% tag ||= method_name.tr("_", "-") %}
 
-    private def {{method_name.id}}(**attributes) : Nil
+    def {{method_name.id}}(**attributes) : Nil
       @buffer << "<{{tag.id}}"
       AttributesRenderer.render(attributes, to: @buffer)
       @buffer << ">"
