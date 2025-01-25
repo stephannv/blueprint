@@ -1,6 +1,124 @@
 # Changelog
 
-All notable changes to this project will be documented on <https://stephannv.github.io/blueprint-docs/>.
+All notable changes to this project will be documented here. The updated docs can be found on <https://stephannv.github.io/blueprint-docs/>.
+
+# [1.0.0] - 2025-01-25
+
+### New versioning strategy
+Blueprint don't follow semantic versioning (SemVer). Instead, it will follow something like [BreakVer](https://www.taoensso.com/break-versioning) or [PrideVer](https://pridever.org/).
+- Major: Big changes and/or big features
+- Minor: Small changes that can break old code but the effort to fix it is minimal
+- Patch: Non-breaking changes
+
+### Performance Improvement
+Blueprint::HTML 0.11.0
+```
+Blueprint::HTML 0.11.0 755.39k (  1.32µs) (± 0.80%)  2.69kB/op   6.75× slower
+                   ECR   5.10M (196.14ns) (± 0.51%)  1.51kB/op        fastest
+```
+
+Blueprint::HTML 1.0.0
+```
+Blueprint::HTML 0.11.0 934.07k (  1.07µs) (± 0.51%)  2.69kB/op   5.45× slower
+                   ECR   5.09M (196.31ns) (± 0.37%)  1.51kB/op        fastest
+```
+
+### `#render` accepts new argument types
+Now it's possible to render many types with `render`:
+```crystal
+# Blueprint classes
+render Card # same as `render Card.new`
+
+# Procs
+render -> { 1 + 2 }
+
+# Strings
+render "hello"
+
+# Any object that responds to_s
+render MyObject.new
+```
+
+## Breaking changes!
+### Rename `#envelope` to `#around_render`
+The `#envelope` method was renamed to `#around_render`:
+Old:
+```crystal
+class Layout
+  include Blueprint::HTML
+
+  def envelope(&)
+    html do
+      body { yield }
+    end
+  end
+end
+```
+
+New:
+```crystal
+class Layout
+  include Blueprint::HTML
+
+  def around_render(&)
+    html do
+      body { yield }
+    end
+  end
+end
+```
+
+### Restrict `#plain` argument type
+Before you could pass anything to `#plain`, now it accepts only `String`. You
+can use `#render` to render other type of objects.
+
+```crystal
+# before
+plain some_object
+
+# now
+render some_object
+```
+
+### Remove capability to pass element content via argument.
+Before you could write:
+```crystal
+h1 "Hello"
+# Or
+h1 { "Hello" }
+```
+Now the content are passed only via block:
+```crystal
+h1 { "Hello" }
+```
+
+### Remove Form builder
+Form builder was removed from Blueprint core. It's possible that will become a
+separate shard. You are using form builder, you extract the code from
+[here](https://github.com/stephannv/blueprint/pull/94/files).
+
+### Remove Style variants
+Style variants was removed from Blueprint core. It's possible that will become a
+separate shard. You are using style variants, you extract the code from
+[here](https://github.com/stephannv/blueprint/pull/94/files).
+
+### Remove component registrar
+The `register_component` macro was removed from Blueprint core. If you are
+using this macro, you extract the code from
+[here](https://github.com/stephannv/blueprint/pull/97/files)
+
+### Remove `#tokens`
+The `#tokens` method was removed. You can replace it with plain Crystal:
+```crystal
+# with #tokens method
+div class: tokens("x", admin?: "is-admin")
+
+# with plain crystal
+div class: ["x", ("is-admin" if admin?)]
+```
+
+If you need, yout can get the `#tokens` code from
+[here](https://github.com/stephannv/blueprint/pull/87/files).
 
 # [0.11.0] - 2024-10-11
 
