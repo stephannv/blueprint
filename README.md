@@ -19,6 +19,7 @@
 <p align="center">
   <a href="https://github.com/stephannv/blueprint/actions/workflows/ci.yml"><img src="https://github.com/stephannv/blueprint/actions/workflows/ci.yml/badge.svg" alt="Tests"></a>
   <a href="https://github.com/stephannv/blueprint/actions/workflows/weekly.yml"><img src="https://github.com/stephannv/blueprint/actions/workflows/weekly.yml/badge.svg" alt="Weekly CI"></a>
+  <img src="https://img.shields.io/badge/0-dependencies-blue" alt="Zero dependencies">
 </p>
 
 ------
