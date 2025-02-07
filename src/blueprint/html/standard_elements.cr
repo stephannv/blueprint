@@ -113,6 +113,5 @@ module Blueprint::HTML::StandardElements
     register_void_element :wbr
 
     register_empty_element :iframe
-    register_empty_element :portal
   end
 end
