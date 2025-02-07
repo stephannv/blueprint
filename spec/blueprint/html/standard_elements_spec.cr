@@ -8,7 +8,7 @@ private NORMAL_ELEMENTS = %i[
   sup table tbody td template textarea tfoot th thead time title tr u ul var video
 ]
 private VOID_ELEMENTS  = %i[area base br col embed hr img input link meta source track wbr]
-private EMPTY_ELEMENTS = %i[iframe portal]
+private EMPTY_ELEMENTS = %i[iframe]
 
 private class ExamplePage
   include Blueprint::HTML
