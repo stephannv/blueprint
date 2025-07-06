@@ -5,10 +5,6 @@ module Blueprint::HTML::BufferRenderer
     ::HTML.escape(content, buffer)
   end
 
-  def render(content : Proc, to buffer : String::Builder) : Nil
-    BlockRenderer.render(content, to: buffer)
-  end
-
   def render(content : SafeObject, to buffer : String::Builder) : Nil
     content.to_s(buffer)
   end
