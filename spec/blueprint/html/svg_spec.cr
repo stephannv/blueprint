@@ -33,7 +33,9 @@ describe "SVG" do
 
   it "defines all SVG element helper methods" do
     actual_html = Blueprint::HTML.build do
-      svg do
+      svg
+
+      svg viewBox: "0 0 100 100" do
         {% for element in ELEMENTS %}
           {{element.id}}
           {{element.id}}(attribute: "test")
@@ -44,7 +46,9 @@ describe "SVG" do
     end
 
     expected_html = String.build do |io|
-      io << "<svg>"
+      io << "<svg></svg>"
+
+      io << %(<svg viewBox="0 0 100 100">)
       ELEMENTS.each do |tag|
         io << "<" << tag << ">" << "</" << tag << ">"
         io << "<" << tag << " attribute=\"test\">" << "</" << tag << ">"
