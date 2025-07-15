@@ -13,7 +13,7 @@ struct Blueprint::HTML::SVG(T)
   end
 
   private def blueprint(&) : Nil
-    element :svg, **@attributes do
+    svg **@attributes do
       yield
     end
   end

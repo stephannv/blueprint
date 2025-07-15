@@ -55,6 +55,18 @@ describe "attributes handling" do
     actual_html.should eq expected_html
   end
 
+  it "doesn't render nil attributes" do
+    actual_html = Blueprint::HTML.build do
+      div class: nil, data: {id: nil}
+    end
+
+    expected_html = normalize_html <<-HTML
+      <div></div>
+    HTML
+
+    actual_html.should eq expected_html
+  end
+
   it "expands NamedTuple attributes" do
     actual_html = Blueprint::HTML.build do
       nav aria: {target: "#home", selected: "false", enabled: true, hidden: false} do
