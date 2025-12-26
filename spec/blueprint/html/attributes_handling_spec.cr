@@ -45,12 +45,9 @@ describe "attributes handling" do
 
   it "accepts Hash attributes" do
     actual_html = Blueprint::HTML.build do
-      input({
-        "data-on:mycustomevent__window" => "$result = evt.detail.value",
-        "data-bind:foo" => true
-      })
+      input({"data-on:mycustomevent__window" => "$result = evt.detail.value", "data-bind:foo" => true})
 
-      div(id: "myDiv", aria: {enabled: "true"}, data: {"on:mycustomevent__window" => "$result = evt.detail.value" }) do
+      div(id: "myDiv", aria: {enabled: "true"}, data: {"on:mycustomevent__window" => "$result = evt.detail.value"}) do
         "Hello"
       end
     end
