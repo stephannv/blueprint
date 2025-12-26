@@ -29,7 +29,7 @@ describe "attributes handling" do
     actual_html.should eq expected_html
   end
 
-  it "replaces `_` by `-` on attribute names" do
+  it "replaces `_` by `-` on Symbol attribute names" do
     actual_html = Blueprint::HTML.build do
       section v_model: "user.name", "@click": "doSomething" do
         "Blueprint"
@@ -38,6 +38,29 @@ describe "attributes handling" do
 
     expected_html = normalize_html <<-HTML
       <section v-model="user.name" @click="doSomething">Blueprint</section>
+    HTML
+
+    actual_html.should eq expected_html
+  end
+
+  it "accepts Hash attributes" do
+    actual_html = Blueprint::HTML.build do
+      input({
+        "data-on:mycustomevent__window" => "$result = evt.detail.value",
+        "data-bind:foo" => true
+      })
+
+      div(id: "myDiv", aria: {enabled: "true"}, data: {"on:mycustomevent__window" => "$result = evt.detail.value" }) do
+        "Hello"
+      end
+    end
+
+    expected_html = normalize_html <<-HTML
+      <input data-on:mycustomevent__window="$result = evt.detail.value" data-bind:foo>
+
+      <div id="myDiv" aria-enabled="true" data-on:mycustomevent__window="$result = evt.detail.value">
+        Hello
+      </div>
     HTML
 
     actual_html.should eq expected_html
