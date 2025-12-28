@@ -114,4 +114,36 @@ describe "attributes handling" do
 
     actual_html.should eq expected_html
   end
+
+  it "raises error if attribute names include unsafe characters" do
+    # Hash
+    {% for character in ["<", ">", "&", %("), "'"] %}
+      expect_raises(Blueprint::HTML::ArgumentError, %(Unsafe attribute name: `attr-{{character.id}}`)) do
+        Blueprint::HTML.build do
+          div({ %(attr-{{character.id}}) => "some value"}) do
+            "Blueprint"
+          end
+        end
+      end
+    {% end %}
+
+    # NamedTuple
+    {% for character in ["<", ">", "&", "'"] %}
+      expect_raises(Blueprint::HTML::ArgumentError, %(Unsafe attribute name: `attr-{{character.id}}`)) do
+        Blueprint::HTML.build do
+          div("attr-{{character.id}}": "some value") do
+            "Blueprint"
+          end
+        end
+      end
+    {% end %}
+
+    expect_raises(Blueprint::HTML::ArgumentError, %(Unsafe attribute name: `attr-"`)) do
+      Blueprint::HTML.build do
+        div("attr-\"": "some value") do
+          "Blueprint"
+        end
+      end
+    end
+  end
 end
