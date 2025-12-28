@@ -76,11 +76,15 @@ module Blueprint::HTML::AttributesRenderer
     append_value buffer, value.to_s
   end
 
-  private def parse_name(name : Symbol) : String
-    name.to_s.gsub("_", "-")
+  private def parse_name(name : String) : String
+    if name.matches?(/[<>&"']/)
+      raise Blueprint::HTML::ArgumentError.new("Unsafe attribute name: `#{name}`")
+    end
+
+    name
   end
 
-  private def parse_name(name : String) : String
-    name
+  private def parse_name(name : Symbol) : String
+    parse_name(name.to_s.gsub("_", "-"))
   end
 end
