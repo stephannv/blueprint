@@ -1,7 +1,7 @@
 module Blueprint::HTML::AttributesRenderer
   extend self
 
-  def render(attributes : NamedTuple, to buffer : String::Builder) : Nil
+  def render(attributes : NamedTuple | Hash, to buffer : String::Builder) : Nil
     attributes.each { |name, value| append_attribute(buffer, name, value) }
   end
 
@@ -15,7 +15,7 @@ module Blueprint::HTML::AttributesRenderer
     buffer << parse_name(name)
   end
 
-  private def append_attribute(buffer : String::Builder, name, value : NamedTuple) : Nil
+  private def append_attribute(buffer : String::Builder, name, value : NamedTuple | Hash) : Nil
     name_prefix = parse_name(name)
 
     value.each do |attr_name, attr_value|
@@ -51,7 +51,11 @@ module Blueprint::HTML::AttributesRenderer
     append_value buffer, value.to_s
   end
 
-  private def parse_name(name) : String
+  private def parse_name(name : Symbol) : String
     name.to_s.gsub("_", "-")
+  end
+
+  private def parse_name(name : String) : String
+    name
   end
 end
