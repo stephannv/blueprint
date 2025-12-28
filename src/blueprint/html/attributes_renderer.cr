@@ -1,8 +1,33 @@
 module Blueprint::HTML::AttributesRenderer
   extend self
 
+  private CACHE       = {} of UInt64 => String
+  private CACHE_MUTEX = Mutex.new
+
   def render(attributes : NamedTuple | Hash, to buffer : String::Builder) : Nil
-    attributes.each { |name, value| append_attribute(buffer, name, value) }
+    return if attributes.empty?
+
+    attributes_hash : UInt64 = attributes.hash
+
+    lock_cache do
+      if cached_attributes = CACHE[attributes_hash]?
+        buffer << cached_attributes
+      else
+        tmp_buffer = String::Builder.new
+
+        attributes.each { |name, value| append_attribute(tmp_buffer, name, value) }
+
+        buffer << (CACHE[attributes_hash] = tmp_buffer.to_s)
+      end
+    end
+  end
+
+  def lock_cache(&)
+    {% if flag?(:preview_mt) %}
+      CACHE_MUTEX.synchronize { yield }
+    {% else %}
+      yield
+    {% end %}
   end
 
   private def append_attribute(buffer : String::Builder, name, value : Nil) : Nil
