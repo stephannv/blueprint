@@ -2,7 +2,7 @@ name: blueprint
 description: |
   A lib for writing reusable and testable views templates (HTML, SVG, Forms) in plain Crystal. Inspired by Phlex.
 
-version: 1.0.0
+version: 1.1.0
 
 authors:
   - Stephann V. <3025661+stephannv@users.noreply.github.com>
