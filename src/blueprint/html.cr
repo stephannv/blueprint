@@ -78,7 +78,7 @@ module Blueprint::HTML
   def element(tag_name : String | Symbol, **attributes, &) : Nil
     buffer << "<"
     buffer << tag_name
-    render_attributes(attributes, to: buffer)
+    render_attributes(attributes)
     buffer << ">"
     BufferRenderer.render(to: buffer) { yield }
     buffer << "</"
@@ -89,7 +89,7 @@ module Blueprint::HTML
   def void_element(tag_name : String | Symbol, **attributes) : Nil
     buffer << "<"
     buffer << tag_name
-    render_attributes(attributes, to: buffer)
+    render_attributes(attributes)
     buffer << ">"
   end
 
@@ -135,7 +135,7 @@ module Blueprint::HTML
     safe EscapeOnce.escape(value)
   end
 
-  private def render_attributes(attributes : Hash | NamedTuple, to buffer : String::Builder) : Nil
+  private def render_attributes(attributes : Hash | NamedTuple) : Nil
     AttributesRenderer.render(attributes, to: buffer)
   end
 end
