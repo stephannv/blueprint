@@ -2,6 +2,56 @@
 
 All notable changes to this project will be documented here. The updated docs can be found on <https://stephannv.github.io/blueprint-docs/>.
 
+# [1.1.0] - 2026-01-05
+
+### Attributes caching
+Processed attributes are cached, which speeds up rendering when the same pages or components are rendered multiple times.
+
+```
+Blueprint::HTML 1.1.0   1.42M (704.57ns) (± 0.56%)  2.69kB/op        fastest
+Blueprint::HTML 1.0.0 937.83k (  1.07µs) (± 0.45%)  2.69kB/op   1.51x slower
+```
+
+### Allow hash attributes
+Hash attributes behaves like NamedTuple, except that underscores are not converted to dashes.
+
+```crystal
+private def blueprint
+  button({ "data-on:click__prevent" => "submit" }) do
+    "Click"
+  end
+end
+
+# <button data-on:click__prevent="submit">Click></button>
+```
+
+### Improve memory usage
+The `@buffer` object is initialized only when necessary, avoiding unnecessary memory allocations.
+
+### Bring your own attribute processor
+If you need custom attribute-processing behavior, you can override the 
+`#render_attributes` method to fully control how attributes are rendered.
+
+```crystal
+class Example
+  include Blueprint::HTML
+
+  private def blueprint
+    input x: {y: 2}
+  end
+
+  private def render_attributes(attributes : Hash | NamedTuple) : Nil
+    buffer << " my-own-logic"
+  end
+end
+
+Example.new.to_s # <input my-own-logic>
+```
+
+### Remove `portal` element
+This HTML element is deprecated. See: https://github.com/WICG/portals/pull/291
+
+
 # [1.0.0] - 2025-01-25
 
 ### New versioning strategy
